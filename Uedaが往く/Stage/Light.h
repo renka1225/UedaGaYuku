@@ -33,26 +33,13 @@ namespace
 /// </summary>
 namespace Light
 {
-	VECTOR m_lightPos = kDirLightPos;
+	int m_spotLight; // スポットライト
 
 	/// <summary>
 	///	ライトセット
 	/// </summary>
-	void SetLight()
-	{
-		// ライト位置調整
-		SetLightPosition(kDirLightPos);
-		SetLightDirection(kDirLightDir);
+	void SetLight();
 
-		printfDx("X:%f,Y:%f,Z:%f", GetLightPosition().x, GetLightPosition().y, GetLightPosition().z);
-
-		// ポイントライト作成
-		//int pointLight = CreatePointLightHandle(kPointLightPos, kPointLightRange, kPointLightAtten0, kPointLightAtten1, kPointLightAtten2);
-	
-		// スポットライト作成
-		//int spotLight = CreateSpotLightHandle(kSpotLightPos, kSpotLightDir, kSpotLightOutAngle, kSpotLightInAngle,
-			//kSpotLightRange, kSpotLighAtten0, kSpotLighAtten1, kSpotLighAtten2);
-	};
 
 	/// <summary>
 	/// ライト削除
@@ -63,13 +50,12 @@ namespace Light
 	}
 
 
-#ifdef _DEBUG
-	void UpdateLightPos()
+	/// <summary>
+	/// ライト更新
+	/// </summary>
+	void UpdateLight()
 	{
-		//m_lightPos.z++;
-		SetLightPosition(m_lightPos);
-
-		//DrawFormatString(0, 400, 0xffffff, "X:%f,Y:%f,Z:%f", GetLightPosition().x, GetLightPosition().y, GetLightPosition().z);
+		// TODO:カメラからの光源を設定する
+		SetLightPositionHandle(m_spotLight, GetCameraPosition());
 	}
-#endif
 }

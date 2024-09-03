@@ -5,7 +5,7 @@
 #include "UIBattle.h"
 #include "EffectManager.h"
 #include "Sound.h"
-#include "Light.h"
+//#include "Light.h"
 #include "Player.h"
 #include "EnemyBase.h"
 #include "Camera.h"

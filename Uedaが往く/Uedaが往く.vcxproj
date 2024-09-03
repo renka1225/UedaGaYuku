@@ -28,6 +28,7 @@
     <ClCompile Include="Chara\Enemy\EnemyAbe.cpp" />
     <ClCompile Include="Debug\DebugDraw.cpp" />
     <ClCompile Include="Effect\EffectManager.cpp" />
+    <ClCompile Include="Stage\Light.cpp" />
     <ClCompile Include="UI\UI.cpp" />
     <ClCompile Include="Util\Font.cpp" />
     <ClCompile Include="Util\Ranking.cpp" />
