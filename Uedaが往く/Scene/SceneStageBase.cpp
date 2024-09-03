@@ -5,7 +5,7 @@
 #include "UIBattle.h"
 #include "EffectManager.h"
 #include "Sound.h"
-//#include "Light.h"
+#include "Light.h"
 #include "Player.h"
 #include "EnemyBase.h"
 #include "Camera.h"
@@ -46,8 +46,6 @@ SceneStageBase::SceneStageBase() :
 	m_elapsedTime(0),
 	m_isPause(false)
 {
-	//Light::SetLight();
-
 	m_shadowMap = MakeShadowMap(kShadowMapSize, kShadowMapSize);
 	// シャドウマップが想定するライトの方向をセット
 	SetShadowMapLightDirection(m_shadowMap, GetLightPosition());
@@ -57,6 +55,8 @@ SceneStageBase::SceneStageBase() :
 	m_fadeAlpha = kStartFadeAlpha;
 	m_pUIBattle = std::make_shared<UIBattle>();
 	m_pEffect = std::make_shared<EffectManager>();
+	m_pLight = std::make_shared<Light>();
+	m_pLight->Create();
 	m_clearBackHandle = LoadGraph("data/UI/clearBack.png");
 }
 
@@ -88,7 +88,7 @@ SceneStageBase::SceneStageBase(std::shared_ptr<Player> pPlayer, std::shared_ptr<
 /// </summary>
 SceneStageBase::~SceneStageBase()
 {
-	//Light::DeleteLight();
+	m_pLight->Delete();
 	DeleteShadowMap(m_shadowMap); // シャドウマップの削除
 	DeleteGraph(m_clearBackHandle);
 }

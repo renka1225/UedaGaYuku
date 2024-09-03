@@ -2,6 +2,7 @@
 #include "Vec2.h"
 #include "Input.h"
 #include "Sound.h"
+#include "Light.h"
 #include "Font.h"
 #include "UIBattle.h"
 #include "Player.h"
@@ -39,8 +40,6 @@ SceneStage1::SceneStage1(std::shared_ptr<Player> pPlayer, std::shared_ptr<Camera
 	m_pEnemy = std::make_shared<EnemyTuto>();
 	m_battleNum = 0;
 
-	//Light::SetLight();
-
 	m_tutoHandle.resize(TutoHandle::kTutoHandleNum);
 	for (int i = 0; i < m_tutoHandle.size(); i++)
 	{
@@ -73,7 +72,6 @@ SceneStage1::SceneStage1(std::shared_ptr<Player> pPlayer, std::shared_ptr<Camera
 /// </summary>
 SceneStage1::~SceneStage1()
 {
-	//Light::DeleteLight();
 	StopSoundMem(Sound::m_bgmHandle[static_cast<int>(Sound::BgmKind::kStage1)]);
 	for (auto& handle : m_tutoHandle)
 	{
@@ -112,9 +110,8 @@ std::shared_ptr<SceneBase> SceneStage1::Update(Input& input)
 #endif
 	{
 		FadeOut(kFadeFrame);	// フェードアウト
-
 		UpdateSound();			// サウンド更新
-		//Light::UpdateLight();	// ライト更新
+		m_pLight->Update();		// ライト更新
 
 		// ポーズ画面を開く
 		if (input.IsTriggered("pause"))
