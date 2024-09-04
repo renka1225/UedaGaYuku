@@ -22,6 +22,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return -1;			// エラーが起きたら直ちに終了
 	}
 
+	//SetLightEnable(false);
+
 	// Effekseerの初期化
 	Effekseer_Init(8000);
 

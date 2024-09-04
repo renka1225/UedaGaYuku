@@ -6,14 +6,15 @@
 namespace
 {
 	/*スポットライト*/
-	constexpr float kSpotLightOutAngle = 45.0f;	 // スポットライトの影響角度
-	constexpr float kSpotLightInAngle = 30.0f;	 // スポットライトの影響が減衰を始める角度
-	constexpr float kSpotLightRange = 200.0f;	 // 有効距離
-	constexpr float kSpotLighAtten0 = 0.0f;		 // 距離減衰パラメータ0
-	constexpr float kSpotLighAtten1 = 0.015f;	 // 距離減衰パラメータ1
+	constexpr float kSpotLightOutAngle = 27.0f;	 // スポットライトの影響角度
+	constexpr float kSpotLightInAngle = 18.0f;	 // スポットライトの影響が減衰を始める角度
+	constexpr float kSpotLightRange = 147.0f;	 // 有効距離
+	constexpr float kSpotLighAtten0 = 0.6f;		 // 距離減衰パラメータ0
+	constexpr float kSpotLighAtten1 = 0.0f;		 // 距離減衰パラメータ1
 	constexpr float kSpotLighAtten2 = 0.0f;		 // 距離減衰パラメータ2
-	//const VECTOR kSpotLightPos = VGet(-40.0f, 0.0f, -45.0f); // ライト位置
 	constexpr float kSpotLightDistance = 10.0f;  // ライトとプレイヤーの距離
+	const VECTOR kSpotLightPos = VGet(-50.0f, -20.0f, -116.0f); // スポットライト位置
+	const VECTOR kSpotLightDir = VGet(1.0f, 0.43f, 1.0f);		// スポットライト方向
 }
 
 
@@ -23,17 +24,9 @@ namespace
 void Light::Create(std::shared_ptr<Player> pPlayer)
 {
 	m_pPlayer = pPlayer;
-	const VECTOR cameraPos = GetCameraPosition();  // カメラ位置取得
-	const VECTOR cameraTarget = GetCameraTarget(); // カメラ方向取得
-	const VECTOR playerPos = m_pPlayer->GetPos();  // プレイヤー位置取得
-	const VECTOR playerDir = m_pPlayer->GetDir();  // プレイヤーの方向取得
-	VECTOR cameraToPlayerDir = VNorm(VSub(playerPos, cameraPos)); // カメラからプレイヤーまでのベクトルを計算する
+	//m_dirLight = CreateDirLightHandle(VGet(0, 0, 0));
 
-	// スポットライト作成
-	//m_spotLight = CreateSpotLightHandle(cameraPos, VAdd(playerPos, cameraToPlayerDir), kSpotLightOutAngle, kSpotLightInAngle,
-		//kSpotLightRange, kSpotLighAtten0, kSpotLighAtten1, kSpotLighAtten2);
-
-	m_spotLight = CreateSpotLightHandle(VAdd(playerPos, VScale(playerDir, kSpotLightDistance)), playerPos, kSpotLightOutAngle, kSpotLightInAngle,
+	m_spotLight = CreateSpotLightHandle(kSpotLightPos, kSpotLightDir, kSpotLightOutAngle, kSpotLightInAngle,
 		kSpotLightRange, kSpotLighAtten0, kSpotLighAtten1, kSpotLighAtten2);
 }
 
@@ -52,19 +45,12 @@ void Light::Delete()
 /// </summary>
 void Light::Update()
 {
-	//const VECTOR cameraPos = GetCameraPosition();  // カメラ位置取得
-	//const VECTOR playerPos = m_pPlayer->GetPos();  // プレイヤー位置取得
-	//VECTOR cameraToPlayerDir = VNorm(VSub(playerPos, cameraPos)); // カメラからプレイヤーまでのベクトルを計算する
+	const VECTOR cameraPos = GetCameraPosition();  // カメラ位置取得
+	const VECTOR playerPos = m_pPlayer->GetPos();  // プレイヤー位置取得
+	VECTOR cameraToPlayerDir = VNorm(VSub(playerPos, cameraPos)); // カメラからプレイヤーまでのベクトルを計算する
 
-	//SetLightPositionHandle(m_spotLight, VAdd(playerPos, kSpotLightPos));
-
-	const VECTOR playerPos = m_pPlayer->GetPos();   // プレイヤー位置取得
-	const VECTOR playerDir = m_pPlayer->GetDir();  // プレイヤーの向き取得
-
-	// ライトをプレイヤーの正面に配置
-	VECTOR lightPos = VAdd(playerPos, VScale(playerDir, kSpotLightDistance));
-
-	SetLightPositionHandle(m_spotLight, lightPos);
+	//SetLightDirectionHandle(m_dirLight, cameraToPlayerDir);
+	SetLightPosition(VAdd(playerPos, kSpotLightPos));
 }
 
 
@@ -74,7 +60,8 @@ void Light::Update()
 /// </summary>
 void Light::Draw()
 {
-	DrawFormatString(0, 200, 0xffffff, "ライト位置:(X:%.2f,Y:%.2f,Z;%.2f)", GetLightPositionHandle(m_spotLight).x, GetLightPositionHandle(m_spotLight).y, GetLightPositionHandle(m_spotLight).z);
+	DrawFormatString(0, 200, 0xffffff, "ライト位置(X:%.2f,Y:%.2f,Z;%.2f)", GetLightPositionHandle(m_spotLight).x, GetLightPositionHandle(m_spotLight).y, GetLightPositionHandle(m_spotLight).z);
+	DrawFormatString(0, 220, 0xffffff, "ライト方向(X:%.2f,Y:%.2f,Z;%.2f)", GetLightDirectionHandle(m_spotLight).x, GetLightDirectionHandle(m_spotLight).y, GetLightDirectionHandle(m_spotLight).z);
 }
 #endif
 
