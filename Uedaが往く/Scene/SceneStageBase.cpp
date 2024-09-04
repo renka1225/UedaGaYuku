@@ -56,7 +56,6 @@ SceneStageBase::SceneStageBase() :
 	m_pUIBattle = std::make_shared<UIBattle>();
 	m_pEffect = std::make_shared<EffectManager>();
 	m_pLight = std::make_shared<Light>();
-	m_pLight->Create();
 	m_clearBackHandle = LoadGraph("data/UI/clearBack.png");
 }
 
@@ -105,7 +104,7 @@ void SceneStageBase::Init()
 		m_pCamera->Init();
 		m_pEnemy->Init(m_pEffect, kEnemyInitPos);
 	}
-
+	m_pLight->Create(m_pPlayer);
 	m_isPause = false;
 }
 
@@ -147,6 +146,8 @@ void SceneStageBase::Draw()
 #ifdef _DEBUG
 	//TestDrawShadowMap(m_shadowMap, 0, 0, 320, 240); // 画面左上にシャドウマップをテスト描画
 	DrawFormatString(0, 140, 0xffffff, "経過時間:%d", m_elapsedTime); // 経過時間描画
+	DrawFormatString(0, 180, 0xffffff, "カメラ位置(X:%.2f, Y:%.2f, Z:%.2f)", GetCameraPosition().x, GetCameraPosition().y, GetCameraPosition().z);
+	m_pLight->Draw(); // ライト位置描画
 #endif
 }
 
