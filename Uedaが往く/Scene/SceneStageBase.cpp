@@ -126,8 +126,7 @@ void SceneStageBase::Draw()
 	m_pEnemy->Draw();	 // 敵描画
 	SetUseShadowMap(0, -1); // 描画に使用するシャドウマップの設定を解除
 
-	m_pEnemy->DrawUi(); // 敵のUI描画
-
+	m_pEnemy->DrawUi();			  // 敵のUI描画
 	m_pUIBattle->DrawOperation(); // 操作説明を表示
 
 	// クリア時画面の色味を変える

@@ -142,12 +142,12 @@ void Player::Update(const Input& input, const Camera& camera, EnemyBase& enemy, 
 /// </summary>
 void Player::Draw()
 {
-	MV1DrawModel(m_modelHandle); // プレイヤー描画
-
-	m_pEffect->Draw();			 // エフェクト描画
-	// ゲージを表示
-	m_pUIBattle->DrawPlayerHP(m_hp);
-	m_pUIBattle->DrawPlayerGauge(m_gauge, kMaxGauge);
+	MV1DrawModel(m_modelHandle);					  // プレイヤー描画
+	m_pEffect->Draw();								  // エフェクト描画
+	m_pUIBattle->DrawPlayerSilhouette();			  // シルエット描画
+	m_pUIBattle->DrawPlayerName();					  // プレイヤー名表示
+	m_pUIBattle->DrawPlayerHP(m_hp);				  // HPゲージを表示
+	m_pUIBattle->DrawPlayerGauge(m_gauge, kMaxGauge); // ゲージ表示
 
 	// 回避中は残像を表示する
 	if (m_currentState == State::kAvoid)
@@ -284,9 +284,7 @@ void Player::CheckHitEnemyCol(EnemyBase& enemy, VECTOR eCapPosTop, VECTOR eCapPo
 	else if(isHit)
 	{
 		// プレイヤーの位置を補正する
-		VECTOR collisionNormal = VSub(m_pos, enemy.GetPos());
-		collisionNormal = VNorm(collisionNormal);
-
+		VECTOR collisionNormal = VNorm(VSub(m_pos, enemy.GetPos()));
 		m_pos = VAdd(m_pos, VScale(collisionNormal, kAdj));
 	}
 

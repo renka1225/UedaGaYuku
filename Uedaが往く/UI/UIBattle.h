@@ -10,15 +10,18 @@ public:
 	UIBattle() = delete;
 	UIBattle(float maxHp, int charType);
 	virtual ~UIBattle();
-	void UpdateHpBar();				// HP表示を更新する
-	void SetDamageTimer();			// ダメージを受けた際にタイマーをセットする
-	void OnDamage(float damage);	// 受けたダメージ量を計算する
-	void ResetStartProduction();	// スタート演出をリセットする
+	void UpdateHpBar();												 // HP表示を更新する
+	void SetDamageTimer();											 // ダメージを受けた際にタイマーをセットする
+	void OnDamage(float damage);									 // 受けたダメージ量を計算する
+	void ResetStartProduction();									 // スタート演出をリセットする
 	void DrawStartProduction(int time, int matchNum, int maxMatch);  // スタート時の演出を表示
+	void DrawPlayerName();											 // プレイヤーの名前を表示
 	void DrawPlayerHP(float currentHp);								 // プレイヤーのHPバーを表示
 	void DrawPlayerGauge(float currentGauge, float MaxGauge);		 // プレイヤーのゲージバーを表示
+	void DrawEnemyName(int charType);								 // 敵の名前を表示
 	void DrawEnemyHp(float currentHp);								 // 敵のHPバーを表示
-	void DrawSilhouette(int charType);								 // シルエットを表示
+	void DrawPlayerSilhouette();									 // シルエットを表示
+	void DrawEnemySilhouette(int charType);							 // シルエットを表示
 	void DrawSpecialAttack();										 // 必殺技のテキスト表示
 	void DrawOperation();											 // 操作説明を表示
 	void DrawTutoButtonText();										 // チュートリアル画面のボタン表示
@@ -42,6 +45,7 @@ private:
 		kNinjaName = 2,	 // 忍者の名前
 		kCiefName = 3,	 // シェフの名前
 		kOldManName = 4, // 老人の名前
+		kNameBack,	     // 名前バー
 		kGaugeBar,		 // ゲージバー
 		kSilhouette,	 // キャラクターのシルエット
 		kFightText,		 // "Fight!"のテキスト

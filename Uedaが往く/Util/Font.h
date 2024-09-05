@@ -47,6 +47,8 @@ namespace Font
 		// チュートリアル
 		kTutorial = kSize36_4_EDGE,
 		kTutoButton = kSize30_4_EDGE,
+		// キャラクター名
+		kCharaName = kSize42_4,
 		// 操作説明
 		kOperation = kSize24_4_EDGE,
 		// 必殺技

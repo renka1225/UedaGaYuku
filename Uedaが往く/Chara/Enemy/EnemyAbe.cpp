@@ -121,6 +121,7 @@ void EnemyAbe::Draw()
 /// </summary>
 void EnemyAbe::DrawUi()
 {
-	m_pUIBattle->DrawSilhouette(static_cast<int>(CharacterBase::CharaType::kEnemyAbe));	// シルエット描画
+	m_pUIBattle->DrawEnemySilhouette(static_cast<int>(CharacterBase::CharaType::kEnemyAbe)); // シルエット描画
+	m_pUIBattle->DrawEnemyName(static_cast<int>(CharacterBase::CharaType::kEnemyAbe));		 // 敵の名前ゲージ表示
 	m_pUIBattle->DrawEnemyHp(m_hp);	// HPゲージを表示
 }

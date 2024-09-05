@@ -124,7 +124,8 @@ void EnemyTuto::Draw()
 /// </summary>
 void EnemyTuto::DrawUi()
 {
-	m_pUIBattle->DrawSilhouette(static_cast<int>(CharacterBase::CharaType::kEnemyTuto));	// シルエット描画
+	m_pUIBattle->DrawEnemySilhouette(static_cast<int>(CharacterBase::CharaType::kEnemyTuto)); // シルエット描画
+	m_pUIBattle->DrawEnemyName(static_cast<int>(CharacterBase::CharaType::kEnemyTuto));		  // 敵の名前ゲージ表示
 	m_pUIBattle->DrawEnemyHp(m_hp);	// HPゲージを表示
 }
 

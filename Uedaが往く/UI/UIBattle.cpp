@@ -24,9 +24,8 @@ namespace
 	constexpr float kEnemyNameMaxScale = 10.0f;				// 敵名最大サイズ
 	constexpr float kEnemyNameChangeScale = 0.6f;			// 敵名サイズ変化量
 
-	/*HPバー関連*/
-	const Vec2 kESilhouettePos = { 1700.0f, 870.0f };		// 敵キャラクターのシルエット位置
-	constexpr int kSilhouetteWidth = 268;					// キャラクターのシルエット画像幅
+	/*キャラクターUI*/
+	constexpr int kSilhouetteWidth = 268;					// シルエット画像幅
 	constexpr int kSilhouetteHeight = 213;					// キャラクターのシルエット画像高さ
 	constexpr int kHpColor = 0xff0000;						// HPバーの色
 	constexpr int kDamageHpColor = 0xffd700;				// ダメージ時のHPバーの色
@@ -34,42 +33,49 @@ namespace
 	constexpr int kIntervalTime = 50;						// HPバーが減少するまでの時間
 
 	/*プレイヤーUI*/
-	const Vec2 kPlayerHpBarLT = { 25.0f, 50.0f };			 // HPバー左上位置
-	const Vec2 kPlayerHpBarRB = { 1000.0f, 80.0f };			 // HPバー右下位置
-	const Vec2 kPlayerCurrentHpLT = { 50.0f, 56.0f };		 // 現在のHP左上位置
-	constexpr float kPlayerHpWidth = 907.0f;				 // HPバーの横幅
+	const Vec2 kPSilhouettePos = { 130.0f, 100.0f };		 // プレイヤーのシルエット位置
+	const Vec2 kPNameBackPos = { 280.0f, 58.0f };			 // プレイヤーの名前の背景位置
+	const Vec2 kPNamePos = { 380.0f, 55.0f };				 // プレイヤーの名前位置
+	const Vec2 kPlayerHpBarLT = { 125.0f, 100.0f };			 // HPバー左上位置
+	const Vec2 kPlayerHpBarRB = { 950.0f, 130.0f };			 // HPバー右下位置
+	const Vec2 kPlayerCurrentHpLT = { 150.0f, 106.0f };		 // 現在のHP左上位置
+	constexpr float kPlayerHpWidth = 765.0f;				 // HPバーの横幅
 	constexpr float kPlayerHpHeight = 18.0f;				 // HPバーの縦幅
-		
-	const Vec2 kPlayerGaugeBarLT = { 25.0f, 95.0f };		 // ゲージバー左上位置
-	const Vec2 kPlayerGaugeBarRB = { 800.0f, 120.0f };		 // ゲージバー右下位置
-	const Vec2 kPlayerCurrentGaugeLT = { 40.0f, 100.0f };	 // 現在のゲージ量左上位置
-	constexpr float kPlayerGaugeWidth = 727.0f;				 // ゲージバーの横幅
+	const Vec2 kPlayerGaugeBarLT = { 125.0f, 145.0f };		 // ゲージバー左上位置
+	const Vec2 kPlayerGaugeBarRB = { 800.0f, 170.0f };		 // ゲージバー右下位置
+	const Vec2 kPlayerCurrentGaugeLT = { 145.0f, 150.0f };	 // 現在のゲージ量左上位置
+	constexpr float kPlayerGaugeWidth = 627.0f;				 // ゲージバーの横幅
 	constexpr float kPlayerGaugeHeight = 15.0f;				 // ゲージバーの縦幅
+	constexpr float kPSilhouetteScale = 0.7f;				 // プレイヤーのシルエットサイズ
 
 	/*敵UI*/
+	const Vec2 kESilhouettePos = { 1700.0f, 870.0f };		 // 敵キャラクターのシルエット位置
+	const Vec2 kENameBackPos = { 1300.0f, 928.0f };			 // 敵キャラクターの名前の背景位置
+	const Vec2 kENamePos = { 1400.0f, 925.0f };				 // 敵の名前位置
 	const Vec2 kEnemyHpBarLT = { 850.0f, 970.0f };			 // HPバー左上位置
 	const Vec2 kEnemyHpBarRB = { 1850.0f, 1000.0f };		 // HPバー右下位置
 	const Vec2 kEnemyCurrentHpLT = { 885.0f, 976.0f };		 // 現在のHP左上位置
 	constexpr float kEnemyHpWidth = 920.0f;					 // HPバーの横幅
 	constexpr float kEnemyHpHeight = 17.0f;					 // HPバーの縦幅
+	constexpr float kESilhouetteScale = 1.0f;				 // 敵のシルエットサイズ
 
 	/*操作説明画面*/
 	const Vec2 kOperationFramePos = { 1720.0f, 280.0f };	 // 枠表示位置
+	const Vec2 kOperationTextPos = { 1730.0f, 300.0f };		 // テキストの表示位置
+	const Vec2 kOperationButtonPos = { 1880.0f, 320.0f };	 // ボタン位置
 	constexpr float kOperationWidth = 300.0f;				 // 枠の横幅
 	constexpr float kOperationHeight = 350.0f;				 // 枠の縦幅
 	constexpr int kOperationBackColor = 0x000000;			 // 枠の背景色
 	constexpr int kOperationBackAlpha = 200;				 // α値
-	const Vec2 kOperationTextPos = { 1730.0f, 300.0f };		 // テキストの表示位置
-	const Vec2 kOperationButtonPos = { 1880.0f, 320.0f };	 // ボタン位置
 	constexpr int kButtonSize = 32;						 	 // ボタン画像のサイズ
 	constexpr float kOperationButtonScale = 1.0f;		 	 // ボタンの拡大率
 	constexpr float kOperationInterval = 40.0f;				 // 表示間隔
 	constexpr int kTextColor = 0xffffff;					 // テキストの色
 
 	/*必殺技*/
-	const Vec2 kSpecialAttackButtonPos = { 760.0f, 140.0f }; // ボタン位置 
+	const Vec2 kSpecialAttackButtonPos = { 760.0f, 200.0f }; // ボタン位置 
 	constexpr float kSpecialAttackButtonScale = 1.2f;		 // ボタン拡大率
-	const Vec2 kSpecialAttackTextPos = { 620.0f, 120.0f };	 // テキスト位置
+	const Vec2 kSpecialAttackTextPos = { 620.0f, 180.0f };	 // テキスト位置
 	constexpr int kSpecialAttackTextColor = 0x1470cc;		 // テキストの色
 	constexpr int kSpecialAttackTextEdgeColor = 0x0a3866;	 // テキスト縁の色
 	constexpr int kMaxPal = 255;							 // 最大加算値
@@ -98,7 +104,8 @@ UIBattle::UIBattle(float maxHp, int charType):
 	m_handle[HandleKind::kNinjaName] = LoadGraph("data/UI/Name/Bob.png");
 	m_handle[HandleKind::kCiefName] = LoadGraph("data/UI/Name/Sato.png");
 	m_handle[HandleKind::kOldManName] = LoadGraph("data/UI/Name/Abe.png");
-	m_handle[HandleKind::kGaugeBar] = LoadGraph("data/UI/Gauge.png");
+	m_handle[HandleKind::kNameBack] = LoadGraph("data/UI/nameBack.png");
+	m_handle[HandleKind::kGaugeBar] = LoadGraph("data/UI/gauge.png");
 	m_handle[HandleKind::kSilhouette] = LoadGraph("data/UI/silhouette.png");
 	m_handle[HandleKind::kFightText] = LoadGraph("data/UI/Fight!.png");
 	m_handle[HandleKind::kNumText] = LoadGraph("data/UI/number.png");
@@ -216,6 +223,16 @@ void UIBattle::DrawStartProduction(int time, int matchNum, int maxMatch)
 
 
 /// <summary>
+/// プレイヤーの名前を表示
+/// </summary>
+void UIBattle::DrawPlayerName()
+{
+	DrawGraphF(kPNameBackPos.x, kPNameBackPos.y, m_handle[HandleKind::kNameBack], true);
+	DrawStringToHandle(kPNamePos.x, kPNamePos.y, "Ueda", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
+}
+
+
+/// <summary>
 /// プレイヤーのHPバー表示
 /// </summary>
 /// <param name="currentHp">現在のHP</param>
@@ -227,6 +244,7 @@ void UIBattle::DrawPlayerHP(float currentHp)
 	float decreaseHpRatio = (currentHp + m_damage) / m_maxHp;
 	float hpLength = kPlayerHpWidth * hpRatio;
 	float decreaseHpLength = kPlayerHpWidth * decreaseHpRatio;
+
 
 	// バーの背景部分
 	DrawExtendGraphF(kPlayerHpBarLT.x, kPlayerHpBarLT.y, kPlayerHpBarRB.x, kPlayerHpBarRB.y, m_handle[HandleKind::kGaugeBar], true);
@@ -258,6 +276,31 @@ void UIBattle::DrawPlayerGauge(float currentGauge, float MaxGauge)
 
 
 /// <summary>
+/// 敵の名前を表示
+/// </summary>
+void UIBattle::DrawEnemyName(int charType)
+{
+	DrawGraphF(kENameBackPos.x, kENameBackPos.y, m_handle[HandleKind::kNameBack], true);
+	if (charType == HandleKind::kTutoName)
+	{
+		DrawStringToHandle(kENamePos.x, kENamePos.y, "Ningyo", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
+	}
+	if (charType == HandleKind::kNinjaName)
+	{
+		DrawStringToHandle(kENamePos.x, kENamePos.y, "Bob", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
+	}
+	if (charType == HandleKind::kCiefName)
+	{
+		DrawStringToHandle(kENamePos.x, kENamePos.y, "Sato", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
+	}
+	if (charType == HandleKind::kOldManName)
+	{
+		DrawStringToHandle(kENamePos.x, kENamePos.y, "Abe", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
+	}
+}
+
+
+/// <summary>
 /// 敵のHPバーを表示
 /// </summary>
 /// <param name="currentHp">現在のHP</param>
@@ -281,11 +324,21 @@ void UIBattle::DrawEnemyHp(float currentHp)
 
 
 /// <summary>
-/// シルエット描画
+/// プレイヤーのシルエット描画
 /// </summary>
-void UIBattle::DrawSilhouette(int charType)
+void UIBattle::DrawPlayerSilhouette()
 {
-	DrawRectRotaGraphF(kESilhouettePos.x, kESilhouettePos.y, kSilhouetteWidth * charType, 0, kSilhouetteWidth, kSilhouetteHeight, 1.0f, 0.0f, m_handle[HandleKind::kSilhouette], true);
+	DrawRectRotaGraphF(kPSilhouettePos.x, kPSilhouettePos.y, 0, 0, kSilhouetteWidth, kSilhouetteHeight, kPSilhouetteScale, 0.0f, m_handle[HandleKind::kSilhouette], true);
+}
+
+
+/// <summary>
+/// 敵のシルエット描画
+/// </summary>
+/// <param name="charType">敵の種類</param>
+void UIBattle::DrawEnemySilhouette(int charType)
+{
+	DrawRectRotaGraphF(kESilhouettePos.x, kESilhouettePos.y, kSilhouetteWidth * charType, 0, kSilhouetteWidth, kSilhouetteHeight, kESilhouetteScale, 0.0f, m_handle[HandleKind::kSilhouette], true);
 }
 
 

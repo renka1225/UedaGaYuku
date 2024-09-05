@@ -52,7 +52,6 @@ void EnemyChef::Init(std::shared_ptr<EffectManager> pEffect, VECTOR pos)
 	m_pEffect = pEffect;
 	MV1SetPosition(m_modelHandle, m_pos);
 	m_pEffect->Init();	// エフェクトの初期化
-	//m_pUIBattle->SetEnemyKind(static_cast<int>(CharaType::kEnemyChef));
 }
 
 
@@ -122,6 +121,7 @@ void EnemyChef::Draw()
 /// </summary>
 void EnemyChef::DrawUi()
 {
-	m_pUIBattle->DrawSilhouette(static_cast<int>(CharacterBase::CharaType::kEnemyChef)); // シルエット描画
+	m_pUIBattle->DrawEnemySilhouette(static_cast<int>(CharacterBase::CharaType::kEnemyChef)); // シルエット描画
+	m_pUIBattle->DrawEnemyName(static_cast<int>(CharacterBase::CharaType::kEnemyChef));		  // 敵の名前ゲージ表示
 	m_pUIBattle->DrawEnemyHp(m_hp);		// HPゲージを表示
 }
