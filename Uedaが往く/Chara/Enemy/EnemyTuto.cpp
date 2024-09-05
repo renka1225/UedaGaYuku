@@ -24,8 +24,8 @@ EnemyTuto::EnemyTuto()
 {
 	// キャラクター情報を読み込む
 	m_pLoadData = std::make_shared<LoadData>(*this, static_cast<int>(CharaType::kEnemyTuto));
-	m_pUIBattle = std::make_shared<UIBattle>(m_status.maxHp);
-
+	m_enemyType = static_cast<int>(CharaType::kEnemyTuto);
+	m_pUIBattle = std::make_shared<UIBattle>(m_status.maxHp, m_enemyType);
 	m_hp = m_status.maxHp;
 	m_moveSpeed = m_status.maxMoveSpeed;
 	m_isAttack = false;

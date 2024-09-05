@@ -37,6 +37,7 @@ SceneStage2::SceneStage2(std::shared_ptr<Player> pPlayer, std::shared_ptr<Camera
 	m_pCamera = pCamera;
 	m_pStage = pStage;
 	m_pEnemy = std::make_shared<EnemyNinja>();
+	m_pUIBattle = std::make_shared<UIBattle>(0.0f, m_pEnemy->GetEnemyType());
 	m_battleNum = 0;
 }
 

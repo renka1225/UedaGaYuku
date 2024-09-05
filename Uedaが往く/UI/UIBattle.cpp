@@ -9,24 +9,29 @@
 // 定数
 namespace
 {
+	/*試合開始時*/
+	constexpr int kMatchNumDispStart = 240;					// 試合数を表示し始める時間
+	constexpr int kFightTextDispStart = 120;				// "Fight"のテキストを表示し始める時間
+	constexpr float kFightTextScele = 0.6f;					// "Fight"のテキストサイズ
+	const Vec2 kFightTextPos = { 960, 550 };				// "Fight"のテキスト位置
+	const Vec2 kEnemyNamePos = { 900, 500 };				// 敵の名前表示位置
+	const Vec2 kMatcheNumTextPos = { 850, 700 };			// 現在の試合数表示位置
+	constexpr int kMatchNumTextWidth = 260;					// 1つ当たりのテキストの幅
+	constexpr int kMatchNumTextInterval = 70;				// テキストの表示間隔
+	constexpr int kTextAdj = 60;							// テキストの表示間隔調整
+	constexpr float kMatchNumTextScele = 0.4f;				// 試合数のテキストサイズ
+	constexpr float kEnemyNameMinScale = 0.5f;				// 敵名最小サイズ
+	constexpr float kEnemyNameMaxScale = 10.0f;				// 敵名最大サイズ
+	constexpr float kEnemyNameChangeScale = 0.6f;			// 敵名サイズ変化量
+
+	/*HPバー関連*/
 	const Vec2 kESilhouettePos = { 1700.0f, 870.0f };		// 敵キャラクターのシルエット位置
 	constexpr int kSilhouetteWidth = 268;					// キャラクターのシルエット画像幅
 	constexpr int kSilhouetteHeight = 213;					// キャラクターのシルエット画像高さ
-
 	constexpr int kHpColor = 0xff0000;						// HPバーの色
 	constexpr int kDamageHpColor = 0xffd700;				// ダメージ時のHPバーの色
 	constexpr int kpGaugeColor = 0x0000ff;					// ゲージバーの色
 	constexpr int kIntervalTime = 50;						// HPバーが減少するまでの時間
-
-	/*試合開始時*/
-	constexpr int kFightTextDispStart = 80;					 // "Fight"のテキストを表示し始める時間
-	const Vec2 kFightTextPos = { 960, 550 };				 // "Fight"のテキスト位置
-	constexpr float kFightTextScele = 0.6f;					 // "Fight"のテキストサイズ
-	const Vec2 kMatcheNumTextPos = { 850, 600 };			 // 現在の試合数表示位置
-	constexpr int kMatchNumTextWidth = 260;					 // 1つ当たりのテキストの幅
-	constexpr int kMatchNumTextInterval = 70;				 // テキストの表示間隔
-	constexpr int kTextAdj = 60;							 // テキストの表示間隔調整
-	constexpr float kMatchNumTextScele = 0.5f;				 // 試合数のテキストサイズ
 
 	/*プレイヤーUI*/
 	const Vec2 kPlayerHpBarLT = { 25.0f, 50.0f };			 // HPバー左上位置
@@ -53,6 +58,7 @@ namespace
 	constexpr float kOperationWidth = 300.0f;				 // 枠の横幅
 	constexpr float kOperationHeight = 350.0f;				 // 枠の縦幅
 	constexpr int kOperationBackColor = 0x000000;			 // 枠の背景色
+	constexpr int kOperationBackAlpha = 200;				 // α値
 	const Vec2 kOperationTextPos = { 1730.0f, 300.0f };		 // テキストの表示位置
 	const Vec2 kOperationButtonPos = { 1880.0f, 320.0f };	 // ボタン位置
 	constexpr int kButtonSize = 32;						 	 // ボタン画像のサイズ
@@ -74,39 +80,28 @@ namespace
 	constexpr float kTutoButtonScale = 1.2f;				// ボタン拡大率
 }
 
-/// <summary>
-/// コンストラクタ
-/// </summary>
-UIBattle::UIBattle():
-	m_decreaseHp(0),
-	m_currentHp(0),
-	m_maxHp(0),
-	m_damage(0.0f),
-	m_intervalTime(0)
-{
-	m_handle.resize(HandleKind::kHandleNum);
-	m_handle[HandleKind::kFightText] = LoadGraph("data/UI/Fight!.png");
-	m_handle[HandleKind::kNumText] = LoadGraph("data/UI/number.png");
-	m_handle[HandleKind::kGaugeBar] = LoadGraph("data/UI/Gauge.png");
-	m_handle[HandleKind::kSilhouette] = LoadGraph("data/UI/silhouette.png");
-}
-
 
 /// <summary>
 /// 引数つきコンストラクタ
 /// </summary>
-UIBattle::UIBattle(float maxHp):
+UIBattle::UIBattle(float maxHp, int charType):
 	m_decreaseHp(maxHp),
 	m_currentHp(maxHp),
 	m_maxHp(maxHp),
 	m_damage(0.0f),
-	m_intervalTime(0)
+	m_intervalTime(0),
+	m_enemyNameScale(kEnemyNameMaxScale),
+	m_currentEnemy(charType)
 {
 	m_handle.resize(HandleKind::kHandleNum);
-	m_handle[HandleKind::kFightText] = LoadGraph("data/UI/Fight!.png");
-	m_handle[HandleKind::kNumText] = LoadGraph("data/UI/number.png");
+	m_handle[HandleKind::kTutoName] = LoadGraph("data/UI/Name/Tuto.png");
+	m_handle[HandleKind::kNinjaName] = LoadGraph("data/UI/Name/Bob.png");
+	m_handle[HandleKind::kCiefName] = LoadGraph("data/UI/Name/Sato.png");
+	m_handle[HandleKind::kOldManName] = LoadGraph("data/UI/Name/Abe.png");
 	m_handle[HandleKind::kGaugeBar] = LoadGraph("data/UI/Gauge.png");
 	m_handle[HandleKind::kSilhouette] = LoadGraph("data/UI/silhouette.png");
+	m_handle[HandleKind::kFightText] = LoadGraph("data/UI/Fight!.png");
+	m_handle[HandleKind::kNumText] = LoadGraph("data/UI/number.png");
 }
 
 
@@ -163,22 +158,45 @@ void UIBattle::OnDamage(float damage)
 
 
 /// <summary>
+/// スタート演出をリセットする
+/// </summary>
+void UIBattle::ResetStartProduction()
+{
+	m_enemyNameScale = kEnemyNameMaxScale;
+}
+
+
+/// <summary>
 /// スタート時の演出表示
 /// </summary>
-/// <param name="time">経過時間</param>
+/// <param name="time">演出経過時間</param>
 /// <param name="matchNum">現在の試合数</param>
 /// <param name="maxMatch">最大試合数</param>
+/// <param name="enemyKind">敵の種類</param>
 void UIBattle::DrawStartProduction(int time, int matchNum, int maxMatch)
 {
+	// 敵の名前を表示
 	if (time > kFightTextDispStart)
+	{
+		// 敵名のサイズをだんだん小さくする
+		m_enemyNameScale -= kEnemyNameChangeScale;
+		m_enemyNameScale = std::max(kEnemyNameMinScale, m_enemyNameScale);
+
+		int sizeW, sizeH;
+		GetGraphSize(m_handle[m_currentEnemy], &sizeW, &sizeH);
+		DrawRectRotaGraphF(kEnemyNamePos.x, kEnemyNamePos.y, 0, 0, sizeW, sizeH, m_enemyNameScale, 0.0f, m_handle[m_currentEnemy], true);
+	}
+	// 試合数を表示
+	if (time < kMatchNumDispStart && time > kFightTextDispStart)
 	{
 		int sizeW, sizeH;
 		GetGraphSize(m_handle[HandleKind::kNumText], &sizeW, &sizeH);
-		// 現在の試合数を表示
+
+		// 現在の試合数表示
 		DrawRectRotaGraphF(kMatcheNumTextPos.x, kMatcheNumTextPos.y,
 			kMatchNumTextWidth * matchNum, 0, kMatchNumTextWidth, sizeH,
 			kMatchNumTextScele, 0.0f, m_handle[HandleKind::kNumText], true);
-		// /表示
+		// '/'表示
 		DrawRectRotaGraphF(kMatcheNumTextPos.x + kMatchNumTextInterval, kMatcheNumTextPos.y,
 			sizeW - kMatchNumTextWidth, 0, kMatchNumTextWidth, sizeH,
 			kMatchNumTextScele, 0.0f, m_handle[HandleKind::kNumText], true);
@@ -188,7 +206,7 @@ void UIBattle::DrawStartProduction(int time, int matchNum, int maxMatch)
 			kMatchNumTextScele, 0.0f, m_handle[HandleKind::kNumText], true);
 	}
 	// "Fight!"の文字を表示
-	else if (time < kFightTextDispStart && time > 0)
+	if (time < kFightTextDispStart && time > 0)
 	{
 		int sizeW, sizeH;
 		GetGraphSize(m_handle[HandleKind::kFightText], &sizeW, &sizeH);
@@ -292,9 +310,9 @@ void UIBattle::DrawSpecialAttack()
 void UIBattle::DrawOperation()
 {
 	// 背景を薄く表示する
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, kOperationBackAlpha);
 	DrawBoxAA(kOperationFramePos.x, kOperationFramePos.y, kOperationFramePos.x + kOperationWidth, kOperationFramePos.y + kOperationHeight, kOperationBackColor, true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	// テキスト表示
 	DrawStringFToHandle(kOperationTextPos.x, kOperationTextPos.y + kOperationInterval * OperationOrder::kMove,

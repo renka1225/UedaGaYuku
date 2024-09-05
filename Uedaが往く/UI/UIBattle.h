@@ -7,20 +7,23 @@
 class UIBattle : public UI
 {
 public:
-	UIBattle();
-	UIBattle(float maxHp);
+	UIBattle() = delete;
+	UIBattle(float maxHp, int charType);
 	virtual ~UIBattle();
 	void UpdateHpBar();				// HP表示を更新する
 	void SetDamageTimer();			// ダメージを受けた際にタイマーをセットする
 	void OnDamage(float damage);	// 受けたダメージ量を計算する
-	void DrawStartProduction(int time, int matchNum, int maxMatch); // スタート時の演出を表示
-	void DrawPlayerHP(float currentHp);								// プレイヤーのHPバーを表示
-	void DrawPlayerGauge(float currentGauge, float MaxGauge);		// プレイヤーのゲージバーを表示
-	void DrawEnemyHp(float currentHp);								// 敵のHPバーを表示
-	void DrawSilhouette(int charType);								// シルエットを表示
-	void DrawSpecialAttack();										// 必殺技のテキスト表示
-	void DrawOperation();											// 操作説明を表示
-	void DrawTutoButtonText();										// チュートリアル画面のボタン表示
+	void ResetStartProduction();	// スタート演出をリセットする
+	void DrawStartProduction(int time, int matchNum, int maxMatch);  // スタート時の演出を表示
+	void DrawPlayerHP(float currentHp);								 // プレイヤーのHPバーを表示
+	void DrawPlayerGauge(float currentGauge, float MaxGauge);		 // プレイヤーのゲージバーを表示
+	void DrawEnemyHp(float currentHp);								 // 敵のHPバーを表示
+	void DrawSilhouette(int charType);								 // シルエットを表示
+	void DrawSpecialAttack();										 // 必殺技のテキスト表示
+	void DrawOperation();											 // 操作説明を表示
+	void DrawTutoButtonText();										 // チュートリアル画面のボタン表示
+
+	void SetEnemyKind(int enmeyKind){m_currentEnemy = enmeyKind; }   // 現在の敵をセットする
 
 private:
 	float m_decreaseHp;				// ダメージを受けた後のHP
@@ -28,19 +31,21 @@ private:
 	float m_damage;					// 受けたダメージ量
 	float m_maxHp;					// 最大HP
 	int m_intervalTime;				// HPバーが減少するまでの時間
-	int m_gaugeBarHandle;			// ゲージバーの画像
-	int m_silhouetteHandle;			// キャラクターのシルエット画像
-	int m_fightTextHandle;			// "Fight"のテキスト画像
-	int m_numTextHandle;			// 数字の画像
+	int m_currentEnemy;				// 現在の敵
+	float m_enemyNameScale;			// 敵名前の拡大率
 	std::vector<int> m_handle;		// ハンドル
 
 	// 画像の種類
 	enum HandleKind
 	{
-		kGaugeBar,	 // ゲージバー
-		kSilhouette, // キャラクターのシルエット
-		kFightText,	 // "Fight!"のテキスト
-		kNumText,	 // 数字
+		kTutoName = 1,	 // チュートリアル敵の名前
+		kNinjaName = 2,	 // 忍者の名前
+		kCiefName = 3,	 // シェフの名前
+		kOldManName = 4, // 老人の名前
+		kGaugeBar,		 // ゲージバー
+		kSilhouette,	 // キャラクターのシルエット
+		kFightText,		 // "Fight!"のテキスト
+		kNumText,		 // 数字
 		kHandleNum	 // ハンドルの種類
 	};
 

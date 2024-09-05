@@ -23,6 +23,7 @@ public:
 	// プレイヤーとの当たり判定をチェックする
 	void CheckHitPlayerCol(Player& player, VECTOR eCapPosTop, VECTOR eCapPosBottom, float eCapRadius);
 
+	int GetEnemyType() const { return m_enemyType; }
 	float GetHp() const { return m_hp; }				// 敵のHPを取得
 	VECTOR GetPos() const { return m_pos; }				// 敵の座標を取得
 	VECTOR GetDir() const { return m_eToPDirVec; }		// 敵の向きベクトルを取得
@@ -57,6 +58,7 @@ protected:
 	void UpdateAngle();
 
 protected:
+	int m_enemyType;			// 敵の種類
 	int m_stopTime;				// 停止する時間
 	int m_angleIntervalTime;	// 角度を更新するまでの時間
 	int m_intervalTime;			// 次の状態を更新するまでの時間

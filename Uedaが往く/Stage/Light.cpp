@@ -6,15 +6,14 @@
 namespace
 {
 	/*スポットライト*/
-	constexpr float kSpotLightOutAngle = 27.0f;	 // スポットライトの影響角度
-	constexpr float kSpotLightInAngle = 18.0f;	 // スポットライトの影響が減衰を始める角度
-	constexpr float kSpotLightRange = 147.0f;	 // 有効距離
-	constexpr float kSpotLighAtten0 = 0.6f;		 // 距離減衰パラメータ0
-	constexpr float kSpotLighAtten1 = 0.0f;		 // 距離減衰パラメータ1
-	constexpr float kSpotLighAtten2 = 0.0f;		 // 距離減衰パラメータ2
-	constexpr float kSpotLightDistance = 10.0f;  // ライトとプレイヤーの距離
-	const VECTOR kSpotLightPos = VGet(-50.0f, -20.0f, -116.0f); // スポットライト位置
-	const VECTOR kSpotLightDir = VGet(1.0f, 0.43f, 1.0f);		// スポットライト方向
+	constexpr float kSpotLightOutAngle = 45.0f;	 // スポットライトの影響角度
+	constexpr float kSpotLightInAngle = 30.0f;	 // スポットライトの影響が減衰を始める角度
+	constexpr float kSpotLightRange = 90.0f;	 // 有効距離
+	constexpr float kSpotLighAtten0 = 0.5f;		 // 距離減衰パラメータ0
+	constexpr float kSpotLighAtten1 = 0.01f;	 // 距離減衰パラメータ1
+	constexpr float kSpotLighAtten2 = 0.1f;		 // 距離減衰パラメータ2
+	const VECTOR kSpotLightPos = VGet(0.0f, 75.0f, -60.0f); // スポットライト位置
+	const VECTOR kSpotLightDir = VGet(1.5f, -0.4f, 1.6f);	// スポットライト方向
 }
 
 
@@ -24,8 +23,6 @@ namespace
 void Light::Create(std::shared_ptr<Player> pPlayer)
 {
 	m_pPlayer = pPlayer;
-	//m_dirLight = CreateDirLightHandle(VGet(0, 0, 0));
-
 	m_spotLight = CreateSpotLightHandle(kSpotLightPos, kSpotLightDir, kSpotLightOutAngle, kSpotLightInAngle,
 		kSpotLightRange, kSpotLighAtten0, kSpotLighAtten1, kSpotLighAtten2);
 }
@@ -47,10 +44,8 @@ void Light::Update()
 {
 	const VECTOR cameraPos = GetCameraPosition();  // カメラ位置取得
 	const VECTOR playerPos = m_pPlayer->GetPos();  // プレイヤー位置取得
-	VECTOR cameraToPlayerDir = VNorm(VSub(playerPos, cameraPos)); // カメラからプレイヤーまでのベクトルを計算する
-
-	//SetLightDirectionHandle(m_dirLight, cameraToPlayerDir);
-	SetLightPosition(VAdd(playerPos, kSpotLightPos));
+	const VECTOR playerDir = VNorm(VSub(cameraPos, playerPos));  // カメラからプレイヤーの方向ベクトルを求める
+	SetLightPositionHandle(m_spotLight, VAdd(playerPos, kSpotLightPos)); // スポットライト位置更新
 }
 
 

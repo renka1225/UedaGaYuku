@@ -24,8 +24,8 @@ EnemyNinja::EnemyNinja()
 {
 	// キャラクター情報を読み込む
 	m_pLoadData = std::make_shared<LoadData>(*this, static_cast<int>(CharaType::kEnemyNinja));
-	m_pUIBattle = std::make_shared<UIBattle>(m_status.maxHp);
-
+	m_enemyType = static_cast<int>(CharaType::kEnemyNinja);
+	m_pUIBattle = std::make_shared<UIBattle>(m_status.maxHp, m_enemyType);
 	m_hp = m_status.maxHp;
 	m_pos = kInitPos;
 	m_moveSpeed = m_status.maxMoveSpeed;
@@ -54,6 +54,7 @@ void EnemyNinja::Init(std::shared_ptr<EffectManager> pEffect, VECTOR pos)
 	m_pEffect = pEffect;
 	MV1SetPosition(m_modelHandle, m_pos);
 	m_pEffect->Init();	// エフェクトの初期化
+	//m_pUIBattle->SetEnemyKind(static_cast<int>(CharaType::kEnemyNinja));
 }
 
 

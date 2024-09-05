@@ -42,7 +42,7 @@ Player::Player():
 {
 	// キャラクター情報を読み込む
 	m_pLoadData = std::make_shared<LoadData>(*this, static_cast<int>(CharaType::kPlayer));
-	m_pUIBattle = std::make_shared<UIBattle>(m_status.maxHp);
+	m_pUIBattle = std::make_shared<UIBattle>(m_status.maxHp, static_cast<int>(CharaType::kPlayer));
 
 	m_hp = m_status.maxHp;
 	m_moveSpeed = 0.0f;

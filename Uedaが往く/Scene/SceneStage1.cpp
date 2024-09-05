@@ -17,7 +17,7 @@
 namespace
 {
 	constexpr int kMaxBattleNum = 1;		// 最大バトル数
-	constexpr int kFightTextDispStart = 80;	// "Fight"のテキストを表示し始める時間
+	constexpr int kStartSeTime = 60;		// スタートSEを再生表示し始める時間
 	constexpr int kFadeFrame = 4;			// フェード変化量
 
 	/*チュートリアル*/
@@ -38,6 +38,7 @@ SceneStage1::SceneStage1(std::shared_ptr<Player> pPlayer, std::shared_ptr<Camera
 	m_pCamera = pCamera;
 	m_pStage = pStage;
 	m_pEnemy = std::make_shared<EnemyTuto>();
+	m_pUIBattle = std::make_shared<UIBattle>(0.0f, m_pEnemy->GetEnemyType());
 	m_battleNum = 0;
 
 	m_tutoHandle.resize(TutoHandle::kTutoHandleNum);
@@ -208,7 +209,15 @@ void SceneStage1::Draw()
 /// </summary>
 void SceneStage1::UpdateSound()
 {
-	if (m_nextBattleTime < kFightTextDispStart && m_nextBattleTime > 0)
+	if (m_nextBattleTime < kStartSeTime)
+	{
+		// 
+		if (!CheckSoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kBattleStart)]))
+		{
+			PlaySoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kBattleStart)], DX_PLAYTYPE_BACK);
+		}
+	}
+	if (m_nextBattleTime < kStartSeTime && m_nextBattleTime > 0)
 	{
 		// 開始時に1度だけSEを流す
 		if (!CheckSoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kBattleStart)]))

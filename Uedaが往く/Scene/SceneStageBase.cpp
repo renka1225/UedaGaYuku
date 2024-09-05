@@ -20,7 +20,7 @@ namespace
 	const VECTOR kEnemyInitPos = VGet(2660, 69.0f, 4280.0f);	  // 敵の初期位置
 	constexpr int kChangeColorTime = 220;						  // 画面の表示を変更する時間
 	constexpr int kClearStagingTime = 240;						  // クリア演出の時間
-	constexpr int kNextBattleTime = 150;						  // 次の試合が始まるまでの時間
+	constexpr int kNextBattleTime = 300;						  // 次の試合が始まるまでの時間
 	constexpr int kBattleEndSoundTime = 60;						  // コングのSEを鳴らす時間
 	constexpr int kClearBackColor = 0x0f2699;					  // クリア時の背景色
 	constexpr int kMULAPal = 240;								  // 乗算ブレンド値
@@ -53,7 +53,6 @@ SceneStageBase::SceneStageBase() :
 	SetShadowMapDrawArea(m_shadowMap, kShadowAreaMinPos, kShadowAreaMaxPos);
 
 	m_fadeAlpha = kStartFadeAlpha;
-	m_pUIBattle = std::make_shared<UIBattle>();
 	m_pEffect = std::make_shared<EffectManager>();
 	m_pLight = std::make_shared<Light>();
 	m_clearBackHandle = LoadGraph("data/UI/clearBack.png");
@@ -71,6 +70,7 @@ SceneStageBase::SceneStageBase(std::shared_ptr<Player> pPlayer, std::shared_ptr<
 	m_pCamera(pCamera),
 	m_pStage(pStage),
 	m_pEnemy(nullptr),
+	m_pUIBattle(nullptr),
 	m_battleNum(0),
 	m_clearStagingTime(0),
 	m_nextBattleTime(0),
@@ -121,9 +121,9 @@ void SceneStageBase::Draw()
 	ShadowMap_DrawEnd(); // シャドウマップへの描画を終了
 
 	SetUseShadowMap(0, m_shadowMap); // 描画に使用するシャドウマップを設定
-	m_pStage->Draw();				 // ステージ描画
-	m_pPlayer->Draw();				 // プレイヤー描画
-	m_pEnemy->Draw();				 // 敵描画
+	m_pStage->Draw();	 // ステージ描画
+	m_pPlayer->Draw();	 // プレイヤー描画
+	m_pEnemy->Draw();	 // 敵描画
 	SetUseShadowMap(0, -1); // 描画に使用するシャドウマップの設定を解除
 
 	m_pEnemy->DrawUi(); // 敵のUI描画
@@ -141,6 +141,7 @@ void SceneStageBase::Draw()
 		DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, kClearBackColor, true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
+
 	DrawFade();	// フェードインアウト描画
 
 #ifdef _DEBUG
@@ -192,6 +193,8 @@ void SceneStageBase::UpdateNextBattle()
 {
 	m_nextBattleTime = kNextBattleTime;
 	m_clearStagingTime = kClearStagingTime;
+	m_pUIBattle->ResetStartProduction();
+	m_pUIBattle->SetEnemyKind(m_pEnemy->GetEnemyType());
 	// プレイヤーの位置、カメラ位置を最初の状態に戻す
 	m_pPlayer->Recovery();
 	Init();

@@ -24,6 +24,7 @@ namespace
 /// コンストラクタ
 /// </summary>
 EnemyBase::EnemyBase() :
+	m_enemyType(0),
 	m_stopTime(0),
 	m_angleIntervalTime(0),
 	m_intervalTime(0),
@@ -33,13 +34,6 @@ EnemyBase::EnemyBase() :
 {
 	m_currentState = CharacterBase::State::kFightIdle;
 	m_angle = kInitAngle; // 真正面を向くようにする
-
-	// シャドウマップの準備
-	//m_shadowMap = MakeShadowMap(kShadowMapSize, kShadowMapSize);
-	// シャドウマップが想定するライトの方向をセット
-	//SetShadowMapLightDirection(m_shadowMap, VGet(1.0f, 0.0f, 0.0f));
-	// シャドウマップに描画する範囲を設定
-	//SetShadowMapDrawArea(m_shadowMap, kShadowAreaMinPos, kShadowAreaMaxPos);
 }
 
 
