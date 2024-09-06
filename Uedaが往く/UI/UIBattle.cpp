@@ -11,7 +11,7 @@ namespace
 {
 	/*試合開始時*/
 	constexpr int kMatchNumDispStart = 180;					// 試合数を表示し始める時間
-	constexpr int kFightTextDispStart = 60;					// "Fight"のテキストを表示し始める時間
+	constexpr int kFightTextDispStart = 80;					// "Fight"のテキストを表示し始める時間
 	constexpr float kFightTextScele = 0.6f;					// "Fight"のテキストサイズ
 	const Vec2 kFightTextPos = { 960, 550 };				// "Fight"のテキスト位置
 	const Vec2 kStartEnemyNamePos = { 950, 500 };			// 敵の名前表示位置
@@ -26,8 +26,11 @@ namespace
 
 	/*クリア時*/
 	const Vec2 kClearBgPos = { 200, 0 };					// クリア背景位置
-	const Vec2 kGekihaTextPos = { 600, 400 };				// "撃破"テキスト位置
+	const Vec2 kGekihaTextPos = { 950, 500 };				// "撃破"テキスト位置
 	constexpr int kGekihaDispTime = 140;				    // "撃破"テキストを表示しはじめる時間
+	constexpr float kGekihaTextMinScale = 1.0f;				// "撃破"テキスト最小サイズ
+	constexpr float kGekihaTextMaxScale = 10.0f;			// "撃破"テキスト最大サイズ
+	constexpr float kGekihaTextChangeScale = 0.6f;			// "撃破"テキストサイズ変化量
 	constexpr int kMULAPal = 255;							// 乗算ブレンド値
 
 	/*キャラクターUI*/
@@ -96,13 +99,14 @@ namespace
 /// <summary>
 /// 引数つきコンストラクタ
 /// </summary>
-UIBattle::UIBattle(float maxHp, int charType):
+UIBattle::UIBattle(float maxHp, int charType) :
 	m_decreaseHp(maxHp),
 	m_currentHp(maxHp),
 	m_maxHp(maxHp),
 	m_damage(0.0f),
 	m_intervalTime(0),
 	m_enemyNameScale(kEnemyNameMaxScale),
+	m_gekihaTextScale(kGekihaTextMaxScale),
 	m_currentEnemy(charType)
 {
 	m_handle.resize(HandleKind::kHandleNum);
@@ -231,6 +235,15 @@ void UIBattle::DrawStartProduction(int time, int matchNum, int maxMatch)
 
 
 /// <summary>
+/// クリア演出をリセットする
+/// </summary>
+void UIBattle::ResetClearProduction()
+{
+	m_gekihaTextScale = kGekihaTextMaxScale;
+}
+
+
+/// <summary>
 /// クリア演出表示
 /// </summary>
 /// <param name="time">現在のクリア演出時間</param>
@@ -242,7 +255,13 @@ void UIBattle::DrawClearProduction(int time)
 
 	if (time < kGekihaDispTime)
 	{
-		DrawGraphF(kGekihaTextPos.x, kGekihaTextPos.y, m_handle[HandleKind::kGekihaText], true);
+		// テキストのサイズをだんだん小さくする
+		m_gekihaTextScale -= kGekihaTextChangeScale;
+		m_gekihaTextScale = std::max(kGekihaTextMinScale, m_gekihaTextScale);
+
+		int sizeW, sizeH;
+		GetGraphSize(m_handle[HandleKind::kGekihaText], &sizeW, &sizeH);
+		DrawRectRotaGraphF(kGekihaTextPos.x, kGekihaTextPos.y, 0, 0, sizeW, sizeH, m_gekihaTextScale, 0.0f, m_handle[HandleKind::kGekihaText], true);
 	}
 }
 

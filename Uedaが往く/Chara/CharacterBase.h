@@ -31,6 +31,8 @@ public:
 	virtual void Draw() = 0;
 	virtual void OnDamage(float damage);		// ダメージを受けた際の処理
 
+	void SetIsClearProduction(bool isClearProduction) { m_isClearProduction = isClearProduction; } // クリア演出状態をセットする
+
 	VECTOR GetPos() const { return m_pos; }			// 現在地取得
 	float GetHp() const { return m_hp; }			// 現在のHPを取得
 	bool GetIsGuard() const { return m_isGuard; }	// ガード中かどうか取得
@@ -50,22 +52,22 @@ public:
 	// キャラクターの状態
 	enum class State
 	{
-		kAvoid = 0,			// 回避
-		kDown = 1,			// 倒れる
-		kFightIdle = 2,		// 構え(停止中)
-		kFightWalk = 3,		// 構え(移動中)
-		kGettingUp = 4,		// 起き上がる
-		kGrab = 5,			// 掴み
-		kGuard = 6,			// ガード
+		kAvoid = 0,			 // 回避
+		kDown = 1,			 // 倒れる
+		kFightIdle = 2,		 // 構え(停止中)
+		kFightWalk = 3,		 // 構え(移動中)
+		kGettingUp = 4,		 // 起き上がる
+		kGrab = 5,			 // 掴み
+		kGuard = 6,			 // ガード
 		kKick = 7,			 // キック
 		kPunch1 = 8,		 // パンチ(1コンボ)
-		kPunch2 = 9,		// パンチ(2コンボ)
-		kPunch3 = 10,		// パンチ(3コンボ)
-		kReceive = 11,		// 攻撃を受ける
-		kRun = 12,			// 移動
+		kPunch2 = 9,		 // パンチ(2コンボ)
+		kPunch3 = 10,		 // パンチ(3コンボ)
+		kReceive = 11,		 // 攻撃を受ける
+		kRun = 12,			 // 移動
 		kSpecialAttack = 13, // 必殺技 
 		kStand = 14,		 // 待機
-		kStumble = 15,		// 掴み失敗
+		kStumble = 15,		 // 掴み失敗
 	};
 
 	// アニメーション種別
@@ -120,6 +122,8 @@ public:
 		int punchReceptionTime;		// パンチコンボの入力受付時間
 		int punchCoolTime;			// パンチのクールタイム
 		int kickCoolTime;			// キックのクールタイム
+		int punchTime;				// パンチ処理の時間
+		int kickTime;				// キック処理の時間
 		float punchPower;			// パンチの攻撃力
 		float secondPunchPower;		// パンチ2コンボ目の攻撃力
 		float thirdPunchPower;		// パンチ3コンボ目の攻撃力
@@ -200,6 +204,7 @@ protected:
 	int m_punchComboTime;		  // コンボ入力受付時間
 	int m_punchCoolTime;		  // パンチできない時間
 	int m_kickCoolTime;			  // キックできない時間
+	int m_attackTime;			  // 攻撃時間
 	int m_avoidCoolTime;		  // 回避できない時間
 	int m_avoidCount;			  // 回避した回数
 	bool m_isAttack;			  // 攻撃中かどうか(true:攻撃中)
@@ -208,6 +213,7 @@ protected:
 	bool m_isFighting;			  // 構え中かどうか(true:構え中)
 	bool m_isReceive;			  // 攻撃を受けている最中かどうか(true:攻撃を受けている)
 	bool m_isSpecialAttack;		  // 必殺技を発動中か(true:発動中)
+	bool m_isClearProduction;	  // クリア演出中か(true:演出中)
 	State m_currentState;		  // 現在の状態
 	int m_modelHandle;			  // キャラクターの3Dモデル
 

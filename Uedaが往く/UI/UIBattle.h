@@ -15,6 +15,7 @@ public:
 	void OnDamage(float damage);									 // 受けたダメージ量を計算する
 	void ResetStartProduction();									 // スタート演出をリセットする
 	void DrawStartProduction(int time, int matchNum, int maxMatch);  // スタート演出を表示
+	void ResetClearProduction();									 // クリア演出をリセットする
 	void DrawClearProduction(int time);								 // クリア演出を表示
 	void DrawPlayerName();											 // プレイヤーの名前を表示
 	void DrawPlayerHP(float currentHp);								 // プレイヤーのHPバーを表示
@@ -37,6 +38,7 @@ private:
 	int m_intervalTime;				// HPバーが減少するまでの時間
 	int m_currentEnemy;				// 現在の敵
 	float m_enemyNameScale;			// 敵名前の拡大率
+	float m_gekihaTextScale;		// "撃破"テキストの拡大率
 	std::vector<int> m_handle;		// ハンドル
 
 	// 画像の種類

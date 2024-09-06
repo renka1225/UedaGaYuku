@@ -112,23 +112,24 @@ void SceneStageBase::Init()
 void SceneStageBase::Draw()
 {
 	ShadowMap_DrawSetup(m_shadowMap); // シャドウマップへの描画の準備
-	m_pStage->Draw();	 // ステージ描画
-	m_pPlayer->Draw();	 // プレイヤー描画
-	m_pEnemy->Draw();	 // 敵描画
-	ShadowMap_DrawEnd(); // シャドウマップへの描画を終了
+	m_pStage->Draw();				  // ステージ描画
+	m_pPlayer->Draw();				  // プレイヤー描画
+	m_pEnemy->Draw();				  // 敵描画
+	ShadowMap_DrawEnd();			  // シャドウマップへの描画を終了
 
 	SetUseShadowMap(0, m_shadowMap); // 描画に使用するシャドウマップを設定
-	m_pStage->Draw();	 // ステージ描画
-	m_pPlayer->Draw();	 // プレイヤー描画
-	m_pEnemy->Draw();	 // 敵描画
-	SetUseShadowMap(0, -1); // 描画に使用するシャドウマップの設定を解除
-
-	m_pEnemy->DrawUi();			  // 敵のUI描画
-	m_pUIBattle->DrawOperation(); // 操作説明を表示
+	m_pStage->Draw();				 // ステージ描画
+	m_pPlayer->Draw();				 // プレイヤー描画
+	m_pEnemy->Draw();				 // 敵描画
+	SetUseShadowMap(0, -1);			 // 描画に使用するシャドウマップの設定を解除
+	m_pEnemy->DrawUi();				 // 敵のUI描画
+	m_pUIBattle->DrawOperation();	 // 操作説明を表示
 
 	// クリア演出表示
-	if (m_clearStagingTime < kClearStagingTime && m_clearStagingTime >= 0)
+	const bool isClearProduction = m_clearStagingTime < kClearStagingTime && m_clearStagingTime >= 0;
+	if (isClearProduction)
 	{
+		m_pPlayer->SetIsClearProduction(true);
 		m_pUIBattle->DrawClearProduction(m_clearStagingTime);
 	}
 
@@ -136,7 +137,7 @@ void SceneStageBase::Draw()
 
 #ifdef _DEBUG
 	//TestDrawShadowMap(m_shadowMap, 0, 0, 320, 240); // 画面左上にシャドウマップをテスト描画
-	DrawFormatString(0, 140, 0xffffff, "経過時間:%d", m_elapsedTime); // 経過時間描画
+	DrawFormatString(0, 140, 0xffffff, "経過時間:%d", m_elapsedTime);
 	DrawFormatString(0, 180, 0xffffff, "カメラ位置(X:%.2f, Y:%.2f, Z:%.2f)", GetCameraPosition().x, GetCameraPosition().y, GetCameraPosition().z);
 #endif
 }
@@ -171,6 +172,7 @@ void SceneStageBase::ClearStaging()
 
 	// クリア演出をリセット
 	m_clearStagingTime = 0;
+	m_pUIBattle->ResetClearProduction();
 	StopSoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kClearCheers)]);
 }
 

@@ -348,13 +348,10 @@ void EnemyBase::Receive()
 	m_isAttack = false; // 攻撃状態を解除
 	m_currentState = CharacterBase::State::kReceive;
 
-	if (!m_isReceive)
-	{
-		m_isReceive = true;
-		PlayAnim(CharacterBase::AnimKind::kReceive);
-		m_pEffect->PlayDamageEffect(VGet(m_pos.x, m_pos.y + kEffectHeight, m_pos.z));					// 攻撃エフェクト再生
-		PlaySoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kAttack)], DX_PLAYTYPE_BACK); 	// 攻撃SE再生
-	}
+	if (m_attackTime > 0) return;
+	PlayAnim(CharacterBase::AnimKind::kReceive);
+	m_pEffect->PlayDamageEffect(VGet(m_pos.x, m_pos.y + kEffectHeight, m_pos.z));					// 攻撃エフェクト再生
+	PlaySoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kAttack)], DX_PLAYTYPE_BACK); 	// 攻撃SE再生
 }
 
 
@@ -438,6 +435,8 @@ void EnemyBase::CheckHitPlayerCol(Player& player, VECTOR eCapPosTop, VECTOR eCap
 	// パンチが当たった場合
 	if (isHitPunch && isStatePunch)
 	{
+		if (m_attackTime > 0) return;
+
 		// プレイヤーがガードしていないか、背後から攻撃した場合
 		if (!player.GetIsGuard())
 		{
@@ -445,16 +444,19 @@ void EnemyBase::CheckHitPlayerCol(Player& player, VECTOR eCapPosTop, VECTOR eCap
 			if (m_currentState == CharacterBase::State::kPunch1)
 			{
 				player.OnDamage(m_status.punchPower);
+				m_attackTime = m_status.punchTime;
 			}
 			// 2コンボ目
 			if (m_currentState == CharacterBase::State::kPunch2)
 			{
 				player.OnDamage(m_status.secondPunchPower);
+				m_attackTime = m_status.punchTime;
 			}
 			// 3コンボ目
 			if (m_currentState == CharacterBase::State::kPunch3)
 			{
 				player.OnDamage(m_status.thirdPunchPower);
+				m_attackTime = m_status.punchTime;
 			}
 		}
 		else
@@ -465,10 +467,13 @@ void EnemyBase::CheckHitPlayerCol(Player& player, VECTOR eCapPosTop, VECTOR eCap
 	// キックが当たった場合
 	else if (isHitKick && m_currentState == CharacterBase::State::kKick)
 	{
+		if (m_attackTime > 0) return;
+
 		// キックが当たった場合
 		if (!player.GetIsGuard())
 		{
 			player.OnDamage(m_status.kickPower);
+			m_attackTime = m_status.kickTime;
 		}
 		else
 		{

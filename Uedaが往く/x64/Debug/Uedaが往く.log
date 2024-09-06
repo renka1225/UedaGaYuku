@@ -1,2 +1,12 @@
-﻿  SceneStageBase.cpp
-  Uedaが往く.vcxproj -> C:\Users\fko2347058\Desktop\ueda\GitHub\Uedaが往く\Uedaが往く\x64\Debug\Uedaが往く.exe
+﻿  UIBattle.cpp
+C:\GitHub\UedaGaYuku\Uedaが往く\UI\UIBattle.cpp(275,43): warning C4244: '引数': 'const float' から 'int' への変換です。データが失われる可能性があります。
+C:\GitHub\UedaGaYuku\Uedaが往く\UI\UIBattle.cpp(275,30): warning C4244: '引数': 'const float' から 'int' への変換です。データが失われる可能性があります。
+C:\GitHub\UedaGaYuku\Uedaが往く\UI\UIBattle.cpp(330,44): warning C4244: '引数': 'const float' から 'int' への変換です。データが失われる可能性があります。
+C:\GitHub\UedaGaYuku\Uedaが往く\UI\UIBattle.cpp(330,31): warning C4244: '引数': 'const float' から 'int' への変換です。データが失われる可能性があります。
+C:\GitHub\UedaGaYuku\Uedaが往く\UI\UIBattle.cpp(334,44): warning C4244: '引数': 'const float' から 'int' への変換です。データが失われる可能性があります。
+C:\GitHub\UedaGaYuku\Uedaが往く\UI\UIBattle.cpp(334,31): warning C4244: '引数': 'const float' から 'int' への変換です。データが失われる可能性があります。
+C:\GitHub\UedaGaYuku\Uedaが往く\UI\UIBattle.cpp(338,44): warning C4244: '引数': 'const float' から 'int' への変換です。データが失われる可能性があります。
+C:\GitHub\UedaGaYuku\Uedaが往く\UI\UIBattle.cpp(338,31): warning C4244: '引数': 'const float' から 'int' への変換です。データが失われる可能性があります。
+C:\GitHub\UedaGaYuku\Uedaが往く\UI\UIBattle.cpp(342,44): warning C4244: '引数': 'const float' から 'int' への変換です。データが失われる可能性があります。
+C:\GitHub\UedaGaYuku\Uedaが往く\UI\UIBattle.cpp(342,31): warning C4244: '引数': 'const float' から 'int' への変換です。データが失われる可能性があります。
+  Uedaが往く.vcxproj -> C:\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Uedaが往く.exe

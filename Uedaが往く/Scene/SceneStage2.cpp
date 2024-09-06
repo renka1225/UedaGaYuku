@@ -93,9 +93,10 @@ std::shared_ptr<SceneBase> SceneStage2::Update(Input& input)
 		if (!(m_pEnemy->GetHp() <= 0 && m_clearStagingTime > 0))
 		{
 			m_pCamera->Update(input, *m_pPlayer);
-			m_pPlayer->Update(input, *m_pCamera, *m_pEnemy, *m_pStage);
-			m_pEnemy->Update(*m_pPlayer, *m_pStage, *this);
 		}
+
+		m_pPlayer->Update(input, *m_pCamera, *m_pEnemy, *m_pStage);
+		m_pEnemy->Update(*m_pPlayer, *m_pStage, *this);
 
 		m_nextBattleTime--;
 		if (m_nextBattleTime > 0) return shared_from_this();

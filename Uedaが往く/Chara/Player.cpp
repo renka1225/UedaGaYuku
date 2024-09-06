@@ -15,8 +15,8 @@ namespace
 {
 	/*プレイヤー情報*/
 	constexpr float kMaxGauge = 100.0f;				// 最大ゲージ量
-	constexpr float kPunchGaugeCharge = 0.1f;		// パンチ時に増えるゲージ量
-	constexpr float kKickGaugeCharge = 0.13f;		// キック時に増えるゲージ量
+	constexpr float kPunchGaugeCharge = 5.0f;		// パンチ時に増えるゲージ量
+	constexpr float kKickGaugeCharge = 10.0f;		// キック時に増えるゲージ量
 	constexpr float kDecreaseGauge = 0.15f;			// 攻撃を受けた際に減るゲージ量
 	constexpr float kSpecialAttackPower = 30.0f;	// 必殺技の攻撃力
 	constexpr float kSpecialAttackDist = 55.0f;		// 必殺技を発動できる範囲
@@ -51,6 +51,7 @@ Player::Player():
 	m_punchComboTime = 0;
 	m_punchCoolTime = 0;
 	m_kickCoolTime = 0;
+	m_attackTime = 0;
 	m_avoidCoolTime = 0;
 	m_avoidCount = 0;
 	m_isMove = false;
@@ -80,6 +81,7 @@ void Player::Init(std::shared_ptr<EffectManager> pEffect, VECTOR pos)
 	m_pos = pos;
 	m_pEffect = pEffect;
 	m_isSpecialAttack = false;
+	m_isClearProduction = false;
 	m_isAttack = false;
 	m_targetMoveDir = kInitDir;
 	MV1SetPosition(m_modelHandle, m_pos);
@@ -108,14 +110,22 @@ void Player::Update(const Input& input, const Camera& camera, EnemyBase& enemy, 
 	// プレイヤーの状態を更新
 	CharacterBase::State prevState = m_currentState;
 
-	// 必殺技を発動中はほかの処理をできないようにする
-	if(!m_isSpecialAttack)
+	// 攻撃処理の更新
+	m_attackTime--;
+
+	// 必殺技を発動中、クリア演出中はほかの処理をできないようにする
+	const bool isUpdate = !m_isSpecialAttack && !m_isClearProduction;
+	if(isUpdate)
 	{	
 		Punch(input);						// パンチ処理
 		Kick(input);						// キック処理
 		Avoid(input, stage, moveVec);		// 回避処理
 		Fighting(input);					// 構え処理
 		Guard(input);						// ガード処理
+	}
+	else if (m_isClearProduction)
+	{
+		DestroyEnemy();						// クリア演出処理
 	}
 	SpecialAttack(input, enemy);			// 必殺技処理
 
@@ -170,6 +180,7 @@ void Player::Draw()
 	debug.DrawBodyCol(m_col.bodyTopPos, m_col.bodyBottomPos, m_colInfo.bodyRadius); // 全身
 	debug.DrawAimCol(m_col.armStartPos, m_col.armEndPos, m_colInfo.aimRadius);		// 腕
 	debug.DrawLegCol(m_col.legStartPos, m_col.legEndPos, m_colInfo.legRadius);		// 脚
+	DrawFormatString(0, 300, 0xffffff, "%d", m_attackTime);
 #endif
 }
 
@@ -236,9 +247,11 @@ void Player::CheckHitEnemyCol(EnemyBase& enemy, VECTOR eCapPosTop, VECTOR eCapPo
 	// パンチ状態かどうか
 	bool isStatePunch = m_currentState == CharacterBase::State::kPunch1 || m_currentState == CharacterBase::State::kPunch2 || m_currentState == CharacterBase::State::kPunch3;
 
-	// 1コンボ目が当たった場合
+	// パンチが当たった場合
 	if (isHitPunch && isStatePunch)
 	{
+		if (m_attackTime > 0) return;
+
 		// 敵がガードしていないか、背後から攻撃した場合
 		if (!enemy.GetIsGuard() || isBackAttack)
 		{
@@ -246,18 +259,21 @@ void Player::CheckHitEnemyCol(EnemyBase& enemy, VECTOR eCapPosTop, VECTOR eCapPo
 			if (m_currentState == CharacterBase::State::kPunch1)
 			{
 				enemy.OnDamage(m_status.punchPower);
-				m_gauge += kPunchGaugeCharge;					// ゲージを増やす
+				m_attackTime = m_status.punchTime;
+				m_gauge += kPunchGaugeCharge;	// 必殺技ゲージを増やす
 			}
 			// 2コンボ目
 			if (m_currentState == CharacterBase::State::kPunch2)
 			{
 				enemy.OnDamage(m_status.secondPunchPower);
+				m_attackTime = m_status.punchTime;
 				m_gauge += kPunchGaugeCharge;
 			}
 			// 3コンボ目
 			if (m_currentState == CharacterBase::State::kPunch3)
 			{
 				enemy.OnDamage(m_status.thirdPunchPower);
+				m_attackTime = m_status.punchTime;
 				m_gauge += kPunchGaugeCharge;
 			}
 		}
@@ -269,10 +285,12 @@ void Player::CheckHitEnemyCol(EnemyBase& enemy, VECTOR eCapPosTop, VECTOR eCapPo
 	// キックが当たった場合
 	else if (isHitKick && m_currentState == CharacterBase::State::kKick)
 	{
+		if (m_attackTime > 0) return;
 
 		if (!enemy.GetIsGuard() || isBackAttack)
 		{
 			enemy.OnDamage(m_status.kickPower);
+			m_attackTime = m_status.kickTime;
 			m_gauge += kKickGaugeCharge;
 		}
 		else
@@ -530,15 +548,9 @@ void Player::OffGuard()
 void Player::Receive()
 {
 	m_currentState = CharacterBase::State::kReceive;
-
-	// 攻撃を受けている間は更新しない
-	if (!m_isReceive)
-	{
-		m_isReceive = true;
-		PlayAnim(CharacterBase::AnimKind::kReceive);
-		m_pEffect->PlayDamageEffect(VGet(m_pos.x, m_pos.y + kEffectHeight, m_pos.z));				 // 攻撃エフェクト表示
-		PlaySoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kAttack)], DX_PLAYTYPE_BACK); // 攻撃SE再生
-	}
+	PlayAnim(CharacterBase::AnimKind::kReceive);
+	m_pEffect->PlayDamageEffect(VGet(m_pos.x, m_pos.y + kEffectHeight, m_pos.z));				 // 攻撃エフェクト表示
+	PlaySoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kAttack)], DX_PLAYTYPE_BACK); // 攻撃SE再生
 }
 
 
@@ -577,6 +589,17 @@ void Player::SpecialAttack(const Input& input, EnemyBase& enemy)
 
 
 /// <summary>
+/// 敵を倒した時の処理
+/// </summary>
+void Player::DestroyEnemy()
+{
+	// 待機状態にする
+	m_currentState = State::kFightIdle;
+	PlayAnim(AnimKind::kFightIdle);
+}
+
+
+/// <summary>
 /// 移動パラメータを設定する
 /// </summary>
 /// <param name="input">入力処理</param>
@@ -607,8 +630,9 @@ Player::CharacterBase::State Player::UpdateMoveParameter(const Input& input, con
 	// 移動したか(true:移動した)
 	bool isPressMove = false;
 
-	// 攻撃中、ガード中でない場合
-	if (!m_isAttack && !m_isSpecialAttack && !m_isGuard )
+	// 特定の状態中は動けないようにする
+	const bool isMove = !m_isAttack && !m_isSpecialAttack && !m_isGuard && !m_isClearProduction;
+	if (isMove)
 	{
 		// ボタンを押したら移動
 		if (input.IsPressing("up"))

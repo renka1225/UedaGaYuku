@@ -73,6 +73,9 @@ void EnemyNinja::Update(Player& player, Stage& stage, SceneStageBase& sceneStage
 	// エネミーの状態を更新
 	CharacterBase::State prevState = m_currentState;
 
+	// 攻撃処理の更新
+	m_attackTime--;
+
 	// 敵の位置からプレイヤー位置までのベクトルを求める
 	m_eToPDirVec = VSub(player.GetPos(), m_pos);
 
