@@ -24,6 +24,12 @@ namespace
 	constexpr float kEnemyNameMaxScale = 10.0f;				// 敵名最大サイズ
 	constexpr float kEnemyNameChangeScale = 0.6f;			// 敵名サイズ変化量
 
+	/*クリア時*/
+	const Vec2 kClearBgPos = { 200, 0 };					// クリア背景位置
+	const Vec2 kGekihaTextPos = { 600, 400 };				// "撃破"テキスト位置
+	constexpr int kGekihaDispTime = 140;				    // "撃破"テキストを表示しはじめる時間
+	constexpr int kMULAPal = 255;							// 乗算ブレンド値
+
 	/*キャラクターUI*/
 	constexpr int kSilhouetteWidth = 268;					// シルエット画像幅
 	constexpr int kSilhouetteHeight = 213;					// キャラクターのシルエット画像高さ
@@ -107,7 +113,9 @@ UIBattle::UIBattle(float maxHp, int charType):
 	m_handle[HandleKind::kNameBack] = LoadGraph("data/UI/nameBack.png");
 	m_handle[HandleKind::kGaugeBar] = LoadGraph("data/UI/gauge.png");
 	m_handle[HandleKind::kSilhouette] = LoadGraph("data/UI/silhouette.png");
-	m_handle[HandleKind::kFightText] = LoadGraph("data/UI/Fight!.png");
+	m_handle[HandleKind::kFightText] = LoadGraph("data/UI/fight!.png");
+	m_handle[HandleKind::kGekihaText] = LoadGraph("data/UI/gekiha.png");
+	m_handle[HandleKind::kClearBg] = LoadGraph("data/UI/clearBg.png");
 	m_handle[HandleKind::kNumText] = LoadGraph("data/UI/number.png");
 }
 
@@ -174,7 +182,7 @@ void UIBattle::ResetStartProduction()
 
 
 /// <summary>
-/// スタート時の演出表示
+/// スタート演出表示
 /// </summary>
 /// <param name="time">演出経過時間</param>
 /// <param name="matchNum">現在の試合数</param>
@@ -218,6 +226,23 @@ void UIBattle::DrawStartProduction(int time, int matchNum, int maxMatch)
 		int sizeW, sizeH;
 		GetGraphSize(m_handle[HandleKind::kFightText], &sizeW, &sizeH);
 		DrawRectRotaGraphF(kFightTextPos.x, kFightTextPos.y, 0, 0, sizeW, sizeH, kFightTextScele, 0.0f, m_handle[HandleKind::kFightText], true);
+	}
+}
+
+
+/// <summary>
+/// クリア演出表示
+/// </summary>
+/// <param name="time">現在のクリア演出時間</param>
+void UIBattle::DrawClearProduction(int time)
+{
+	SetDrawBlendMode(DX_BLENDMODE_MULA, kMULAPal);
+	DrawGraphF(kClearBgPos.x, kClearBgPos.y, m_handle[HandleKind::kClearBg], true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	if (time < kGekihaDispTime)
+	{
+		DrawGraphF(kGekihaTextPos.x, kGekihaTextPos.y, m_handle[HandleKind::kGekihaText], true);
 	}
 }
 

@@ -27,31 +27,34 @@ namespace Font
 		kNum,		// フォントの種類数
 
 		/*使うフォントを指定する*/
-		// SceneSelectStage
+		// SceneTitle
+		
+		/*SceneSelectStage*/
 		kSelectStage = kSize48_4,		// ステージ選択で使う文字サイズ
 		kIntroductionText = kSize48_4,	// ステージ紹介の文字サイズ
-		// SceneOption
+		/*SceneOption*/
 		kOption = kSize48_4,	  // オプションで使用する文字サイズ
-		// ScenePause
+		/* ScenePause*/
 		kPause = kSize42_4_EDGE,  // ポーズ画面で使用する文字サイズ
 		// SceneGameover
 		kGameover = kSize48_4,	  // ゲームオーバーで使う文字サイズ
-		// SceneClear
+		/*SceneClear*/
 		kClearTime = kSize42_4_EDGE,	// 時間表示で使う文字サイズ
-		// ランキング
+		/*ランキング*/
 		kRanking = kSize42_4_EDGE,
 		kRankingText = kSize50_4_EDGE,
-		//右下に表示するボタン表示の文字サイズ
+		/*右下に表示するボタン表示の文字サイズ*/
 		kButtonText = kSize42_4_EDGE,
+		kTitleButtonText = kSize42_4_EDGE,
 		kClearButtonText = kSize36_4_EDGE,
-		// チュートリアル
+		/*チュートリアル*/ 
 		kTutorial = kSize36_4_EDGE,
 		kTutoButton = kSize30_4_EDGE,
-		// キャラクター名
+		/*キャラクター名*/
 		kCharaName = kSize42_4,
-		// 操作説明
+		/*操作説明*/
 		kOperation = kSize24_4_EDGE,
-		// 必殺技
+		/*必殺技*/
 		kSpecialAttack = kSize36_4_EDGE,
 	};
 

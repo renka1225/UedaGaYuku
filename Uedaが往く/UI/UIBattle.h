@@ -14,7 +14,8 @@ public:
 	void SetDamageTimer();											 // ダメージを受けた際にタイマーをセットする
 	void OnDamage(float damage);									 // 受けたダメージ量を計算する
 	void ResetStartProduction();									 // スタート演出をリセットする
-	void DrawStartProduction(int time, int matchNum, int maxMatch);  // スタート時の演出を表示
+	void DrawStartProduction(int time, int matchNum, int maxMatch);  // スタート演出を表示
+	void DrawClearProduction(int time);								 // クリア演出を表示
 	void DrawPlayerName();											 // プレイヤーの名前を表示
 	void DrawPlayerHP(float currentHp);								 // プレイヤーのHPバーを表示
 	void DrawPlayerGauge(float currentGauge, float MaxGauge);		 // プレイヤーのゲージバーを表示
@@ -49,8 +50,10 @@ private:
 		kGaugeBar,		 // ゲージバー
 		kSilhouette,	 // キャラクターのシルエット
 		kFightText,		 // "Fight!"のテキスト
+		kGekihaText,	 // "撃破"のテキスト
+		kClearBg,		 // クリア時の背景
 		kNumText,		 // 数字
-		kHandleNum	 // ハンドルの種類
+		kHandleNum		 // ハンドルの種類
 	};
 
 	// 操作説明で表示する順番

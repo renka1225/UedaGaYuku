@@ -128,6 +128,12 @@ Input::Input()
 	m_commandTable["Y"] = { {InputType::keybd, KEY_INPUT_Y},
 							{InputType::pad, PAD_INPUT_X} };
 
+	m_commandTable["RB"] = { { InputType::keybd, KEY_INPUT_P },
+									{InputType::pad, PAD_INPUT_Z } },
+
+	m_commandTable["LB"] = { { InputType::keybd, KEY_INPUT_Q },
+								{InputType::pad, PAD_INPUT_Y } },
+
 	m_commandTable["up"] = { {InputType::keybd, KEY_INPUT_UP},
 							 {InputType::pad, PAD_INPUT_UP} };
 

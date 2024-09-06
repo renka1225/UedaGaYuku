@@ -39,14 +39,17 @@ namespace
 
 	/*ボタンの画像とテキストの位置*/
 	const Vec2 kButtonPos = { 1500, 1000 };				// ボタン表示位置
+	const Vec2 kButtonTextPos = { 1530, 970 };			// テキストの位置
+	const Vec2 kTitleButtonPos = { 1605, 1005 };		// タイトル画面ボタン位置
+	const Vec2 kTitleButtonTextPos = { 1630, 980 };		// タイトル画面ボタンテキスト位置
 	const Vec2 kClearButtonPos = { 1450, 1000 };		// クリア時ボタン表示位置
+	const Vec2 kClearButtonTextPos = { 1480, 975 };		// クリア時のテキスト位置
 	constexpr float kButtonWidth = 180.0f;				// 表示するボタンの幅
 	constexpr int kButtonSize = 32;						// ボタン画像のサイズ
 	constexpr float kButtonScale = 1.5f;				// ボタンの拡大率
-	const Vec2 kButtonTextPos = { 1530, 970 };			// テキストの位置
-	const Vec2 kClearButtonTextPos = { 1480, 975 };		// クリア時のテキスト位置
 	constexpr float kButtonTextWidth = 170.0f;			// テキストの幅
 	constexpr int kTextColor = 0xffffff;				// テキストの色
+	constexpr int kTitleTextColor = 0x000000;			// タイトル部分のテキストの色
 }
 
 
@@ -170,6 +173,19 @@ void UI::DrawButtonText()
 	// ボタン画像表示
 	DrawRectRotaGraphF(kButtonPos.x, kButtonPos.y, kButtonSize * ButtonKind::kAButton, 0, kButtonSize, kButtonSize, kButtonScale, 0.0f, m_buttonHandle, true);
 	DrawRectRotaGraphF(kButtonPos.x + kButtonWidth, kButtonPos.y, kButtonSize * ButtonKind::kBButton, 0, kButtonSize, kButtonSize, kButtonScale, 0.0f, m_buttonHandle, true);
+}
+
+
+/// <summary>
+/// タイトル画面でボタンの画像とテキストを表示する
+/// </summary>
+void UI::DrawTitleButtonText()
+{
+	// テキスト表示
+	DrawFormatString2ToHandle(kTitleButtonTextPos.x, kTitleButtonTextPos.y, kTitleTextColor, kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kTitleButtonText)], "でスキップ");
+
+	// ボタン画像表示
+	DrawRectRotaGraphF(kTitleButtonPos.x, kTitleButtonPos.y, kButtonSize * ButtonKind::kAButton, 0, kButtonSize, kButtonSize, kButtonScale, 0.0f, m_buttonHandle, true);
 }
 
 

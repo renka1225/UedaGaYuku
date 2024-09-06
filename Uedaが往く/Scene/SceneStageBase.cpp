@@ -126,16 +126,10 @@ void SceneStageBase::Draw()
 	m_pEnemy->DrawUi();			  // 敵のUI描画
 	m_pUIBattle->DrawOperation(); // 操作説明を表示
 
-	// クリア時画面の色味を変える
+	// クリア演出表示
 	if (m_clearStagingTime < kClearStagingTime && m_clearStagingTime >= 0)
 	{
-		SetDrawBlendMode(DX_BLENDMODE_MULA, kMULAPal);
-		DrawGraph(0, 0, m_clearBackHandle, true);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-		SetDrawBlendMode(DX_BLENDMODE_ADD, kAddPal);
-		DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, kClearBackColor, true);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		m_pUIBattle->DrawClearProduction(m_clearStagingTime);
 	}
 
 	DrawFade();	// フェードインアウト描画
@@ -193,6 +187,5 @@ void SceneStageBase::UpdateNextBattle()
 	// プレイヤーの位置、カメラ位置を最初の状態に戻す
 	m_pPlayer->Recovery();
 	Init();
-
 	FadeIn(kFadeFrame); // フェードイン
 }
