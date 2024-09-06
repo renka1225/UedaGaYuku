@@ -46,6 +46,7 @@ SceneStageBase::SceneStageBase() :
 	m_elapsedTime(0),
 	m_isPause(false)
 {
+	//m_pLight->Create(m_pPlayer);
 	m_shadowMap = MakeShadowMap(kShadowMapSize, kShadowMapSize);
 	// シャドウマップが想定するライトの方向をセット
 	SetShadowMapLightDirection(m_shadowMap, GetLightPosition());
@@ -79,6 +80,7 @@ SceneStageBase::SceneStageBase(std::shared_ptr<Player> pPlayer, std::shared_ptr<
 	m_shadowMap(-1),
 	m_clearBackHandle(-1)
 {
+	//m_pLight->Create(m_pPlayer);
 }
 
 
@@ -87,7 +89,7 @@ SceneStageBase::SceneStageBase(std::shared_ptr<Player> pPlayer, std::shared_ptr<
 /// </summary>
 SceneStageBase::~SceneStageBase()
 {
-	m_pLight->Delete();
+	//m_pLight->Delete();
 	DeleteShadowMap(m_shadowMap); // シャドウマップの削除
 	DeleteGraph(m_clearBackHandle);
 }
@@ -104,7 +106,6 @@ void SceneStageBase::Init()
 		m_pCamera->Init();
 		m_pEnemy->Init(m_pEffect, kEnemyInitPos);
 	}
-	m_pLight->Create(m_pPlayer);
 	m_isPause = false;
 }
 

@@ -16,4 +16,5 @@ public:
 private:
 	std::shared_ptr<Player> m_pPlayer;
 	int m_spotLight; // スポットライト
+	int m_dirLight;  // ディレクショナルライト
 };

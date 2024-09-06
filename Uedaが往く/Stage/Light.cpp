@@ -25,6 +25,7 @@ void Light::Create(std::shared_ptr<Player> pPlayer)
 	m_pPlayer = pPlayer;
 	m_spotLight = CreateSpotLightHandle(kSpotLightPos, kSpotLightDir, kSpotLightOutAngle, kSpotLightInAngle,
 		kSpotLightRange, kSpotLighAtten0, kSpotLighAtten1, kSpotLighAtten2);
+	m_dirLight = CreateDirLightHandle(VGet(0.0f, -1.0f, 0.0f));
 }
 
 

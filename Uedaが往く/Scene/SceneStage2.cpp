@@ -82,7 +82,7 @@ std::shared_ptr<SceneBase> SceneStage2::Update(Input& input)
 	{
 		FadeOut(kFadeFrame); // フェードアウト
 		UpdateSound();		 // サウンド更新
-		m_pLight->Update();  // ライト更新
+		//m_pLight->Update();  // ライト更新
 
 		// ポーズ画面を開く
 		if (input.IsTriggered("pause"))

@@ -31,8 +31,8 @@ public:
 private:
 	float m_decreaseHp;				// ダメージを受けた後のHP
 	float m_currentHp;				// 現在のHP
-	float m_damage;					// 受けたダメージ量
 	float m_maxHp;					// 最大HP
+	float m_damage;					// 受けたダメージ量
 	int m_intervalTime;				// HPバーが減少するまでの時間
 	int m_currentEnemy;				// 現在の敵
 	float m_enemyNameScale;			// 敵名前の拡大率

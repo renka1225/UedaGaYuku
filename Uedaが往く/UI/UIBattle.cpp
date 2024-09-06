@@ -14,7 +14,7 @@ namespace
 	constexpr int kFightTextDispStart = 120;				// "Fight"のテキストを表示し始める時間
 	constexpr float kFightTextScele = 0.6f;					// "Fight"のテキストサイズ
 	const Vec2 kFightTextPos = { 960, 550 };				// "Fight"のテキスト位置
-	const Vec2 kEnemyNamePos = { 900, 500 };				// 敵の名前表示位置
+	const Vec2 kStartEnemyNamePos = { 950, 500 };			// 敵の名前表示位置
 	const Vec2 kMatcheNumTextPos = { 850, 700 };			// 現在の試合数表示位置
 	constexpr int kMatchNumTextWidth = 260;					// 1つ当たりのテキストの幅
 	constexpr int kMatchNumTextInterval = 70;				// テキストの表示間隔
@@ -100,7 +100,7 @@ UIBattle::UIBattle(float maxHp, int charType):
 	m_currentEnemy(charType)
 {
 	m_handle.resize(HandleKind::kHandleNum);
-	m_handle[HandleKind::kTutoName] = LoadGraph("data/UI/Name/Tuto.png");
+	m_handle[HandleKind::kTutoName] = LoadGraph("data/UI/Name/Akagi.png");
 	m_handle[HandleKind::kNinjaName] = LoadGraph("data/UI/Name/Bob.png");
 	m_handle[HandleKind::kCiefName] = LoadGraph("data/UI/Name/Sato.png");
 	m_handle[HandleKind::kOldManName] = LoadGraph("data/UI/Name/Abe.png");
@@ -191,7 +191,7 @@ void UIBattle::DrawStartProduction(int time, int matchNum, int maxMatch)
 
 		int sizeW, sizeH;
 		GetGraphSize(m_handle[m_currentEnemy], &sizeW, &sizeH);
-		DrawRectRotaGraphF(kEnemyNamePos.x, kEnemyNamePos.y, 0, 0, sizeW, sizeH, m_enemyNameScale, 0.0f, m_handle[m_currentEnemy], true);
+		DrawRectRotaGraphF(kStartEnemyNamePos.x, kStartEnemyNamePos.y, 0, 0, sizeW, sizeH, m_enemyNameScale, 0.0f, m_handle[m_currentEnemy], true);
 	}
 	// 試合数を表示
 	if (time < kMatchNumDispStart && time > kFightTextDispStart)
@@ -283,7 +283,7 @@ void UIBattle::DrawEnemyName(int charType)
 	DrawGraphF(kENameBackPos.x, kENameBackPos.y, m_handle[HandleKind::kNameBack], true);
 	if (charType == HandleKind::kTutoName)
 	{
-		DrawStringToHandle(kENamePos.x, kENamePos.y, "Ningyo", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
+		DrawStringToHandle(kENamePos.x, kENamePos.y, "Akagi", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
 	}
 	if (charType == HandleKind::kNinjaName)
 	{
