@@ -10,8 +10,8 @@
 namespace
 {
 	/*試合開始時*/
-	constexpr int kMatchNumDispStart = 240;					// 試合数を表示し始める時間
-	constexpr int kFightTextDispStart = 120;				// "Fight"のテキストを表示し始める時間
+	constexpr int kMatchNumDispStart = 180;					// 試合数を表示し始める時間
+	constexpr int kFightTextDispStart = 60;					// "Fight"のテキストを表示し始める時間
 	constexpr float kFightTextScele = 0.6f;					// "Fight"のテキストサイズ
 	const Vec2 kFightTextPos = { 960, 550 };				// "Fight"のテキスト位置
 	const Vec2 kStartEnemyNamePos = { 950, 500 };			// 敵の名前表示位置

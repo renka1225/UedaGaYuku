@@ -3,7 +3,6 @@
 #include "Game.h"
 #include "Input.h"
 #include "Sound.h"
-#include "Light.h"
 #include "UIBattle.h"
 #include "Player.h"
 #include "EnemyNinja.h"
@@ -82,7 +81,6 @@ std::shared_ptr<SceneBase> SceneStage2::Update(Input& input)
 	{
 		FadeOut(kFadeFrame); // フェードアウト
 		UpdateSound();		 // サウンド更新
-		//m_pLight->Update();  // ライト更新
 
 		// ポーズ画面を開く
 		if (input.IsTriggered("pause"))

@@ -5,7 +5,6 @@
 #include "UIBattle.h"
 #include "EffectManager.h"
 #include "Sound.h"
-#include "Light.h"
 #include "Player.h"
 #include "EnemyBase.h"
 #include "Camera.h"
@@ -20,7 +19,7 @@ namespace
 	const VECTOR kEnemyInitPos = VGet(2660, 69.0f, 4280.0f);	  // 敵の初期位置
 	constexpr int kChangeColorTime = 220;						  // 画面の表示を変更する時間
 	constexpr int kClearStagingTime = 240;						  // クリア演出の時間
-	constexpr int kNextBattleTime = 300;						  // 次の試合が始まるまでの時間
+	constexpr int kNextBattleTime = 240;						  // 次の試合が始まるまでの時間
 	constexpr int kBattleEndSoundTime = 60;						  // コングのSEを鳴らす時間
 	constexpr int kClearBackColor = 0x0f2699;					  // クリア時の背景色
 	constexpr int kMULAPal = 240;								  // 乗算ブレンド値
@@ -55,7 +54,6 @@ SceneStageBase::SceneStageBase() :
 
 	m_fadeAlpha = kStartFadeAlpha;
 	m_pEffect = std::make_shared<EffectManager>();
-	m_pLight = std::make_shared<Light>();
 	m_clearBackHandle = LoadGraph("data/UI/clearBack.png");
 }
 
@@ -80,7 +78,6 @@ SceneStageBase::SceneStageBase(std::shared_ptr<Player> pPlayer, std::shared_ptr<
 	m_shadowMap(-1),
 	m_clearBackHandle(-1)
 {
-	//m_pLight->Create(m_pPlayer);
 }
 
 
@@ -89,7 +86,6 @@ SceneStageBase::SceneStageBase(std::shared_ptr<Player> pPlayer, std::shared_ptr<
 /// </summary>
 SceneStageBase::~SceneStageBase()
 {
-	//m_pLight->Delete();
 	DeleteShadowMap(m_shadowMap); // シャドウマップの削除
 	DeleteGraph(m_clearBackHandle);
 }
@@ -148,7 +144,6 @@ void SceneStageBase::Draw()
 	//TestDrawShadowMap(m_shadowMap, 0, 0, 320, 240); // 画面左上にシャドウマップをテスト描画
 	DrawFormatString(0, 140, 0xffffff, "経過時間:%d", m_elapsedTime); // 経過時間描画
 	DrawFormatString(0, 180, 0xffffff, "カメラ位置(X:%.2f, Y:%.2f, Z:%.2f)", GetCameraPosition().x, GetCameraPosition().y, GetCameraPosition().z);
-	m_pLight->Draw(); // ライト位置描画
 #endif
 }
 

@@ -2,7 +2,6 @@
 #include "Vec2.h"
 #include "Input.h"
 #include "Sound.h"
-#include "Light.h"
 #include "Font.h"
 #include "UIBattle.h"
 #include "Player.h"
@@ -112,7 +111,6 @@ std::shared_ptr<SceneBase> SceneStage1::Update(Input& input)
 	{
 		FadeOut(kFadeFrame);	// フェードアウト
 		UpdateSound();			// サウンド更新
-		//m_pLight->Update();		// ライト更新
 
 		// ポーズ画面を開く
 		if (input.IsTriggered("pause"))
