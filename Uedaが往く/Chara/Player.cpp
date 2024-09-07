@@ -30,6 +30,12 @@ namespace
 
 	/*アニメーション情報*/
 	constexpr float kAnimBlendMax = 1.0f;			// アニメーションブレンドの最大値
+
+	/*コントローラー*/
+	constexpr int kVibrationPower = 1000;				// 振動の強さ
+	constexpr int kVibrationTime = 150;					// 振動させる時間
+	constexpr int kSpecialAttackVibrationPower = 150;	// 必殺技時の振動の強さ
+	constexpr int kSpecialAttackVibrationTime = 10;		// 必殺技時の振動させる時間
 }
 
 
@@ -114,8 +120,8 @@ void Player::Update(const Input& input, const Camera& camera, EnemyBase& enemy, 
 	// 攻撃処理の更新
 	m_attackTime--;
 
-	// 必殺技を発動中、クリア演出中はほかの処理をできないようにする
-	const bool isUpdate = !m_isSpecialAttack && !m_isClearProduction;
+	// 特定の状態中はほかの処理をできないようにする
+	const bool isUpdate = m_currentState == CharacterBase::State::kDown || !m_isSpecialAttack && !m_isClearProduction && !m_isGameoverProduction;
 	if(isUpdate)
 	{	
 		Punch(input);						// パンチ処理
@@ -127,6 +133,10 @@ void Player::Update(const Input& input, const Camera& camera, EnemyBase& enemy, 
 	else if (m_isClearProduction)
 	{
 		DestroyEnemy();						// 敵撃破時処理
+	}
+	else if (m_isGameoverProduction)
+	{
+		Gameover();							// ゲームオーバー処理
 	}
 
 	SpecialAttack(input, enemy);			// 必殺技処理
@@ -252,11 +262,13 @@ void Player::CheckHitEnemyCol(EnemyBase& enemy, VECTOR eCapPosTop, VECTOR eCapPo
 	if (isHitPunch && isStatePunch)
 	{
 		if (m_attackTime > 0) return;
-		AdjAttackPos(enemy);
+		AdjAttackPos(enemy); // 敵に近づく
 
 		// 敵がガードしていないか、背後から攻撃した場合
 		if (!enemy.GetIsGuard() || isBackAttack)
 		{
+			VibrationPad(); // パッドを振動させる
+
 			// 1コンボ目
 			if (m_currentState == CharacterBase::State::kPunch1)
 			{
@@ -288,11 +300,12 @@ void Player::CheckHitEnemyCol(EnemyBase& enemy, VECTOR eCapPosTop, VECTOR eCapPo
 	else if (isHitKick && m_currentState == CharacterBase::State::kKick)
 	{
 		if (m_attackTime > 0) return;
-		AdjAttackPos(enemy);
+		AdjAttackPos(enemy); // 敵に近づく
 
 		if (!enemy.GetIsGuard() || isBackAttack)
 		{
 			enemy.OnDamage(m_status.kickPower);
+			VibrationPad();	 // パッドを振動させる
 			m_attackTime = m_status.kickTime;
 			m_gauge += kKickGaugeCharge;
 		}
@@ -565,6 +578,7 @@ void Player::SpecialAttack(const Input& input, EnemyBase& enemy)
 {
 	if (m_isSpecialAttack)
 	{
+		VibrationPad(); // パッドを振動させる
 		enemy.OnDamage(kSpecialAttackPower);
 	}
 
@@ -615,6 +629,20 @@ void Player::DestroyEnemy()
 
 
 /// <summary>
+/// ゲームオーバー時の処理
+/// </summary>
+void Player::Gameover()
+{
+	m_isAttack = false;
+	m_isFighting = false;
+	m_isGuard = false;
+	// ダウン状態にする
+	m_currentState = CharacterBase::State::kDown;
+	PlayAnim(CharacterBase::AnimKind::kDown);
+}
+
+
+/// <summary>
 /// 移動パラメータを設定する
 /// </summary>
 /// <param name="input">入力処理</param>
@@ -646,7 +674,7 @@ Player::CharacterBase::State Player::UpdateMoveParameter(const Input& input, con
 	bool isPressMove = false;
 
 	// 特定の状態中は動けないようにする
-	const bool isMove = !m_isAttack && !m_isSpecialAttack && !m_isGuard && !m_isClearProduction;
+	const bool isMove = !m_isAttack && !m_isSpecialAttack && !m_isGuard && !m_isClearProduction && !m_isGameoverProduction;
 	if (isMove)
 	{
 		// ボタンを押したら移動
@@ -742,4 +770,20 @@ void Player::UpdateAngle(EnemyBase& enemy)
 		m_angle = atan2f(m_targetMoveDir.x, m_targetMoveDir.z);
 	}
 	MV1SetRotationXYZ(m_modelHandle, VGet(0.0f, m_angle + DX_PI_F, 0.0f));
+}
+
+
+/// <summary>
+/// パッドを振動させる
+/// </summary>
+void Player::VibrationPad()
+{
+	if (m_isSpecialAttack)
+	{
+		StartJoypadVibration(DX_INPUT_PAD1, kSpecialAttackVibrationPower, kSpecialAttackVibrationTime, -1);
+	}
+	else
+	{
+		StartJoypadVibration(DX_INPUT_PAD1, kVibrationPower, kVibrationTime, -1);
+	}
 }

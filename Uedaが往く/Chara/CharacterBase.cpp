@@ -37,6 +37,7 @@ CharacterBase::CharacterBase():
 	m_isReceive(false),
 	m_isSpecialAttack(false),
 	m_isClearProduction(false),
+	m_isGameoverProduction(false),
 	m_modelHandle(-1),
 	m_currentPlayAnim(-1),
 	m_currentAnimCount(0.0f),
@@ -385,9 +386,8 @@ void CharacterBase::UpdateAnim()
 		else if (m_currentState == CharacterBase::State::kDown)
 		{
 			m_currentAnimCount += m_animSpeed.down;
-
 			// アニメーションを一時停止する
-			if (m_currentAnimCount >= animTotalTime)
+			if (m_currentAnimCount > animTotalTime)
 			{
 				m_currentAnimCount = animTotalTime;
 				MV1SetAttachAnimTime(m_modelHandle, m_currentPlayAnim, m_currentAnimCount);
@@ -464,10 +464,6 @@ void CharacterBase::UpdateAnim()
 		else if (m_prevPlayAnim == static_cast<int>(CharacterBase::AnimKind::kAvoid))
 		{
 			m_prevAnimCount += m_animSpeed.avoid;
-		}
-		else if (m_currentState == CharacterBase::State::kAvoid)
-		{
-			m_prevAnimCount += m_animSpeed.specialAttack;
 		}
 		else if (m_currentState == CharacterBase::State::kFightWalk)
 		{

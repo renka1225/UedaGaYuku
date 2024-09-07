@@ -22,7 +22,7 @@ public:
 	virtual void Init();
 	virtual std::shared_ptr<SceneBase> Update(Input& input) = 0;
 	virtual void Draw();
-	virtual void ClearStaging();	// クリア演出を行う
+	virtual void ClearProduction();	// クリア演出を行う
 	// 試合が始まるまでの時間を取得
 	int GetBattleStartTime() const { return m_nextBattleTime; }
 	// ポーズ状態かどうか取得
@@ -30,6 +30,7 @@ public:
 
 protected:
 	void UpdateNextBattle();	// 敵を倒して次試合が始まる前の処理
+	void GameoverProduction();	// ゲームオーバー演出を行う
 
 protected:
 	std::shared_ptr<Player> m_pPlayer;			// プレイヤー
@@ -39,7 +40,8 @@ protected:
 	std::shared_ptr<UIBattle> m_pUIBattle;		// バトルUI
 	std::shared_ptr<EffectManager> m_pEffect;	// エフェクト
 	int m_battleNum;							// 現在のバトル数
-	int m_clearStagingTime;						// クリア演出の時間
+	int m_clearProductionTime;					// クリア演出の時間
+	int m_gameoverProductionTime;				// ゲームオーバー演出の時間
 	int m_nextBattleTime;						// 次の試合が始まるまでの時間
 	int m_elapsedTime;							// 経過時間
 	std::vector<int> m_clearTime;				// 各試合ごとのクリアタイム

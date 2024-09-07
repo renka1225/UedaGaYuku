@@ -17,6 +17,7 @@ public:
 	void DrawStartProduction(int time, int matchNum, int maxMatch);  // スタート演出を表示
 	void ResetClearProduction();									 // クリア演出をリセットする
 	void DrawClearProduction(int time);								 // クリア演出を表示
+	void DrawGameoverProduciton();									 // ゲームオーバー演出を表示
 	void DrawPlayerName();											 // プレイヤーの名前を表示
 	void DrawPlayerHP(float currentHp);								 // プレイヤーのHPバーを表示
 	void DrawPlayerGauge(float currentGauge, float MaxGauge);		 // プレイヤーのゲージバーを表示
@@ -54,6 +55,7 @@ private:
 		kFightText,		 // "Fight!"のテキスト
 		kGekihaText,	 // "撃破"のテキスト
 		kClearBg,		 // クリア時の背景
+		kGameoverBg,	 // ゲームオーバー時の背景
 		kNumText,		 // 数字
 		kHandleNum		 // ハンドルの種類
 	};

@@ -18,6 +18,7 @@ namespace
 	constexpr int kMaxBattleNum = 1;		// 最大バトル数
 	constexpr int kStartSeTime = 60;		// スタートSEを再生表示し始める時間
 	constexpr int kFadeFrame = 4;			// フェード変化量
+	constexpr int kGameoverFadeFrame = 1;	// ゲームオーバー時のフェード変化量
 
 	/*チュートリアル*/
 	// 背景画像のパス
@@ -122,6 +123,7 @@ std::shared_ptr<SceneBase> SceneStage1::Update(Input& input)
 		// チュートリアル表示中は動けないようにする
 		if (!m_isTuto)
 		{
+			m_pCamera->StartProduction();
 			m_pCamera->Update(input, *m_pPlayer);
 			m_pPlayer->Update(input, *m_pCamera, *m_pEnemy, *m_pStage);
 			m_pEnemy->Update(*m_pPlayer, *m_pStage, *this);
@@ -137,10 +139,10 @@ std::shared_ptr<SceneBase> SceneStage1::Update(Input& input)
 		if (m_pEnemy->GetHp() <= 0)
 		{
 			// クリア演出を行う
-			ClearStaging();
+			ClearProduction();
 
 			// クリア演出が終わったら次のバトルに移行する
-			if (m_clearStagingTime <= 0)
+			if (m_clearProductionTime <= 0)
 			{
 				UpdateNextBattle();
 				FadeIn(kFadeFrame); // フェードイン
@@ -151,8 +153,16 @@ std::shared_ptr<SceneBase> SceneStage1::Update(Input& input)
 		// プレイヤーのHPが0になった場合
 		else if (m_pPlayer->GetHp() <= 0)
 		{
-			FadeIn(kFadeFrame); // フェードイン
-			return std::make_shared<SceneGameover>(shared_from_this());
+			if (m_gameoverProductionTime > 0)
+			{
+				GameoverProduction();
+			}
+			else
+			{
+				FadeIn(kGameoverFadeFrame); // フェードイン
+				StopSoundMem(Sound::m_bgmHandle[static_cast<int>(Sound::BgmKind::kStage1)]);
+				return std::make_shared<SceneGameover>(shared_from_this());
+			}
 		}
 		else
 		{
@@ -170,8 +180,16 @@ std::shared_ptr<SceneBase> SceneStage1::Update(Input& input)
 	}
 	else if (m_pPlayer->GetHp() <= 0.0f || input.IsTriggered("debug_gameover"))
 	{
-		StopSoundMem(Sound::m_bgmHandle[static_cast<int>(Sound::BgmKind::kStage1)]);
-		return std::make_shared<SceneGameover>(shared_from_this());
+		if (m_gameoverProductionTime > 0)
+		{
+			GameoverProduction();
+		}
+		else
+		{
+			FadeIn(kGameoverFadeFrame); // フェードイン
+			StopSoundMem(Sound::m_bgmHandle[static_cast<int>(Sound::BgmKind::kStage1)]);
+			return std::make_shared<SceneGameover>(shared_from_this());
+		}
 	}
 #endif
 

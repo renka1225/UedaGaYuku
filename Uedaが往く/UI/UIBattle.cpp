@@ -10,7 +10,8 @@
 namespace
 {
 	/*試合開始時*/
-	constexpr int kMatchNumDispStart = 180;					// 試合数を表示し始める時間
+	constexpr int kEnemyNameDispStart = 300;				// 敵名を表示し始める時間
+	constexpr int kMatchNumDispStart = 200;					// 試合数を表示し始める時間
 	constexpr int kFightTextDispStart = 80;					// "Fight"のテキストを表示し始める時間
 	constexpr float kFightTextScele = 0.6f;					// "Fight"のテキストサイズ
 	const Vec2 kFightTextPos = { 960, 550 };				// "Fight"のテキスト位置
@@ -43,8 +44,8 @@ namespace
 
 	/*プレイヤーUI*/
 	const Vec2 kPSilhouettePos = { 130.0f, 100.0f };		 // プレイヤーのシルエット位置
-	const Vec2 kPNameBackPos = { 280.0f, 58.0f };			 // プレイヤーの名前の背景位置
-	const Vec2 kPNamePos = { 380.0f, 55.0f };				 // プレイヤーの名前位置
+	const Vec2 kPNameBackPos = { 150.0f, 58.0f };			 // プレイヤーの名前の背景位置
+	const Vec2 kPNamePos = { 250.0f, 56.0f };				 // プレイヤーの名前位置
 	const Vec2 kPlayerHpBarLT = { 125.0f, 100.0f };			 // HPバー左上位置
 	const Vec2 kPlayerHpBarRB = { 950.0f, 130.0f };			 // HPバー右下位置
 	const Vec2 kPlayerCurrentHpLT = { 150.0f, 106.0f };		 // 現在のHP左上位置
@@ -59,8 +60,8 @@ namespace
 
 	/*敵UI*/
 	const Vec2 kESilhouettePos = { 1700.0f, 870.0f };		 // 敵キャラクターのシルエット位置
-	const Vec2 kENameBackPos = { 1300.0f, 928.0f };			 // 敵キャラクターの名前の背景位置
-	const Vec2 kENamePos = { 1400.0f, 925.0f };				 // 敵の名前位置
+	const Vec2 kENameBackPos = { 1350.0f, 928.0f };			 // 敵キャラクターの名前の背景位置
+	const Vec2 kENamePos = { 1460.0f, 924.0f };				 // 敵の名前位置
 	const Vec2 kEnemyHpBarLT = { 850.0f, 970.0f };			 // HPバー左上位置
 	const Vec2 kEnemyHpBarRB = { 1850.0f, 1000.0f };		 // HPバー右下位置
 	const Vec2 kEnemyCurrentHpLT = { 885.0f, 976.0f };		 // 現在のHP左上位置
@@ -120,6 +121,7 @@ UIBattle::UIBattle(float maxHp, int charType) :
 	m_handle[HandleKind::kFightText] = LoadGraph("data/UI/fight!.png");
 	m_handle[HandleKind::kGekihaText] = LoadGraph("data/UI/gekiha.png");
 	m_handle[HandleKind::kClearBg] = LoadGraph("data/UI/clearBg.png");
+	m_handle[HandleKind::kGameoverBg] = LoadGraph("data/UI/gameoverBg.png");
 	m_handle[HandleKind::kNumText] = LoadGraph("data/UI/number.png");
 }
 
@@ -195,7 +197,7 @@ void UIBattle::ResetStartProduction()
 void UIBattle::DrawStartProduction(int time, int matchNum, int maxMatch)
 {
 	// 敵の名前を表示
-	if (time > kFightTextDispStart)
+	if (time < kEnemyNameDispStart && time > kFightTextDispStart)
 	{
 		// 敵名のサイズをだんだん小さくする
 		m_enemyNameScale -= kEnemyNameChangeScale;
@@ -263,6 +265,17 @@ void UIBattle::DrawClearProduction(int time)
 		GetGraphSize(m_handle[HandleKind::kGekihaText], &sizeW, &sizeH);
 		DrawRectRotaGraphF(kGekihaTextPos.x, kGekihaTextPos.y, 0, 0, sizeW, sizeH, m_gekihaTextScale, 0.0f, m_handle[HandleKind::kGekihaText], true);
 	}
+}
+
+
+/// <summary>
+/// ゲームオーバー演出を表示
+/// </summary>
+void UIBattle::DrawGameoverProduciton()
+{
+	SetDrawBlendMode(DX_BLENDMODE_MULA, 255);
+	DrawGraph(0 ,0, m_handle[HandleKind::kGameoverBg], true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
 

@@ -18,10 +18,10 @@ namespace
 	const VECTOR kPlayerInitPos = VGet(2600.0f, 69.0f, 4240.0f);  // プレイヤーの初期位置
 	const VECTOR kEnemyInitPos = VGet(2660, 69.0f, 4280.0f);	  // 敵の初期位置
 	constexpr int kChangeColorTime = 220;						  // 画面の表示を変更する時間
-	constexpr int kClearStagingTime = 240;						  // クリア演出の時間
-	constexpr int kNextBattleTime = 240;						  // 次の試合が始まるまでの時間
-	constexpr int kBattleEndSoundTime = 60;						  // コングのSEを鳴らす時間
-	constexpr int kClearBackColor = 0x0f2699;					  // クリア時の背景色
+	constexpr int kClearProductionTime = 240;					  // クリア演出の時間
+	constexpr int kGameoverProductionTime = 240;				  // ゲームオーバー演出の時間
+	constexpr int kNextBattleTime = 360;						  // 次の試合が始まるまでの時間
+	constexpr int kBattleEndSoundTime = 60;						  // クリアのコングのSEを鳴らす時間
 	constexpr int kMULAPal = 240;								  // 乗算ブレンド値
 	constexpr int kAddPal = 80;									  // 加算ブレンド値
 	
@@ -41,7 +41,8 @@ namespace
 SceneStageBase::SceneStageBase() :
 	m_battleNum(0),
 	m_nextBattleTime(kNextBattleTime),
-	m_clearStagingTime(kClearStagingTime),
+	m_clearProductionTime(kClearProductionTime),
+	m_gameoverProductionTime(kGameoverProductionTime),
 	m_elapsedTime(0),
 	m_isPause(false)
 {
@@ -71,7 +72,8 @@ SceneStageBase::SceneStageBase(std::shared_ptr<Player> pPlayer, std::shared_ptr<
 	m_pEnemy(nullptr),
 	m_pUIBattle(nullptr),
 	m_battleNum(0),
-	m_clearStagingTime(0),
+	m_clearProductionTime(0),
+	m_gameoverProductionTime(0),
 	m_nextBattleTime(0),
 	m_elapsedTime(0),
 	m_isPause(false),
@@ -126,11 +128,18 @@ void SceneStageBase::Draw()
 	m_pUIBattle->DrawOperation();	 // 操作説明を表示
 
 	// クリア演出表示
-	const bool isClearProduction = m_clearStagingTime < kClearStagingTime && m_clearStagingTime >= 0;
+	const bool isClearProduction = m_clearProductionTime < kClearProductionTime && m_clearProductionTime >= 0;
 	if (isClearProduction)
 	{
 		m_pPlayer->SetIsClearProduction(true);
-		m_pUIBattle->DrawClearProduction(m_clearStagingTime);
+		m_pUIBattle->DrawClearProduction(m_clearProductionTime);
+	}
+	const bool isGameoverProduction = m_gameoverProductionTime < kGameoverProductionTime && m_gameoverProductionTime >= 0;
+	// ゲームオーバー演出表示
+	if (isGameoverProduction)
+	{
+		m_pPlayer->SetIsGameoverProduction(true);
+		m_pUIBattle->DrawGameoverProduciton();
 	}
 
 	DrawFade();	// フェードインアウト描画
@@ -145,10 +154,10 @@ void SceneStageBase::Draw()
 /// <summary>
 /// クリア演出を行う
 /// </summary>
-void SceneStageBase::ClearStaging()
+void SceneStageBase::ClearProduction()
 {
 	// SEを鳴らす
-	if (m_clearStagingTime >= kClearStagingTime - kBattleEndSoundTime)
+	if (m_clearProductionTime >= kClearProductionTime - kBattleEndSoundTime)
 	{
 		if (!CheckSoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kBattleEnd)]))
 		{
@@ -163,14 +172,14 @@ void SceneStageBase::ClearStaging()
 		}
 	}
 
-	if (m_clearStagingTime >= kClearStagingTime - kChangeColorTime)
+	if (m_clearProductionTime >= kClearProductionTime - kChangeColorTime)
 	{
-		m_clearStagingTime--;
+		m_clearProductionTime--;
 		return;
 	}
 
 	// クリア演出をリセット
-	m_clearStagingTime = 0;
+	m_clearProductionTime = 0;
 	m_pUIBattle->ResetClearProduction();
 	StopSoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kClearCheers)]);
 }
@@ -182,11 +191,23 @@ void SceneStageBase::ClearStaging()
 void SceneStageBase::UpdateNextBattle()
 {
 	m_nextBattleTime = kNextBattleTime;
-	m_clearStagingTime = kClearStagingTime;
+	m_clearProductionTime = kClearProductionTime;
 	m_pUIBattle->ResetStartProduction();
 	m_pUIBattle->SetEnemyKind(m_pEnemy->GetEnemyType());
 	// プレイヤーの位置、カメラ位置を最初の状態に戻す
 	m_pPlayer->Recovery();
 	Init();
 	FadeIn(kFadeFrame); // フェードイン
+}
+
+
+/// <summary>
+/// ゲームオーバー時の演出
+/// </summary>
+void SceneStageBase::GameoverProduction()
+{
+	if (m_gameoverProductionTime >= 0)
+	{
+		m_gameoverProductionTime--;
+	}
 }

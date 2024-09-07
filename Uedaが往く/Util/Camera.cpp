@@ -16,16 +16,19 @@ namespace
 	constexpr float kInitAngleV = -0.3f;					// カメラの初期垂直角度
 	constexpr float kMinAngleV = DX_PI_F * 0.5f - 1.0f;		// 最小の垂直角度
 	constexpr float kMaxAngleV = -DX_PI_F * 0.5f + 0.6f;	// 最大の垂直角度
+	constexpr int kStartProductionTime = 250;				// スタート演出時間
+	constexpr float kStartRotateSpeed = 0.025f;				// スタート時のカメラ回転速度
 }
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
-Camera::Camera():
+Camera::Camera() :
 	m_pos(VGet(0.0f, kHeight, 0.0f)),
 	m_target(VGet(0.0f, 0.0f, 0.0f)),
 	m_angleH(kInitAngleH),
-	m_angleV(kInitAngleV)
+	m_angleV(kInitAngleV),
+	m_startProductionTime(kStartProductionTime)
 {
 	AnalogInput.Rx = 0;
 	AnalogInput.Ry = 0;
@@ -50,6 +53,7 @@ void Camera::Init()
 	m_target = VGet(0.0f, 0.0f, 0.0f);
 	m_angleH = kInitAngleH;
 	m_angleV = kInitAngleV;
+	m_startProductionTime = kStartProductionTime;
 	SetCameraPositionAndTarget_UpVecY(m_pos, m_target);
 	SetCameraNearFar(kNear, kFar);
 }
@@ -62,29 +66,35 @@ void Camera::Update(Input& input, const Player& player)
 {
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &AnalogInput); // 入力状態を取得
 
-	// 左入力
-	if (AnalogInput.Rx < 0.0f)
+	m_startProductionTime--;
+
+	// スタート時はカメラを動かせないようにする
+	if(m_startProductionTime < 0)
 	{
-		m_angleH -= kAngle;
-	}
-	// 右入力
-	if (AnalogInput.Rx > 0.0f)
-	{
-		m_angleH += kAngle;
-	}
-	// 上入力
-	if (AnalogInput.Ry > 0.0f)
-	{
-		m_angleV -= kAngle;
-		// ある一定角度以上にならないようにする
-		m_angleV = std::max(m_angleV, kMaxAngleV);
-	}
-	// 下入力
-	if (AnalogInput.Ry < 0.0f)
-	{
-		m_angleV += kAngle;
-		// ある一定角度以下にならないようにする
-		m_angleV = std::min(kMinAngleV, m_angleV);
+		// 左入力
+		if (AnalogInput.Rx < 0.0f)
+		{
+			m_angleH -= kAngle;
+		}
+		// 右入力
+		if (AnalogInput.Rx > 0.0f)
+		{
+			m_angleH += kAngle;
+		}
+		// 上入力
+		if (AnalogInput.Ry > 0.0f)
+		{
+			m_angleV -= kAngle;
+			// ある一定角度以上にならないようにする
+			m_angleV = std::max(m_angleV, kMaxAngleV);
+		}
+		// 下入力
+		if (AnalogInput.Ry < 0.0f)
+		{
+			m_angleV += kAngle;
+			// ある一定角度以下にならないようにする
+			m_angleV = std::min(kMinAngleV, m_angleV);
+		}
 	}
 
 	// カメラの注視点を設定する
@@ -94,6 +104,19 @@ void Camera::Update(Input& input, const Player& player)
 	FixCameraPos();
 	SetCameraPositionAndTarget_UpVecY(m_pos, m_target);
 }
+
+
+/// <summary>
+/// スタート時のカメラ演出
+/// </summary>
+void Camera::StartProduction()
+{
+	if (m_startProductionTime > 0)
+	{
+		m_angleH += kStartRotateSpeed;
+	}
+}
+
 
 /// <summary>
 /// カメラ位置を補正する

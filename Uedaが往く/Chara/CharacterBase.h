@@ -31,7 +31,8 @@ public:
 	virtual void Draw() = 0;
 	virtual void OnDamage(float damage);		// ダメージを受けた際の処理
 
-	void SetIsClearProduction(bool isClearProduction) { m_isClearProduction = isClearProduction; } // クリア演出状態をセットする
+	void SetIsClearProduction(bool isClearProduction) { m_isClearProduction = isClearProduction; }				// クリア演出状態をセットする
+	void SetIsGameoverProduction(bool isGameoverProduction) { m_isGameoverProduction = isGameoverProduction; }  // ゲームオーバー演出状態をセットする
 
 	VECTOR GetPos() const { return m_pos; }			// 現在地取得
 	float GetHp() const { return m_hp; }			// 現在のHPを取得
@@ -214,6 +215,7 @@ protected:
 	bool m_isReceive;			  // 攻撃を受けている最中かどうか(true:攻撃を受けている)
 	bool m_isSpecialAttack;		  // 必殺技を発動中か(true:発動中)
 	bool m_isClearProduction;	  // クリア演出中か(true:演出中)
+	bool m_isGameoverProduction;  // ゲームオーバー演出中か(true:演出中)
 	State m_currentState;		  // 現在の状態
 	int m_modelHandle;			  // キャラクターの3Dモデル
 

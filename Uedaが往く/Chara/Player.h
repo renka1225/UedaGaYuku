@@ -55,10 +55,14 @@ private:
 	void AdjAttackPos(EnemyBase& enemy);
 	// 敵を倒したとき
 	void DestroyEnemy();
+	// ゲームオーバー時
+	void Gameover();
 	// 移動パラメータを設定する
 	CharacterBase::State UpdateMoveParameter(const Input& input, const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec, VECTOR& moveVec);
 	// プレイヤーの角度を更新
 	void UpdateAngle(EnemyBase& enemy);
+	// パッドの振動をさせる
+	void VibrationPad();
 
 private:
 	// プレイヤー情報
