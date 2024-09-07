@@ -137,8 +137,7 @@ void SceneStageBase::Draw()
 
 #ifdef _DEBUG
 	//TestDrawShadowMap(m_shadowMap, 0, 0, 320, 240); // 画面左上にシャドウマップをテスト描画
-	DrawFormatString(0, 140, 0xffffff, "経過時間:%d", m_elapsedTime);
-	DrawFormatString(0, 180, 0xffffff, "カメラ位置(X:%.2f, Y:%.2f, Z:%.2f)", GetCameraPosition().x, GetCameraPosition().y, GetCameraPosition().z);
+	DrawFormatString(0, 180, 0xffffff, "経過時間:%d", m_elapsedTime);
 #endif
 }
 

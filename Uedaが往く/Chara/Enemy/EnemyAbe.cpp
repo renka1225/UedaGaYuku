@@ -110,7 +110,7 @@ void EnemyAbe::Draw()
 
 #ifdef _DEBUG
 	DebugDraw debug;
-	debug.DrawEnemyInfo(m_pos, m_hp, static_cast<int>(m_currentState));
+	debug.DrawEnemyInfo(m_pos, m_hp, static_cast<int>(m_currentState), m_attackTime);
 	// ìñÇΩÇËîªíËï`âÊ
 	debug.DrawBodyCol(m_col.bodyTopPos, m_col.bodyBottomPos, m_colInfo.bodyRadius); // ëSêg
 	debug.DrawAimCol(m_col.armStartPos, m_col.armEndPos, m_colInfo.aimRadius);		// òr

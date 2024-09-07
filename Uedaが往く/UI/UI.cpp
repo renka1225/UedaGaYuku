@@ -181,8 +181,9 @@ void UI::DrawButtonText()
 /// </summary>
 void UI::DrawTitleButtonText()
 {
-	// テキスト表示
-	DrawFormatString2ToHandle(kTitleButtonTextPos.x, kTitleButtonTextPos.y, kTitleTextColor, kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kTitleButtonText)], "でスキップ");
+	// エッジ付きテキスト表示
+	DrawFormatString2FToHandle(kTitleButtonTextPos.x, kTitleButtonTextPos.y, kTitleTextColor, kTextColor, 
+		Font::m_fontHandle[static_cast<int>(Font::FontId::kTitleButtonText)], "でスキップ");
 
 	// ボタン画像表示
 	DrawRectRotaGraphF(kTitleButtonPos.x, kTitleButtonPos.y, kButtonSize * ButtonKind::kAButton, 0, kButtonSize, kButtonSize, kButtonScale, 0.0f, m_buttonHandle, true);

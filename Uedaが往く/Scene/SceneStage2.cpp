@@ -89,12 +89,7 @@ std::shared_ptr<SceneBase> SceneStage2::Update(Input& input)
 			return std::make_shared<ScenePause>(shared_from_this());
 		}
 
-		// ƒNƒŠƒA‰‰o’†‚Í“®‚¯‚È‚¢‚æ‚¤‚É‚·‚é
-		if (!(m_pEnemy->GetHp() <= 0 && m_clearStagingTime > 0))
-		{
-			m_pCamera->Update(input, *m_pPlayer);
-		}
-
+		m_pCamera->Update(input, *m_pPlayer);
 		m_pPlayer->Update(input, *m_pCamera, *m_pEnemy, *m_pStage);
 		m_pEnemy->Update(*m_pPlayer, *m_pStage, *this);
 

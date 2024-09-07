@@ -119,8 +119,8 @@ std::shared_ptr<SceneBase> SceneStage1::Update(Input& input)
 			return std::make_shared<ScenePause>(shared_from_this());
 		}
 
-		// チュートリアル表示中、クリア演出中は動けないようにする
-		if (!m_isTuto && !(m_pEnemy->GetHp() <= 0 && m_clearStagingTime > 0))
+		// チュートリアル表示中は動けないようにする
+		if (!m_isTuto)
 		{
 			m_pCamera->Update(input, *m_pPlayer);
 			m_pPlayer->Update(input, *m_pCamera, *m_pEnemy, *m_pStage);
@@ -207,14 +207,6 @@ void SceneStage1::Draw()
 /// </summary>
 void SceneStage1::UpdateSound()
 {
-	if (m_nextBattleTime < kStartSeTime)
-	{
-		// 
-		if (!CheckSoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kBattleStart)]))
-		{
-			PlaySoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kBattleStart)], DX_PLAYTYPE_BACK);
-		}
-	}
 	if (m_nextBattleTime < kStartSeTime && m_nextBattleTime > 0)
 	{
 		// 開始時に1度だけSEを流す

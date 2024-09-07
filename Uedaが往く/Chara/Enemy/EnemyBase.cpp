@@ -85,8 +85,20 @@ EnemyBase::CharacterBase::State EnemyBase::UpdateState(Player& player, SceneStag
 	}
 
 	// 特定の場合は状態を更新しない
-	bool isKeepState =  m_isGuard || m_isAttack || (m_currentState == CharacterBase::State::kReceive) || player.GetIsSpecialAttack();
+	bool isKeepState =  
+		   m_isGuard 
+		|| m_isAttack 
+		|| (m_currentState == CharacterBase::State::kReceive) 
+		|| (m_currentState == CharacterBase::State::kDown) 
+		|| player.GetIsSpecialAttack();
 	if (isKeepState) return nextState;
+
+	// 敵のHPが0になった場合
+	if (m_hp <= 0)
+	{
+		Down(); // ダウン処理を行う
+		return m_currentState;
+	}
 
 	// エネミーとプレイヤーの距離を計算
 	m_eToPDirVec = VSub(player.GetPos(), m_pos);
@@ -352,6 +364,19 @@ void EnemyBase::Receive()
 	PlayAnim(CharacterBase::AnimKind::kReceive);
 	m_pEffect->PlayDamageEffect(VGet(m_pos.x, m_pos.y + kEffectHeight, m_pos.z));					// 攻撃エフェクト再生
 	PlaySoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kAttack)], DX_PLAYTYPE_BACK); 	// 攻撃SE再生
+}
+
+
+/// <summary>
+/// ダウン処理
+/// </summary>
+void EnemyBase::Down()
+{
+	m_isAttack = false;
+	m_isFighting = false;
+	m_isGuard = false;
+	PlayAnim(CharacterBase::AnimKind::kDown);
+	m_currentState =  CharacterBase::State::kDown;
 }
 
 

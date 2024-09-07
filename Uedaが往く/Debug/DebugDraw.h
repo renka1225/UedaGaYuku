@@ -8,10 +8,10 @@ class DebugDraw
 public:
 	DebugDraw() {};
 	~DebugDraw() {};
-	void DrawPlayerInfo(VECTOR pos, float hp, int currentState); // ƒvƒŒƒCƒ„[‚Ìî•ñ‚ğ•`‰æ
-	void DrawEnemyInfo(VECTOR pos, float hp, int currentState);  // “G‚Ìî•ñ‚ğ•`‰æ
-	void DrawBodyCol(VECTOR startPos, VECTOR endPos, float r);	 // ‘Sg‚Ì“–‚½‚è”»’è‚ğ•`‰æ
-	void DrawAimCol(VECTOR startPos, VECTOR endPos, float r);	 // ˜r‚Ì“–‚½‚è”»’è‚ğ•`‰æ
-	void DrawLegCol(VECTOR startPos, VECTOR endPos, float r);	 // ‹r‚Ì“–‚½‚è”»’è‚ğ•`‰æ
+	void DrawPlayerInfo(VECTOR pos, float hp, int currentState, int attackTime); // ƒvƒŒƒCƒ„[‚Ìî•ñ‚ğ•`‰æ
+	void DrawEnemyInfo(VECTOR pos, float hp, int currentState, int attackTime);	 // “G‚Ìî•ñ‚ğ•`‰æ
+	void DrawBodyCol(VECTOR startPos, VECTOR endPos, float r);					 // ‘Sg‚Ì“–‚½‚è”»’è‚ğ•`‰æ
+	void DrawAimCol(VECTOR startPos, VECTOR endPos, float r);					 // ˜r‚Ì“–‚½‚è”»’è‚ğ•`‰æ
+	void DrawLegCol(VECTOR startPos, VECTOR endPos, float r);					 // ‹r‚Ì“–‚½‚è”»’è‚ğ•`‰æ
 };
 

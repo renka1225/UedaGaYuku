@@ -25,7 +25,7 @@ CharacterBase::CharacterBase():
 	m_pos(VGet(0.0f, 0.0f, 0.0f)),
 	m_moveSpeed(0.0f),
 	m_angle(0.0f),
-	m_punchCount(0.0f),
+	m_punchCount(0),
 	m_punchComboTime(0),
 	m_punchCoolTime(0),
 	m_kickCoolTime(0),
@@ -382,6 +382,19 @@ void CharacterBase::UpdateAnim()
 		{
 			m_currentAnimCount += m_animSpeed.receive;
 		}
+		else if (m_currentState == CharacterBase::State::kDown)
+		{
+			m_currentAnimCount += m_animSpeed.down;
+
+			// アニメーションを一時停止する
+			if (m_currentAnimCount >= animTotalTime)
+			{
+				m_currentAnimCount = animTotalTime;
+				MV1SetAttachAnimTime(m_modelHandle, m_currentPlayAnim, m_currentAnimCount);
+				MV1SetAttachAnimBlendRate(m_modelHandle, m_currentPlayAnim, m_animBlendRate);
+				return;
+			}
+		}
 		else
 		{
 			m_currentAnimCount += m_animSpeed.fightIdle;
@@ -479,6 +492,10 @@ void CharacterBase::UpdateAnim()
 		else if (m_currentState == CharacterBase::State::kReceive)
 		{
 			m_prevAnimCount += m_animSpeed.receive;
+		}
+		else if (m_currentState == CharacterBase::State::kDown)
+		{
+			m_prevAnimCount += m_animSpeed.down;
 		}
 		else
 		{

@@ -39,7 +39,7 @@ namespace
 	constexpr int kHpColor = 0xff0000;						// HPバーの色
 	constexpr int kDamageHpColor = 0xffd700;				// ダメージ時のHPバーの色
 	constexpr int kpGaugeColor = 0x0000ff;					// ゲージバーの色
-	constexpr int kIntervalTime = 50;						// HPバーが減少するまでの時間
+	constexpr int kIntervalTime = 80;						// HPバーが減少するまでの時間
 
 	/*プレイヤーUI*/
 	const Vec2 kPSilhouettePos = { 130.0f, 100.0f };		 // プレイヤーのシルエット位置
@@ -272,7 +272,7 @@ void UIBattle::DrawClearProduction(int time)
 void UIBattle::DrawPlayerName()
 {
 	DrawGraphF(kPNameBackPos.x, kPNameBackPos.y, m_handle[HandleKind::kNameBack], true);
-	DrawStringToHandle(kPNamePos.x, kPNamePos.y, "Ueda", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
+	DrawStringFToHandle(kPNamePos.x, kPNamePos.y, "Ueda", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
 }
 
 
@@ -327,19 +327,19 @@ void UIBattle::DrawEnemyName(int charType)
 	DrawGraphF(kENameBackPos.x, kENameBackPos.y, m_handle[HandleKind::kNameBack], true);
 	if (charType == HandleKind::kTutoName)
 	{
-		DrawStringToHandle(kENamePos.x, kENamePos.y, "Akagi", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
+		DrawStringFToHandle(kENamePos.x, kENamePos.y, "Akagi", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
 	}
 	if (charType == HandleKind::kNinjaName)
 	{
-		DrawStringToHandle(kENamePos.x, kENamePos.y, "Bob", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
+		DrawStringFToHandle(kENamePos.x, kENamePos.y, "Bob", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
 	}
 	if (charType == HandleKind::kCiefName)
 	{
-		DrawStringToHandle(kENamePos.x, kENamePos.y, "Sato", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
+		DrawStringFToHandle(kENamePos.x, kENamePos.y, "Sato", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
 	}
 	if (charType == HandleKind::kOldManName)
 	{
-		DrawStringToHandle(kENamePos.x, kENamePos.y, "Abe", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
+		DrawStringFToHandle(kENamePos.x, kENamePos.y, "Abe", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kCharaName)]);
 	}
 }
 

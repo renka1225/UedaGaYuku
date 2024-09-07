@@ -51,6 +51,8 @@ private:
 	void Receive();
 	// •KE‹Z
 	void SpecialAttack(const Input& input, EnemyBase& enemy);
+	//UŒ‚ˆÊ’u’²®
+	void AdjAttackPos(EnemyBase& enemy);
 	// “G‚ğ“|‚µ‚½‚Æ‚«
 	void DestroyEnemy();
 	// ˆÚ“®ƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚é

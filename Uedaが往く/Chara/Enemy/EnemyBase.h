@@ -54,6 +54,8 @@ protected:
 	CharacterBase::State OffGuard();
 	// 攻撃を受けている最中の処理
 	void Receive();
+	// ダウン処理
+	void Down();
 	// 敵の角度を更新
 	void UpdateAngle();
 
