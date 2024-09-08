@@ -136,7 +136,17 @@ std::shared_ptr<SceneBase> SceneOption::Update(Input& input)
 		if (m_select == Select::kSound)
 		{
 			m_isSound = true;
-			m_afterSelect = SelectSound::kBGM;
+			
+			// SE‘I‘ğ’†‚ÉOKƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚Ä‚àó‘Ô‚ª•Ï‚í‚ç‚È‚¢‚æ‚¤‚É‚·‚é
+			if (m_afterSelect == SelectSound::kSE)
+			{
+				m_afterSelect = SelectSound::kSE;
+			}
+			else
+			{
+				m_afterSelect = SelectSound::kBGM;
+			}
+
 		}
 		else if (m_select == Select::kWindow)
 		{

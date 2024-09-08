@@ -85,12 +85,13 @@ EnemyBase::CharacterBase::State EnemyBase::UpdateState(Player& player, SceneStag
 	}
 
 	// “Á’è‚Ìê‡‚Íó‘Ô‚ğXV‚µ‚È‚¢
-	bool isKeepState =  
-		   m_isGuard 
-		|| m_isAttack 
-		|| (m_currentState == CharacterBase::State::kReceive) 
-		|| (m_currentState == CharacterBase::State::kDown) 
-		|| player.GetIsSpecialAttack();
+	bool isKeepState =
+		m_isGuard
+		|| m_isAttack
+		|| (m_currentState == CharacterBase::State::kReceive)
+		|| (m_currentState == CharacterBase::State::kDown)
+		|| player.GetIsSpecialAttack()
+		|| player.GetHp() <= 0;
 	if (isKeepState) return nextState;
 
 	// “G‚ÌHP‚ª0‚É‚È‚Á‚½ê‡

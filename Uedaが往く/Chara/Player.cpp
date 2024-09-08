@@ -124,7 +124,7 @@ void Player::Update(const Input& input, const Camera& camera, EnemyBase& enemy, 
 	m_attackTime--;
 
 	// “Á’è‚Ìó‘Ô’†‚Í‚Ù‚©‚Ìˆ—‚ğ‚Å‚«‚È‚¢‚æ‚¤‚É‚·‚é
-	const bool isUpdate = m_currentState == CharacterBase::State::kDown || !m_isSpecialAttack && !m_isStartProduction && !m_isClearProduction && !m_isGameoverProduction;
+	const bool isUpdate = (m_currentState == CharacterBase::State::kDown) || !m_isSpecialAttack && !m_isStartProduction && !m_isClearProduction && !m_isGameoverProduction;
 	if(isUpdate)
 	{	
 		Punch(input);						// ƒpƒ“ƒ`ˆ—
@@ -228,6 +228,7 @@ void Player::OnDamage(float damage)
 	{
 		m_isAttack = false;
 		Receive();
+		OffGuard();
 	}
 }
 
@@ -561,9 +562,7 @@ void Player::Guard(const Input& input)
 	}
 	else if (input.IsReleased("guard"))
 	{
-		m_isGuard = false;
-		m_currentState = CharacterBase::State::kFightIdle;
-		PlayAnim(AnimKind::kFightIdle);
+		OffGuard();
 	}
 }
 

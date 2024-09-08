@@ -73,7 +73,7 @@ namespace
 	const Vec2 kOperationFramePos = { 1720.0f, 280.0f };	 // 枠表示位置
 	const Vec2 kOperationTextPos = { 1730.0f, 300.0f };		 // テキストの表示位置
 	const Vec2 kOperationButtonPos = { 1880.0f, 320.0f };	 // ボタン位置
-	constexpr float kOperationWidth = 300.0f;				 // 枠の横幅
+	constexpr float kOperationWidth = 250.0f;				 // 枠の横幅
 	constexpr float kOperationHeight = 390.0f;				 // 枠の縦幅
 	constexpr int kOperationBackColor = 0x000000;			 // 枠の背景色
 	constexpr int kOperationBackAlpha = 200;				 // α値
@@ -439,6 +439,7 @@ void UIBattle::DrawOperation()
 	// 背景を薄く表示する
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, kOperationBackAlpha);
 	DrawBoxAA(kOperationFramePos.x, kOperationFramePos.y, kOperationFramePos.x + kOperationWidth, kOperationFramePos.y + kOperationHeight, kOperationBackColor, true);
+	DrawBoxAA(kOperationFramePos.x, kOperationFramePos.y, kOperationFramePos.x + kOperationWidth, kOperationFramePos.y + kOperationHeight, 0xff0000, false);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	// テキスト表示

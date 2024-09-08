@@ -97,8 +97,8 @@ void ScenePause::Draw()
 	// 背景表示
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, kAlpha);
 	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, kBackColor, true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	m_pUI->DrawPauseBack();
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	// カーソル表示
 	m_pUI->DrawCursor(kCursorPos, m_select, kSelectTextInterval);
