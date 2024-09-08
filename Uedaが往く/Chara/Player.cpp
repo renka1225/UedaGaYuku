@@ -14,7 +14,7 @@
 namespace
 {
 	/*プレイヤー情報*/
-	constexpr float kMaxGauge = 10.0f;				// 最大ゲージ量
+	constexpr float kMaxGauge = 100.0f;				// 最大ゲージ量
 	constexpr float kPunchGaugeCharge = 2.0f;		// パンチ時に増えるゲージ量
 	constexpr float kKickGaugeCharge = 7.0f;		// キック時に増えるゲージ量
 	constexpr float kDecreaseGauge = 1.5f;			// 攻撃を受けた際に減るゲージ量

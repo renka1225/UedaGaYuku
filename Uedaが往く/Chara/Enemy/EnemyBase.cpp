@@ -375,8 +375,8 @@ void EnemyBase::Down()
 	m_isAttack = false;
 	m_isFighting = false;
 	m_isGuard = false;
+	m_currentState = CharacterBase::State::kDown;
 	PlayAnim(CharacterBase::AnimKind::kDown);
-	m_currentState =  CharacterBase::State::kDown;
 }
 
 
