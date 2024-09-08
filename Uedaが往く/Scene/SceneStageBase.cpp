@@ -21,6 +21,7 @@ namespace
 	constexpr int kClearProductionTime = 240;					  // クリア演出の時間
 	constexpr int kGameoverProductionTime = 240;				  // ゲームオーバー演出の時間
 	constexpr int kNextBattleTime = 360;						  // 次の試合が始まるまでの時間
+	constexpr int kLastAttackSoundTime = 20;					  // 最後の攻撃SEを鳴らす時間
 	constexpr int kBattleEndSoundTime = 60;						  // クリアのコングのSEを鳴らす時間
 	constexpr int kMULAPal = 240;								  // 乗算ブレンド値
 	constexpr int kAddPal = 80;									  // 加算ブレンド値
@@ -157,7 +158,14 @@ void SceneStageBase::Draw()
 void SceneStageBase::ClearProduction()
 {
 	// SEを鳴らす
-	if (m_clearProductionTime >= kClearProductionTime - kBattleEndSoundTime)
+	if (m_clearProductionTime >= kClearProductionTime && m_clearProductionTime >= kClearProductionTime - kLastAttackSoundTime)
+	{
+		if (!CheckSoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kLastAttack)]))
+		{
+			PlaySoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kLastAttack)], DX_PLAYTYPE_BACK);
+		}
+	}
+	else if (m_clearProductionTime >= kClearProductionTime - kBattleEndSoundTime)
 	{
 		if (!CheckSoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kBattleEnd)]))
 		{
@@ -197,6 +205,7 @@ void SceneStageBase::UpdateNextBattle()
 	// プレイヤーの位置、カメラ位置を最初の状態に戻す
 	m_pPlayer->Recovery();
 	Init();
+	m_pPlayer->SetIsStartProduction(true);
 	FadeIn(kFadeFrame); // フェードイン
 }
 

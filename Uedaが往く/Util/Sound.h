@@ -21,19 +21,21 @@ namespace Sound
 	// SEの種類
 	enum class SeKind
 	{
-		kTitleDisp,		// タイトル表示
-		kCursor,		// カーソル移動
-		kSelect,		// 決定
-		kWalk,			// 歩き
-		kRun,			// 走り
-		kAttack,		// 攻撃
-		kGuardAttack,	// ガード時攻撃
-		kSpecialAttack,	// 必殺技
-		kAvoid,			// 回避
-		kBattleStart,	// バトル開始時
-		kBattleEnd,		// バトル終了時
-		kClearCheers,	// クリア時の歓声
-		kSeNum			// SEの数
+		kTitleDisp,			// タイトル表示
+		kCursor,			// カーソル移動
+		kSelect,			// 決定
+		kWalk,				// 歩き
+		kRun,				// 走り
+		kAttack,			// 攻撃
+		kGuardAttack,		// ガード時攻撃
+		kAccumulateGauge,	// 必殺技ゲージが溜まった時
+		kSpecialAttack,		// 必殺技
+		kAvoid,				// 回避
+		kBattleStart,		// バトル開始時
+		kLastAttack,		// 最後に攻撃した時
+		kBattleEnd,			// バトル終了時
+		kClearCheers,		// クリア時の歓声
+		kSeNum				// SEの数
 	};
 
 	void Load();

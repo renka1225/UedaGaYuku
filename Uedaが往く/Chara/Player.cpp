@@ -14,7 +14,7 @@
 namespace
 {
 	/*プレイヤー情報*/
-	constexpr float kMaxGauge = 100.0f;				// 最大ゲージ量
+	constexpr float kMaxGauge = 10.0f;				// 最大ゲージ量
 	constexpr float kPunchGaugeCharge = 2.0f;		// パンチ時に増えるゲージ量
 	constexpr float kKickGaugeCharge = 7.0f;		// キック時に増えるゲージ量
 	constexpr float kDecreaseGauge = 1.5f;			// 攻撃を受けた際に減るゲージ量
@@ -45,7 +45,8 @@ namespace
 Player::Player():
 	m_gauge(0.0f),
 	m_pToEVec(VGet(0.0f, 0.0f, 0.0f)),
-	m_targetMoveDir(kInitDir)
+	m_targetMoveDir(kInitDir),
+	m_isAccumulateGaugeSe(false)
 {
 	// キャラクター情報を読み込む
 	m_pLoadData = std::make_shared<LoadData>(*this, static_cast<int>(CharaType::kPlayer));
@@ -87,9 +88,11 @@ void Player::Init(std::shared_ptr<EffectManager> pEffect, VECTOR pos)
 {
 	m_pos = pos;
 	m_pEffect = pEffect;
-	m_isSpecialAttack = false;
+	m_isStartProduction = true;
 	m_isClearProduction = false;
+	m_isGameoverProduction = false;
 	m_isAttack = false;
+	m_isSpecialAttack = false;
 	m_targetMoveDir = kInitDir;
 	MV1SetPosition(m_modelHandle, m_pos);
 	m_currentState = CharacterBase::State::kFightIdle;
@@ -121,7 +124,7 @@ void Player::Update(const Input& input, const Camera& camera, EnemyBase& enemy, 
 	m_attackTime--;
 
 	// 特定の状態中はほかの処理をできないようにする
-	const bool isUpdate = m_currentState == CharacterBase::State::kDown || !m_isSpecialAttack && !m_isClearProduction && !m_isGameoverProduction;
+	const bool isUpdate = m_currentState == CharacterBase::State::kDown || !m_isSpecialAttack && !m_isStartProduction && !m_isClearProduction && !m_isGameoverProduction;
 	if(isUpdate)
 	{	
 		Punch(input);						// パンチ処理
@@ -133,13 +136,17 @@ void Player::Update(const Input& input, const Camera& camera, EnemyBase& enemy, 
 	else if (m_isClearProduction)
 	{
 		DestroyEnemy();						// 敵撃破時処理
+
 	}
 	else if (m_isGameoverProduction)
 	{
 		Gameover();							// ゲームオーバー処理
 	}
 
-	SpecialAttack(input, enemy);			// 必殺技処理
+	if (!m_isClearProduction && !m_isGameoverProduction)
+	{
+		SpecialAttack(input, enemy);		// 必殺技処理
+	}
 
 	m_currentState = UpdateMoveParameter(input, camera, upMoveVec, leftMoveVec, moveVec); // 移動処理
 
@@ -220,7 +227,6 @@ void Player::OnDamage(float damage)
 	else
 	{
 		m_isAttack = false;
-		m_gauge -= kDecreaseGauge;
 		Receive();
 	}
 }
@@ -327,6 +333,21 @@ void Player::CheckHitEnemyCol(EnemyBase& enemy, VECTOR eCapPosTop, VECTOR eCapPo
 	{
 		// 掴み失敗のアニメーションを再生する
 		PlayAnim(CharacterBase::AnimKind::kStumble);
+	}
+
+	// ゲージが溜まったらSEを再生する
+	if (m_gauge >= kMaxGauge && !m_isAccumulateGaugeSe)
+	{
+		if (!CheckSoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kAccumulateGauge)]))
+		{
+			PlaySoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kAccumulateGauge)], DX_PLAYTYPE_BACK);
+			m_isAccumulateGaugeSe = true;
+		}
+	}
+
+	if (m_gauge < kMaxGauge)
+	{
+		m_isAccumulateGaugeSe = false;
 	}
 
 	// ゲージ量の調整
@@ -567,6 +588,9 @@ void Player::Receive()
 	PlayAnim(CharacterBase::AnimKind::kReceive);
 	m_pEffect->PlayDamageEffect(VGet(m_pos.x, m_pos.y + kEffectHeight, m_pos.z));				 // 攻撃エフェクト表示
 	PlaySoundMem(Sound::m_seHandle[static_cast<int>(Sound::SeKind::kAttack)], DX_PLAYTYPE_BACK); // 攻撃SE再生
+	// ゲージを減らす
+	m_gauge -= kDecreaseGauge;
+	m_pUIBattle->ResetSpecialAttack();
 }
 
 
@@ -674,7 +698,7 @@ Player::CharacterBase::State Player::UpdateMoveParameter(const Input& input, con
 	bool isPressMove = false;
 
 	// 特定の状態中は動けないようにする
-	const bool isMove = !m_isAttack && !m_isSpecialAttack && !m_isGuard && !m_isClearProduction && !m_isGameoverProduction;
+	const bool isMove = !m_isAttack && !m_isSpecialAttack && !m_isGuard && !m_isStartProduction && !m_isClearProduction && !m_isGameoverProduction;
 	if (isMove)
 	{
 		// ボタンを押したら移動

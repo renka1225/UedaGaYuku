@@ -132,8 +132,17 @@ std::shared_ptr<SceneBase> SceneStage1::Update(Input& input)
 		UpdateTuto(input);	// チュートリアルの表示状態を更新する
 		if (m_isTuto) return shared_from_this();
 
-		m_nextBattleTime--; // 次の試合が始まるまでの時間
-		if (m_nextBattleTime > 0) return shared_from_this();
+		// スタート演出の更新
+		m_nextBattleTime--;
+		if (m_nextBattleTime > 0)
+		{
+			return shared_from_this();
+		}
+		else
+		{
+			m_pPlayer->SetIsStartProduction(false);
+		}
+
 
 		// 敵のHPが0になった場合
 		if (m_pEnemy->GetHp() <= 0)

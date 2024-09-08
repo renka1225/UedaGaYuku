@@ -94,8 +94,16 @@ std::shared_ptr<SceneBase> SceneStage2::Update(Input& input)
 		m_pPlayer->Update(input, *m_pCamera, *m_pEnemy, *m_pStage);
 		m_pEnemy->Update(*m_pPlayer, *m_pStage, *this);
 
+		// スタート演出の更新
 		m_nextBattleTime--;
-		if (m_nextBattleTime > 0) return shared_from_this();
+		if (m_nextBattleTime > 0)
+		{
+			return shared_from_this();
+		}
+		else
+		{
+			m_pPlayer->SetIsStartProduction(false);
+		}
 		
 		// 敵のHPが0になった場合
 		if (m_pEnemy->GetHp() <= 0)

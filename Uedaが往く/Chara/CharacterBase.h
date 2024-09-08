@@ -31,6 +31,7 @@ public:
 	virtual void Draw() = 0;
 	virtual void OnDamage(float damage);		// ダメージを受けた際の処理
 
+	void SetIsStartProduction(bool isStartProduction) { m_isStartProduction = isStartProduction; }				// スタート演出状態をセットする
 	void SetIsClearProduction(bool isClearProduction) { m_isClearProduction = isClearProduction; }				// クリア演出状態をセットする
 	void SetIsGameoverProduction(bool isGameoverProduction) { m_isGameoverProduction = isGameoverProduction; }  // ゲームオーバー演出状態をセットする
 
@@ -214,6 +215,7 @@ protected:
 	bool m_isFighting;			  // 構え中かどうか(true:構え中)
 	bool m_isReceive;			  // 攻撃を受けている最中かどうか(true:攻撃を受けている)
 	bool m_isSpecialAttack;		  // 必殺技を発動中か(true:発動中)
+	bool m_isStartProduction;	  // スタート演出中か(true:演出中)
 	bool m_isClearProduction;	  // クリア演出中か(true:演出中)
 	bool m_isGameoverProduction;  // ゲームオーバー演出中か(true:演出中)
 	State m_currentState;		  // 現在の状態

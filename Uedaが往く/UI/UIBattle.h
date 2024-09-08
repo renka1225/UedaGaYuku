@@ -25,6 +25,7 @@ public:
 	void DrawEnemyHp(float currentHp);								 // 敵のHPバーを表示
 	void DrawPlayerSilhouette();									 // シルエットを表示
 	void DrawEnemySilhouette(int charType);							 // シルエットを表示
+	void ResetSpecialAttack();										 // 必殺技の表示をリセットする
 	void DrawSpecialAttack();										 // 必殺技のテキスト表示
 	void DrawOperation();											 // 操作説明を表示
 	void DrawTutoButtonText();										 // チュートリアル画面のボタン表示
@@ -40,6 +41,7 @@ private:
 	int m_currentEnemy;				// 現在の敵
 	float m_enemyNameScale;			// 敵名前の拡大率
 	float m_gekihaTextScale;		// "撃破"テキストの拡大率
+	float m_specialTextScale;		// "必殺技"テキストの拡大率
 	std::vector<int> m_handle;		// ハンドル
 
 	// 画像の種類
@@ -67,6 +69,7 @@ private:
 		kCameraMove,	// カメラ移動
 		kPunch,			// パンチ
 		kKick,			// キック
+		kSpecialAttack, // 必殺技
 		kAvoid,			// 回避
 		kGuard,			// ガード
 		kRockon,		// ロックオン

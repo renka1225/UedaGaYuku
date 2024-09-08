@@ -36,6 +36,7 @@ CharacterBase::CharacterBase():
 	m_isGuard(false),
 	m_isReceive(false),
 	m_isSpecialAttack(false),
+	m_isStartProduction(false),
 	m_isClearProduction(false),
 	m_isGameoverProduction(false),
 	m_modelHandle(-1),

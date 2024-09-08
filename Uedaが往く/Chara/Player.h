@@ -69,4 +69,5 @@ private:
 	VECTOR m_pToEVec;			// プレイヤーから敵に向かうベクトル
 	VECTOR m_targetMoveDir;		// 向くべき方向のベクトル
 	float m_gauge;				// ゲージ量
+	bool m_isAccumulateGaugeSe;	// ゲージが溜まったSEを再生するかどうか(true:再生する)
 };

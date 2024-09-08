@@ -74,7 +74,7 @@ namespace
 	const Vec2 kOperationTextPos = { 1730.0f, 300.0f };		 // テキストの表示位置
 	const Vec2 kOperationButtonPos = { 1880.0f, 320.0f };	 // ボタン位置
 	constexpr float kOperationWidth = 300.0f;				 // 枠の横幅
-	constexpr float kOperationHeight = 350.0f;				 // 枠の縦幅
+	constexpr float kOperationHeight = 390.0f;				 // 枠の縦幅
 	constexpr int kOperationBackColor = 0x000000;			 // 枠の背景色
 	constexpr int kOperationBackAlpha = 200;				 // α値
 	constexpr int kButtonSize = 32;						 	 // ボタン画像のサイズ
@@ -89,6 +89,9 @@ namespace
 	constexpr int kSpecialAttackTextColor = 0x1470cc;		 // テキストの色
 	constexpr int kSpecialAttackTextEdgeColor = 0x0a3866;	 // テキスト縁の色
 	constexpr int kMaxPal = 255;							 // 最大加算値
+	constexpr float kSpecialTextMinScale = 1.0f;			 // "必殺技"テキスト最小サイズ
+	constexpr float kSpecialTextMaxScale = 8.0f;			 // "必殺技"テキスト最大サイズ
+	constexpr float kSpecialTextChangeScale = 0.6f;			 // "必殺技"テキストサイズ変化量
 
 	/*チュートリアル*/
 	const Vec2 kTutoTextPos = { 1300.0f, 770.0f };			// テキスト位置
@@ -108,6 +111,7 @@ UIBattle::UIBattle(float maxHp, int charType) :
 	m_intervalTime(0),
 	m_enemyNameScale(kEnemyNameMaxScale),
 	m_gekihaTextScale(kGekihaTextMaxScale),
+	m_specialTextScale(),
 	m_currentEnemy(charType)
 {
 	m_handle.resize(HandleKind::kHandleNum);
@@ -273,7 +277,7 @@ void UIBattle::DrawClearProduction(int time)
 /// </summary>
 void UIBattle::DrawGameoverProduciton()
 {
-	SetDrawBlendMode(DX_BLENDMODE_MULA, 255);
+	SetDrawBlendMode(DX_BLENDMODE_MULA, kMULAPal);
 	DrawGraph(0 ,0, m_handle[HandleKind::kGameoverBg], true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
@@ -301,7 +305,6 @@ void UIBattle::DrawPlayerHP(float currentHp)
 	float decreaseHpRatio = (currentHp + m_damage) / m_maxHp;
 	float hpLength = kPlayerHpWidth * hpRatio;
 	float decreaseHpLength = kPlayerHpWidth * decreaseHpRatio;
-
 
 	// バーの背景部分
 	DrawExtendGraphF(kPlayerHpBarLT.x, kPlayerHpBarLT.y, kPlayerHpBarRB.x, kPlayerHpBarRB.y, m_handle[HandleKind::kGaugeBar], true);
@@ -400,13 +403,27 @@ void UIBattle::DrawEnemySilhouette(int charType)
 
 
 /// <summary>
+/// 必殺技の表示をリセットする
+/// </summary>
+void UIBattle::ResetSpecialAttack()
+{
+	m_specialTextScale = kSpecialTextMaxScale;
+}
+
+
+/// <summary>
 /// 必殺技のテキスト表示
 /// </summary>
 void UIBattle::DrawSpecialAttack()
 {
-	DrawStringFToHandle(kSpecialAttackTextPos.x, kSpecialAttackTextPos.y, "必殺技", kSpecialAttackTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kSpecialAttack)], kSpecialAttackTextEdgeColor);
+	m_specialTextScale -= kSpecialTextChangeScale;
+	m_specialTextScale = std::max(kSpecialTextMinScale, m_specialTextScale);
+
+	DrawExtendStringFToHandle(kSpecialAttackTextPos.x, kSpecialAttackTextPos.y, m_specialTextScale, m_specialTextScale, "必殺技",
+		kSpecialAttackTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kSpecialAttack)], kSpecialAttackTextEdgeColor);
 	SetDrawBlendMode(DX_BLENDMODE_ADD, kMaxPal);
-	DrawStringFToHandle(kSpecialAttackTextPos.x, kSpecialAttackTextPos.y, "必殺技", kSpecialAttackTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kSpecialAttack)]);
+	DrawExtendStringFToHandle(kSpecialAttackTextPos.x, kSpecialAttackTextPos.y, m_specialTextScale, m_specialTextScale, "必殺技",
+		kSpecialAttackTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kSpecialAttack)]);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	// ボタン画像表示
@@ -433,6 +450,8 @@ void UIBattle::DrawOperation()
 		"パンチ", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kOperation)]);
 	DrawStringFToHandle(kOperationTextPos.x, kOperationTextPos.y + kOperationInterval * OperationOrder::kKick,
 		"キック", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kOperation)]);
+	DrawStringFToHandle(kOperationTextPos.x, kOperationTextPos.y + kOperationInterval * OperationOrder::kSpecialAttack,
+		"必殺技", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kOperation)]);
 	DrawStringFToHandle(kOperationTextPos.x, kOperationTextPos.y + kOperationInterval * OperationOrder::kAvoid,
 		"回避", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kOperation)]);
 	DrawStringFToHandle(kOperationTextPos.x, kOperationTextPos.y + kOperationInterval * OperationOrder::kGuard,
@@ -451,6 +470,8 @@ void UIBattle::DrawOperation()
 		kButtonSize * ButtonKind::kXButton, 0, kButtonSize, kButtonSize, kOperationButtonScale, 0.0f, m_buttonHandle, true);	// X
 	DrawRectRotaGraphF(kOperationButtonPos.x, kOperationButtonPos.y + kOperationInterval * OperationOrder::kKick,
 		kButtonSize * ButtonKind::kYButton, 0, kButtonSize, kButtonSize, kOperationButtonScale, 0.0f, m_buttonHandle, true);	// Y
+	DrawRectRotaGraphF(kOperationButtonPos.x, kOperationButtonPos.y + kOperationInterval * OperationOrder::kSpecialAttack,
+		kButtonSize * ButtonKind::kBButton, 0, kButtonSize, kButtonSize, kOperationButtonScale, 0.0f, m_buttonHandle, true);	// B
 	DrawRectRotaGraphF(kOperationButtonPos.x, kOperationButtonPos.y + kOperationInterval * OperationOrder::kAvoid,
 		kButtonSize * ButtonKind::kAButton, 0, kButtonSize, kButtonSize, kOperationButtonScale, 0.0f, m_buttonHandle, true);	// A
 	DrawRectRotaGraphF(kOperationButtonPos.x, kOperationButtonPos.y + kOperationInterval * OperationOrder::kGuard,
