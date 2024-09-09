@@ -27,6 +27,7 @@ private:
 	VECTOR m_target;				// 注視点座標
 	float m_angleH;					// 水平角度
 	float m_angleV;					// 垂直角度
+	int m_lightHandle;				// ライトハンドル
 	int m_startProductionTime;		// スタート演出時間
 	DINPUT_JOYSTATE AnalogInput; 	// パッドアナログ情報取得
 };

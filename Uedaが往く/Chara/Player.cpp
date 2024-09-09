@@ -17,11 +17,11 @@ namespace
 	constexpr float kMaxGauge = 100.0f;				// 最大ゲージ量
 	constexpr float kPunchGaugeCharge = 2.0f;		// パンチ時に増えるゲージ量
 	constexpr float kKickGaugeCharge = 7.0f;		// キック時に増えるゲージ量
-	constexpr float kDecreaseGauge = 1.5f;			// 攻撃を受けた際に減るゲージ量
+	constexpr float kDecreaseGauge = 0.0f;			// 攻撃を受けた際に減るゲージ量
 	constexpr float kAttackDist = 50.0f;			// 攻撃範囲
 	constexpr float kAttackMove = 0.3f;				// 攻撃時の移動量
 	constexpr float kSpecialAttackPower = 30.0f;	// 必殺技の攻撃力
-	constexpr float kHPRecoveryRate = 0.3f;			// プレイヤーのHPが回復する割合
+	constexpr float kHPRecoveryRate = 0.5f;			// プレイヤーのHPが回復する割合
 	constexpr float kAngleSpeed = 0.2f;				// プレイヤー角度の変化速度
 	constexpr float kScale = 0.3f;					// プレイヤーモデルの拡大率
 	constexpr float kAdj = 3.0f;					// 敵に当たった時の位置調整量
@@ -403,6 +403,8 @@ void Player::Punch(const Input& input)
 
 	if (input.IsTriggered("punch"))
 	{
+		m_isGuard = false;
+
 		// コンボ入力受付時間内にボタンが押された場合
 		if (m_punchComboTime > 0)
 		{
@@ -470,6 +472,7 @@ void Player::Kick(const Input& input)
 	{
 		m_isAttack = true;
 		m_isFighting = false;
+		m_isGuard = false;
 		m_kickCoolTime = m_status.kickCoolTime;	// クールダウンタイムを設定
 		m_currentState = CharacterBase::State::kKick;
 		PlayAnim(AnimKind::kKick);
@@ -495,6 +498,7 @@ void Player::Avoid(const Input& input, Stage& stage, VECTOR& moveVec)
 	if (input.IsTriggered("avoidance"))
 	{
 		m_isFighting = false;
+		m_isGuard = false;
 		m_avoidCount++;
 		// 回避数が最大になった場合
 		if (m_avoidCount > m_status.maxAvoidCount)
@@ -535,6 +539,7 @@ void Player::Fighting(const Input& input)
 	if (input.IsTriggered("fighting"))
 	{
 		m_isFighting = true;
+		m_isGuard = false;
 		m_currentState = CharacterBase::State::kFightWalk;
 		PlayAnim(AnimKind::kFightWalk);
 	}

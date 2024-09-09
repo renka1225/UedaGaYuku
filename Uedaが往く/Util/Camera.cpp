@@ -28,6 +28,7 @@ Camera::Camera() :
 	m_target(VGet(0.0f, 0.0f, 0.0f)),
 	m_angleH(kInitAngleH),
 	m_angleV(kInitAngleV),
+	m_lightHandle(-1),
 	m_startProductionTime(kStartProductionTime)
 {
 	AnalogInput.Rx = 0;
@@ -103,6 +104,9 @@ void Camera::Update(Input& input, const Player& player)
 	// カメラ位置補正
 	FixCameraPos();
 	SetCameraPositionAndTarget_UpVecY(m_pos, m_target);
+
+	//カメラの見ている方向にディレクションライトを設定する
+	SetLightDirectionHandle(m_lightHandle, VNorm(VSub(m_target, m_pos)));
 }
 
 
