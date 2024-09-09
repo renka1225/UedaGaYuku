@@ -17,14 +17,17 @@
 // 定数
 namespace
 {
-	constexpr int kTextColor = 0xffffff;		// テキストの色
-	constexpr int kBackColor = 0x1a0306;		// 背景の色
-	const Vec2 kHaibokuTextPos = { 670, 120 };	// 敗北のテキスト画像表示位置
-	const Vec2 kRetryTextPos = { 870, 630 };	// "リトライ"表示位置
-	const Vec2 kStageTextPos = { 720, 760 };	// "ステージ選択にもどる"表示位置
-	const Vec2 kTitleTextPos = { 770, 890 };	// "タイトルにもどる"表示位置
-	const Vec2 kCursorPos = { 720, 620 };		// カーソル表示位置
-	constexpr float kCursorMove = 130.0f;		// カーソルの移動量
+	constexpr int kTextColor = 0xffffff;				// テキストの色
+	constexpr int kBackColor = 0x1a0306;				// 背景の色
+	constexpr float kBgScale = 0.35f;					// 背景画像のサイズ
+	constexpr float kBgRota = 12.0f* DX_PI_F / 180.0f;	// 背景画像の角度
+	const Vec2 kBgPos = { 920.0f, 570.0f };				// 背景画像表示位置
+	const Vec2 kHaibokuTextPos = { 670.0f, 120.0f };	// 敗北のテキスト画像表示位置
+	const Vec2 kRetryTextPos = { 870.0f, 630.0f };		// "リトライ"表示位置
+	const Vec2 kStageTextPos = { 720.0f, 760.0f };		// "ステージ選択にもどる"表示位置
+	const Vec2 kTitleTextPos = { 770.0f, 890.0f };		// "タイトルにもどる"表示位置
+	const Vec2 kCursorPos = { 720.0f, 620.0f };			// カーソル表示位置
+	constexpr float kCursorMove = 130.0f;				// カーソルの移動量
 
 	constexpr int kStartFadeAlpha = 255; // スタート時のフェード値
 	constexpr int kFadeFrame = 2;		 // フェード変化量
@@ -41,6 +44,7 @@ SceneGameover::SceneGameover(std::shared_ptr<SceneBase> pScene)
 	m_select = Select::kRetry;
 	m_pPrevScene = pScene;
 	m_textHandle = LoadGraph("data/UI/haiboku.png");
+	m_backHandle = LoadGraph("data/UI/syakuyousyo.png");
 }
 
 
@@ -69,16 +73,17 @@ void SceneGameover::Init()
 /// <returns></returns>
 std::shared_ptr<SceneBase> SceneGameover::Update(Input& input)
 {
-	FadeOut(kFadeFrame); // フェードアウト
-
-	UpdateSelect(input, Select::kSelectNum); 	// 選択状態更新
-	m_pUI->Update();
-
 	// BGMを鳴らす
 	if (!CheckSoundMem(Sound::m_bgmHandle[static_cast<int>(Sound::BgmKind::kGameover)]))
 	{
 		PlaySoundMem(Sound::m_bgmHandle[static_cast<int>(Sound::BgmKind::kGameover)], DX_PLAYTYPE_LOOP);
 	}
+
+	UpdateSelect(input, Select::kSelectNum); 	// 選択状態更新
+	m_pUI->Update();
+
+	FadeOut(kFadeFrame);	// フェードアウト
+	if (m_isFadeOut) return shared_from_this(); // フェード中は操作できないようにする
 
 	if (input.IsTriggered("OK"))
 	{
@@ -122,10 +127,15 @@ std::shared_ptr<SceneBase> SceneGameover::Update(Input& input)
 /// </summary>
 void SceneGameover::Draw()
 {
+	// 背景表示
 	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, kBackColor, true);
+	DrawRotaGraphF(kBgPos.x, kBgPos.y, kBgScale, kBgRota, m_backHandle, true);
 
 	// 敗北の文字を表示
 	DrawGraphF(kHaibokuTextPos.x, kHaibokuTextPos.y, m_textHandle, true);
+
+	// 枠表示
+	m_pUI->DrawGameoverBgFrame();
 
 	// カーソル表示
 	m_pUI->DrawCursor(kCursorPos, m_select, kCursorMove);

@@ -19,15 +19,16 @@ public:
 
 protected:
 	void UpdateSelect(Input& input, int selectNum);	// 選択状態を更新
-	virtual void FadeIn(int fadeFrame);		// フェードインの処理
-	virtual void FadeOut(int fadeFrame);	// フェードアウトの処理
-	void DrawFade();						// フェードインアウトの描画
+	virtual void FadeIn(int fadeFrame);				// フェードインの処理
+	virtual void FadeOut(int fadeFrame);			// フェードアウトの処理
+	void DrawFade();								// フェードインアウトの描画
 
 protected:
 	std::shared_ptr<Ranking> m_pRank;
 	std::shared_ptr<UI> m_pUI;	// UIのポインタ
 	int m_select;				// 現在の選択状態
 	int m_fadeAlpha;			// フェードのα値
+	int m_isFadeOut;				// フェード中かどうか(true:フェード中)
 
 	// ステージの種類
 	enum StageKind

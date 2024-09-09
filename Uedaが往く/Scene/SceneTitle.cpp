@@ -89,7 +89,8 @@ void SceneTitle::Init()
 /// <returns>遷移先のポインタ</returns>
 std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 {
-	FadeOut(kFadeFrame); // フェードアウト
+	FadeOut(kFadeFrame);	// フェードアウト
+	if (m_isFadeOut) return shared_from_this(); // フェード中は操作できないようにする
 
 	m_opStartTime--;	 // opを再生するまでの時間を更新
 

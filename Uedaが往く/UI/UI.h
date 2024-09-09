@@ -18,6 +18,7 @@ public:
 	void DrawTitleButtonText();	// タイトル画面でのボタンテキスト表示
 	void DrawClearButtonText();	// クリア画面でのボタンテキスト表示
 	void DrawClearBgFrame();	// クリア画面の背景枠表示
+	void DrawGameoverBgFrame();	// ゲームオーバー画面の背景枠表示
 
 
 protected:

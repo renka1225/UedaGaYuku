@@ -33,11 +33,11 @@ namespace Font
 		kSelectStage = kSize48_4,		// ステージ選択で使う文字サイズ
 		kIntroductionText = kSize48_4,	// ステージ紹介の文字サイズ
 		/*SceneOption*/
-		kOption = kSize48_4,	  // オプションで使用する文字サイズ
+		kOption = kSize48_4,			// オプションで使用する文字サイズ
 		/* ScenePause*/
-		kPause = kSize42_4_EDGE,  // ポーズ画面で使用する文字サイズ
+		kPause = kSize42_4_EDGE,		// ポーズ画面で使用する文字サイズ
 		// SceneGameover
-		kGameover = kSize48_4,	  // ゲームオーバーで使う文字サイズ
+		kGameover = kSize48_4_EDGE,		// ゲームオーバーで使う文字サイズ
 		/*SceneClear*/
 		kClearTime = kSize42_4_EDGE,	// 時間表示で使う文字サイズ
 		/*ランキング*/

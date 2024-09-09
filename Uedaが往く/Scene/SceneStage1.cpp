@@ -143,7 +143,6 @@ std::shared_ptr<SceneBase> SceneStage1::Update(Input& input)
 			m_pPlayer->SetIsStartProduction(false);
 		}
 
-
 		// “G‚ÌHP‚ª0‚É‚È‚Á‚½ê‡
 		if (m_pEnemy->GetHp() <= 0)
 		{

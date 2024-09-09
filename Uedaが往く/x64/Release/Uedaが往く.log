@@ -35,7 +35,7 @@
   Vec2.cpp
   コード生成しています。
   Previous IPDB not found, fall back to full compilation.
-  All 2022 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 2000 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   コード生成が終了しました。
-EffekseerForDXLib_vs2019_x64.lib(EffekseerForDXLib.obj) : warning LNK4099: PDB 'EffekseerForDXLib_vs2019_x64.pdb' が 'EffekseerForDXLib_vs2019_x64.lib(EffekseerForDXLib.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Release\EffekseerForDXLib_vs2019_x64.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-  Uedaが往く.vcxproj -> C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Release\Uedaが往く.exe
+EffekseerForDXLib_vs2019_x64.lib(EffekseerForDXLib.obj) : warning LNK4099: PDB '' が 'EffekseerForDXLib_vs2019_x64.lib(EffekseerForDXLib.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+  Uedaが往く.vcxproj -> C:\GitHub\UedaGaYuku\Uedaが往く\x64\Release\Uedaが往く.exe

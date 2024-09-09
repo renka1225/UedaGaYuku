@@ -15,6 +15,7 @@ namespace
 	constexpr int kBackBoxWidth = 490;					// 四角の幅
 	const Vec2 kBackHandleLTPos = { 750.0f, 200.0f };	// 背景画像の左上位置
 	const Vec2 kBackHandleRBPos = { 1779.0f, 670.0f };	// 背景画像の右下位置
+	constexpr int kMulaPal = 255;						// 乗算値
 
 	const Vec2 kTextBoxLTPos = { 750.0f, 700.0f };		// ステージ選択画面のテキストボックス左上位置
 	const Vec2 kTextBoxRBPos = { 1779.0f, 890.0f };		// ステージ選択画面のテキストボックス右下位置
@@ -26,6 +27,9 @@ namespace
 	const Vec2 kClearTimeBgFrameRBPos = { 900, 950 };	// クリア画面(クリアタイム部分)の背景画像右下位置
 	const Vec2 kClearRankBgFrameLTPos = { 950, 420 };	// クリア画面(ランキング部分)の背景画像左上位置
 	const Vec2 kClearRankBgFrameRBPos = { 1800, 950 };	// クリア画面(ランキング部分)の背景画像右下位置
+
+	const Vec2 kGameoverBgFrameLTPos = { 620, 580 };	// ゲームオーバー画面の背景画像左上位置
+	const Vec2 kGameoverBgFrameRBPos = { 1300, 1000 };	// ゲームオーバー画面の背景画像右下位置
 
 	/*カーソル関連*/
 	constexpr float kCursorWidth = 489.0f;				// カーソルの横幅
@@ -209,8 +213,19 @@ void UI::DrawClearButtonText()
 /// </summary>
 void UI::DrawClearBgFrame()
 {
-	SetDrawBlendMode(DX_BLENDMODE_MULA, 255);
+	SetDrawBlendMode(DX_BLENDMODE_MULA, kMulaPal);
 	DrawExtendGraphF(kClearTimeBgFrameLTPos.x, kClearTimeBgFrameLTPos.y, kClearTimeBgFrameRBPos.x, kClearTimeBgFrameRBPos.y, m_handle[HandleKind::kBg], true);
 	DrawExtendGraphF(kClearRankBgFrameLTPos.x, kClearRankBgFrameLTPos.y, kClearRankBgFrameRBPos.x, kClearRankBgFrameRBPos.y, m_handle[HandleKind::kBg], true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+}
+
+
+/// <summary>
+/// ゲームオーバーの背景枠表示
+/// </summary>
+void UI::DrawGameoverBgFrame()
+{
+	SetDrawBlendMode(DX_BLENDMODE_MULA, kMulaPal);
+	DrawExtendGraphF(kGameoverBgFrameLTPos.x, kGameoverBgFrameLTPos.y, kGameoverBgFrameRBPos.x, kGameoverBgFrameRBPos.y, m_handle[HandleKind::kBg], true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

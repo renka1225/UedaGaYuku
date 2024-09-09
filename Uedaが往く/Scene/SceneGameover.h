@@ -19,6 +19,7 @@ public:
 private:
 	std::shared_ptr<SceneBase> m_pPrevScene;	// 前に実行していたシーン
 	int m_textHandle;	// テキストの画像
+	int m_backHandle;	// 背景の画像
 
 	// 選択項目
 	enum Select

@@ -388,7 +388,7 @@ void Player::Move(const VECTOR& moveVec, Stage& stage)
 void Player::Punch(const Input& input)
 {
 	// 特定の状態中はスキップ
-	const bool isSkip = m_isAttack || m_isReceive || m_isGuard;
+	const bool isSkip = m_isAttack || m_isReceive || m_isGuard || m_isClearProduction || m_hp <= 0;
 	if (isSkip) return;
 
 	// パンチできない場合
@@ -458,7 +458,7 @@ void Player::Punch(const Input& input)
 void Player::Kick(const Input& input)
 {
 	// 特定の状態中はスキップ
-	const bool isSkip = m_isAttack || m_isReceive || m_isGuard;
+	const bool isSkip = m_isAttack || m_isReceive || m_isClearProduction || m_isGuard || m_hp <= 0;;
 	if (isSkip) return;
 
 	// キックできない場合
@@ -489,7 +489,7 @@ void Player::Kick(const Input& input)
 void Player::Avoid(const Input& input, Stage& stage, VECTOR& moveVec)
 {
 	// 特定の状態中はスキップ
-	const bool isSkip = m_isGuard;
+	const bool isSkip = m_isGuard || m_isClearProduction || m_hp <= 0;
 	if (isSkip) return;
 
 	// 回避できない場合
@@ -542,7 +542,7 @@ void Player::Avoid(const Input& input, Stage& stage, VECTOR& moveVec)
 void Player::Fighting(const Input& input)
 {
 	// 特定の状態中はスキップ
-	const bool isSkip = m_isAttack || m_isReceive || m_isGuard;
+	const bool isSkip = m_isAttack || m_isReceive || m_isGuard || m_isClearProduction || m_hp <= 0;
 	if (isSkip) return;
 
 	if (input.IsTriggered("fighting"))
@@ -569,6 +569,8 @@ void Player::Fighting(const Input& input)
 /// <returns>現在の状態</returns>
 void Player::Guard(const Input& input)
 {
+	if (m_isClearProduction || m_hp <= 0) return; // 演出時は操作できないようにする
+	
 	if (input.IsTriggered("guard"))
 	{
 		m_isAttack = false;

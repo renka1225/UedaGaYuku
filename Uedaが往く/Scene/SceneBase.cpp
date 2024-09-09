@@ -18,7 +18,8 @@ namespace
 /// </summary>
 SceneBase::SceneBase():
 	m_select(0),
-	m_fadeAlpha(0)
+	m_fadeAlpha(0),
+	m_isFadeOut(false)
 {
 	m_pUI = std::make_shared<UI>();
 	m_pRank = std::make_shared<Ranking>();
@@ -76,6 +77,15 @@ void SceneBase::FadeOut(int fadeFrame)
 {
 	m_fadeAlpha -= fadeFrame;
 	m_fadeAlpha = std::max(0, m_fadeAlpha);
+
+	if (m_fadeAlpha <= 0)
+	{
+		m_isFadeOut = false;
+	}
+	else
+	{
+		m_isFadeOut = true;
+	}
 }
 
 

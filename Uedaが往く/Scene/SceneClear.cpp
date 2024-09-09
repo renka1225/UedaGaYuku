@@ -96,13 +96,14 @@ void SceneClear::Init()
 /// <returns>遷移先</returns>
 std::shared_ptr<SceneBase> SceneClear::Update(Input& input)
 {
-	FadeOut(kFadeFrame); // フェードアウト
-
 	// BGMを鳴らす
 	if (!CheckSoundMem(Sound::m_bgmHandle[static_cast<int>(Sound::BgmKind::kClear)]))
 	{
 		PlaySoundMem(Sound::m_bgmHandle[static_cast<int>(Sound::BgmKind::kClear)], DX_PLAYTYPE_LOOP);
 	}
+
+	FadeOut(kFadeFrame); // フェードアウト
+	if (m_isFadeOut) return shared_from_this(); // フェードアウト中は操作できないようにする
 
 	if (input.IsTriggered("OK"))
 	{
