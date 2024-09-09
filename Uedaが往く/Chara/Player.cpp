@@ -16,11 +16,10 @@ namespace
 	/*プレイヤー情報*/
 	constexpr float kMaxGauge = 100.0f;				// 最大ゲージ量
 	constexpr float kPunchGaugeCharge = 2.0f;		// パンチ時に増えるゲージ量
-	constexpr float kKickGaugeCharge = 7.0f;		// キック時に増えるゲージ量
+	constexpr float kKickGaugeCharge = 5.0f;		// キック時に増えるゲージ量
 	constexpr float kDecreaseGauge = 0.0f;			// 攻撃を受けた際に減るゲージ量
 	constexpr float kAttackDist = 50.0f;			// 攻撃範囲
 	constexpr float kAttackMove = 0.3f;				// 攻撃時の移動量
-	constexpr float kSpecialAttackPower = 30.0f;	// 必殺技の攻撃力
 	constexpr float kHPRecoveryRate = 0.5f;			// プレイヤーのHPが回復する割合
 	constexpr float kAngleSpeed = 0.2f;				// プレイヤー角度の変化速度
 	constexpr float kScale = 0.3f;					// プレイヤーモデルの拡大率
@@ -388,8 +387,9 @@ void Player::Move(const VECTOR& moveVec, Stage& stage)
 /// <returns>現在の状態</returns>
 void Player::Punch(const Input& input)
 {
-	// 攻撃中はまたは攻撃を受けている最中はスキップ
-	if (m_isAttack || m_isReceive) return;
+	// 特定の状態中はスキップ
+	const bool isSkip = m_isAttack || m_isReceive || m_isGuard;
+	if (isSkip) return;
 
 	// パンチできない場合
 	if (m_punchCoolTime > 0)
@@ -457,8 +457,9 @@ void Player::Punch(const Input& input)
 /// <returns>現在の状態</returns>
 void Player::Kick(const Input& input)
 {
-	// 攻撃中はまたは攻撃を受けている最中はスキップ
-	if (m_isAttack || m_isReceive) return;
+	// 特定の状態中はスキップ
+	const bool isSkip = m_isAttack || m_isReceive || m_isGuard;
+	if (isSkip) return;
 
 	// キックできない場合
 	if (m_kickCoolTime > 0)
@@ -487,6 +488,10 @@ void Player::Kick(const Input& input)
 /// <returns>現在の状態</returns>
 void Player::Avoid(const Input& input, Stage& stage, VECTOR& moveVec)
 {
+	// 特定の状態中はスキップ
+	const bool isSkip = m_isGuard;
+	if (isSkip) return;
+
 	// 回避できない場合
 	if (m_avoidCoolTime > 0)
 	{
@@ -536,9 +541,14 @@ void Player::Avoid(const Input& input, Stage& stage, VECTOR& moveVec)
 /// <returns>現在の状態</returns>
 void Player::Fighting(const Input& input)
 {
+	// 特定の状態中はスキップ
+	const bool isSkip = m_isAttack || m_isReceive || m_isGuard;
+	if (isSkip) return;
+
 	if (input.IsTriggered("fighting"))
 	{
 		m_isFighting = true;
+		m_isAttack = false;
 		m_isGuard = false;
 		m_currentState = CharacterBase::State::kFightWalk;
 		PlayAnim(AnimKind::kFightWalk);
@@ -561,7 +571,10 @@ void Player::Guard(const Input& input)
 {
 	if (input.IsTriggered("guard"))
 	{
+		m_isAttack = false;
+		m_isFighting = false;
 		m_isGuard = true;
+		m_attackTime = 0;
 		m_currentState = CharacterBase::State::kGuard;
 		PlayAnim(AnimKind::kGuard);
 	}
@@ -607,7 +620,7 @@ void Player::SpecialAttack(const Input& input, EnemyBase& enemy)
 	if (m_isSpecialAttack)
 	{
 		VibrationPad(); // パッドを振動させる
-		enemy.OnDamage(kSpecialAttackPower);
+		enemy.OnDamage(m_status.specialAttackPower);
 	}
 
 	// プレイヤーと敵の距離を求める

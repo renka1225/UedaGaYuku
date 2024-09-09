@@ -13,7 +13,7 @@ namespace
 	const char* const kColFileName = "data/csv/collision.csv";			// 当たり判定データのファイル名
 	const char* const kEnemyInfoFileName = "data/csv/enemyInfo.csv";	// 敵データのファイル名
 
-	constexpr int kStatusNum = 19;		// 1キャラクターのステータス数
+	constexpr int kStatusNum = 20;		// 1キャラクターのステータス数
 	constexpr int kAnimNum = 17;		// 1キャラクターのアニメーションの数
 	constexpr int kColNum = 16;			// 1キャラクターの当たり判定の情報数
 	constexpr int kEnemyInfoNum = 14;	// 1キャラクターの情報数
@@ -108,15 +108,16 @@ void LoadData::LoadCharaData(CharacterBase& data, int charType)
 	data.m_status.secondPunchPower = m_charData[7 + charType * kStatusNum];
 	data.m_status.thirdPunchPower = m_charData[8 + charType * kStatusNum];
 	data.m_status.kickPower = m_charData[9 + charType * kStatusNum];
-	data.m_status.maxMoveSpeed = m_charData[10 + charType * kStatusNum];
-	data.m_status.fightWalkSpeed = m_charData[11 + charType * kStatusNum];
-	data.m_status.acceleration = m_charData[12 + charType * kStatusNum];
-	data.m_status.deceleration = m_charData[13 + charType * kStatusNum];
-	data.m_status.avoidDist = m_charData[14 + charType * kStatusNum];
-	data.m_status.maxAvoidCount = static_cast<int>(m_charData[15 + charType * kStatusNum]);
-	data.m_status.avoidCoolTime = static_cast<int>(m_charData[16 + charType * kStatusNum]);
-	data.m_status.guardAnimTime = m_charData[17 + charType * kStatusNum];
-	data.m_status.backMove = m_charData[18 + charType * kStatusNum];
+	data.m_status.specialAttackPower = m_charData[10 + charType * kStatusNum];
+	data.m_status.maxMoveSpeed = m_charData[11 + charType * kStatusNum];
+	data.m_status.fightWalkSpeed = m_charData[12 + charType * kStatusNum];
+	data.m_status.acceleration = m_charData[13 + charType * kStatusNum];
+	data.m_status.deceleration = m_charData[14 + charType * kStatusNum];
+	data.m_status.avoidDist = m_charData[15 + charType * kStatusNum];
+	data.m_status.maxAvoidCount = static_cast<int>(m_charData[16 + charType * kStatusNum]);
+	data.m_status.avoidCoolTime = static_cast<int>(m_charData[17 + charType * kStatusNum]);
+	data.m_status.guardAnimTime = m_charData[18 + charType * kStatusNum];
+	data.m_status.backMove = m_charData[19 + charType * kStatusNum];
 }
 
 

@@ -12,11 +12,6 @@ namespace
 {
 	constexpr float kInitAngle = 180.0f;	// 開始時の敵の向く方向
 	constexpr float kEffectHeight = 30.0f;	// エフェクトを表示する高さ
-
-	/*影*/
-	constexpr int kShadowMapSize = 4096;							  // 作成するシャドウマップのサイズ
-	const VECTOR kShadowAreaMinPos = VGet(2000.0f, 50.0f, 4000.0f);	  // シャドウマップに描画する最小範囲
-	const VECTOR kShadowAreaMaxPos = VGet(3500.0f, 100.0f, 5000.0f);  // シャドウマップに描画する最大範囲
 }
 
 
@@ -68,14 +63,20 @@ EnemyBase::CharacterBase::State EnemyBase::UpdateState(Player& player, SceneStag
 		return nextState;
 	}
 
+	// プレイヤーが必殺技を発動時ガードを解除する
+	if (player.GetIsSpecialAttack())
+	{
+		OffGuard();
+	}
+
 	// パンチできない場合
 	if (m_punchCoolTime > 0)
 	{
 		m_punchCoolTime--;
 		return m_currentState;
 	}
-	// コンボ入力の受付時間の更新
-	m_punchComboTime--;
+
+	m_punchComboTime--; // コンボ入力の受付時間の更新
 
 	// キックできない場合
 	if (m_kickCoolTime > 0)
@@ -86,7 +87,7 @@ EnemyBase::CharacterBase::State EnemyBase::UpdateState(Player& player, SceneStag
 
 	// 特定の場合は状態を更新しない
 	bool isKeepState =
-		m_isGuard
+		   m_isGuard
 		|| m_isAttack
 		|| (m_currentState == CharacterBase::State::kReceive)
 		|| (m_currentState == CharacterBase::State::kDown)
@@ -348,6 +349,7 @@ void EnemyBase::UpdateGuard()
 CharacterBase::State EnemyBase::OffGuard()
 {
 	m_isGuard = false;
+	m_guardTime = 0;
 	return CharacterBase::State::kFightIdle;
 }
 

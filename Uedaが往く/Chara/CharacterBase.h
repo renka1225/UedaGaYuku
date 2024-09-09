@@ -130,6 +130,7 @@ public:
 		float secondPunchPower;		// パンチ2コンボ目の攻撃力
 		float thirdPunchPower;		// パンチ3コンボ目の攻撃力
 		float kickPower;			// キックの攻撃力
+		float specialAttackPower;	// 必殺技の攻撃力
 		float maxMoveSpeed;			// 最大の移動速度
 		float fightWalkSpeed;		// 構え時の移動速度
 		float acceleration;			// 加速度

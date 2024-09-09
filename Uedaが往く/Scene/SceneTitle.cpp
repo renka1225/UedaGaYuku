@@ -91,7 +91,7 @@ std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 {
 	FadeOut(kFadeFrame); // フェードアウト
 
-	m_opStartTime--;	// opを再生するまでの時間を更新
+	m_opStartTime--;	 // opを再生するまでの時間を更新
 
 	// 動画を再生する
 	if (m_opStartTime == 0)
@@ -104,7 +104,7 @@ std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 		PlayMovieToGraph(m_handle[HandleKind::kOpMovie]);
 
 		// 動画が終了したかボタンを押した場合タイトルに戻る
-		const bool isMoveStop = TellMovieToGraph(m_handle[HandleKind::kOpMovie]) >= kOpMoveTime || input.IsTriggered("A") || input.IsTriggered("B") || input.IsTriggered("X") || input.IsTriggered("Y");
+		const bool isMoveStop = TellMovieToGraph(m_handle[HandleKind::kOpMovie]) >= kOpMoveTime || input.IsTriggered("A");
 		if (isMoveStop)
 		{
 			PauseMovieToGraph(m_handle[HandleKind::kOpMovie]);
