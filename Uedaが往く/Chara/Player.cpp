@@ -42,7 +42,7 @@ namespace
 /// コンストラクタ
 /// </summary>
 Player::Player():
-	m_gauge(100.0f),
+	m_gauge(0.0f),
 	m_pToEVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_targetMoveDir(kInitDir),
 	m_isAccumulateGaugeSe(false)
