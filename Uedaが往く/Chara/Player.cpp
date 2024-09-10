@@ -237,8 +237,8 @@ void Player::OnDamage(float damage)
 /// </summary>
 void Player::Recovery()
 {
-	// Ÿ‡‚Ì‘O‚ÉHP‚ğ‰ñ•œ‚·‚é
-	m_hp = std::min(m_hp + m_status.maxHp * kHPRecoveryRate, m_status.maxHp);
+	// Ÿ‡‚Ì‘O‚ÉHP‚ğ‘S‰ñ•œ‚·‚é
+	m_hp = std::min(m_hp + m_status.maxHp, m_status.maxHp);
 }
 
 

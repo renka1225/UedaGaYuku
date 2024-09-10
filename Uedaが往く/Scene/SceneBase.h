@@ -28,7 +28,7 @@ protected:
 	std::shared_ptr<UI> m_pUI;	// UIのポインタ
 	int m_select;				// 現在の選択状態
 	int m_fadeAlpha;			// フェードのα値
-	int m_isFadeOut;				// フェード中かどうか(true:フェード中)
+	int m_isFadeOut;			// フェード中かどうか(true:フェード中)
 
 	// ステージの種類
 	enum StageKind

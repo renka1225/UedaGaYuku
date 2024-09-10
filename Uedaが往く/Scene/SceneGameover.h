@@ -9,7 +9,7 @@ class SceneStageBase;
 class SceneGameover : public SceneBase
 {
 public:
-	SceneGameover():m_textHandle(-1) {};
+	SceneGameover():m_textHandle(-1), m_backHandle(-1) {};
 	SceneGameover(std::shared_ptr<SceneBase> pScene);
 	virtual ~SceneGameover();
 	virtual void Init();

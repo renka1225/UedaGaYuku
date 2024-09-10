@@ -1,4 +1,39 @@
-﻿  Player.cpp
+﻿  EnemyBase.cpp
+  Player.cpp
+  SceneDebug.cpp
+  SceneBase.cpp
+  SceneClear.cpp
+  SceneGameover.cpp
+  SceneManager.cpp
+  SceneOption.cpp
+  ScenePause.cpp
+  SceneSelectStage.cpp
+  SceneStage1.cpp
   SceneStage2.cpp
+  SceneStageBase.cpp
+  SceneTitle.cpp
   コードを生成中...
-  Uedaが往く.vcxproj -> C:\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Uedaが往く.exe
+Effekseer_vs2019_x64_d.lib(Effekseer.Effect.obj) : warning LNK4099: PDB 'Effekseer.pdb' が 'Effekseer_vs2019_x64_d.lib(Effekseer.Effect.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Effekseer.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(Effekseer.EffectNodeRibbon.obj) : warning LNK4099: PDB 'Effekseer.pdb' が 'Effekseer_vs2019_x64_d.lib(Effekseer.EffectNodeRibbon.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Effekseer.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(Effekseer.EffectNodeRing.obj) : warning LNK4099: PDB 'Effekseer.pdb' が 'Effekseer_vs2019_x64_d.lib(Effekseer.EffectNodeRing.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Effekseer.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(Effekseer.EffectNodeSprite.obj) : warning LNK4099: PDB 'Effekseer.pdb' が 'Effekseer_vs2019_x64_d.lib(Effekseer.EffectNodeSprite.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Effekseer.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(Effekseer.FCurves.obj) : warning LNK4099: PDB 'Effekseer.pdb' が 'Effekseer_vs2019_x64_d.lib(Effekseer.FCurves.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Effekseer.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(Effekseer.Instance.obj) : warning LNK4099: PDB 'Effekseer.pdb' が 'Effekseer_vs2019_x64_d.lib(Effekseer.Instance.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Effekseer.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(Effekseer.Matrix43.obj) : warning LNK4099: PDB 'Effekseer.pdb' が 'Effekseer_vs2019_x64_d.lib(Effekseer.Matrix43.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Effekseer.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(Effekseer.Matrix44.obj) : warning LNK4099: PDB 'Effekseer.pdb' が 'Effekseer_vs2019_x64_d.lib(Effekseer.Matrix44.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Effekseer.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(Easing.obj) : warning LNK4099: PDB 'Effekseer.pdb' が 'Effekseer_vs2019_x64_d.lib(Easing.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Effekseer.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(Rotation.obj) : warning LNK4099: PDB 'Effekseer.pdb' が 'Effekseer_vs2019_x64_d.lib(Rotation.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Effekseer.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(Mat43f.obj) : warning LNK4099: PDB 'Effekseer.pdb' が 'Effekseer_vs2019_x64_d.lib(Mat43f.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Effekseer.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(Mat44f.obj) : warning LNK4099: PDB 'Effekseer.pdb' が 'Effekseer_vs2019_x64_d.lib(Mat44f.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Effekseer.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(CurlNoise.obj) : warning LNK4099: PDB 'Effekseer.pdb' が 'Effekseer_vs2019_x64_d.lib(CurlNoise.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Effekseer.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(ForceFields.obj) : warning LNK4099: PDB 'Effekseer.pdb' が 'Effekseer_vs2019_x64_d.lib(ForceFields.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Effekseer.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(ProceduralModelGenerator.obj) : warning LNK4099: PDB 'Effekseer.pdb' が 'Effekseer_vs2019_x64_d.lib(ProceduralModelGenerator.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Effekseer.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Effekseer_vs2019_x64_d.lib(SplineGenerator.obj) : warning LNK4099: PDB 'Effekseer.pdb' が 'Effekseer_vs2019_x64_d.lib(SplineGenerator.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Effekseer.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+EffekseerRendererDX9_vs2019_x64_d.lib(EffekseerRenderer.CommonUtils.obj) : warning LNK4099: PDB 'EffekseerRendererDX9.pdb' が 'EffekseerRendererDX9_vs2019_x64_d.lib(EffekseerRenderer.CommonUtils.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\EffekseerRendererDX9.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+EffekseerRendererDX9_vs2019_x64_d.lib(EffekseerRenderer.PngTextureLoader.obj) : warning LNK4099: PDB 'EffekseerRendererDX9.pdb' が 'EffekseerRendererDX9_vs2019_x64_d.lib(EffekseerRenderer.PngTextureLoader.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\EffekseerRendererDX9.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+EffekseerRendererDX9_vs2019_x64_d.lib(EffekseerRendererDX9.ModelRenderer.obj) : warning LNK4099: PDB 'EffekseerRendererDX9.pdb' が 'EffekseerRendererDX9_vs2019_x64_d.lib(EffekseerRendererDX9.ModelRenderer.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\EffekseerRendererDX9.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+EffekseerRendererDX9_vs2019_x64_d.lib(EffekseerRendererDX9.Renderer.obj) : warning LNK4099: PDB 'EffekseerRendererDX9.pdb' が 'EffekseerRendererDX9_vs2019_x64_d.lib(EffekseerRendererDX9.Renderer.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\EffekseerRendererDX9.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+EffekseerRendererDX11_vs2019_x64_d.lib(EffekseerRendererDX11.ModelRenderer.obj) : warning LNK4099: PDB 'EffekseerRendererDX11.pdb' が 'EffekseerRendererDX11_vs2019_x64_d.lib(EffekseerRendererDX11.ModelRenderer.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\EffekseerRendererDX11.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+EffekseerRendererDX11_vs2019_x64_d.lib(EffekseerRendererDX11.Renderer.obj) : warning LNK4099: PDB 'EffekseerRendererDX11.pdb' が 'EffekseerRendererDX11_vs2019_x64_d.lib(EffekseerRendererDX11.Renderer.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\EffekseerRendererDX11.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+EffekseerForDXLib_vs2019_x64_d.lib(EffekseerForDXLib.obj) : warning LNK4099: PDB 'EffekseerForDXLib_vs2019_x64_d.pdb' が 'EffekseerForDXLib_vs2019_x64_d.lib(EffekseerForDXLib.obj)' で、または 'C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\EffekseerForDXLib_vs2019_x64_d.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+  Uedaが往く.vcxproj -> C:\Users\fko2347058\Desktop\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Uedaが往く.exe
