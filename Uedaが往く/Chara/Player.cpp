@@ -15,12 +15,12 @@ namespace
 {
 	/*プレイヤー情報*/
 	constexpr float kMaxGauge = 100.0f;				// 最大ゲージ量
-	constexpr float kPunchGaugeCharge = 2.0f;		// パンチ時に増えるゲージ量
+	constexpr float kPunchGaugeCharge = 2.8f;		// パンチ時に増えるゲージ量
 	constexpr float kKickGaugeCharge = 5.0f;		// キック時に増えるゲージ量
 	constexpr float kDecreaseGauge = 0.0f;			// 攻撃を受けた際に減るゲージ量
 	constexpr float kAttackDist = 50.0f;			// 攻撃範囲
 	constexpr float kAttackMove = 0.3f;				// 攻撃時の移動量
-	constexpr float kHPRecoveryRate = 0.5f;			// プレイヤーのHPが回復する割合
+	constexpr float kHPRecoveryRate = 1.0f;			// プレイヤーのHPが回復する割合
 	constexpr float kAngleSpeed = 0.2f;				// プレイヤー角度の変化速度
 	constexpr float kScale = 0.3f;					// プレイヤーモデルの拡大率
 	constexpr float kAdj = 3.0f;					// 敵に当たった時の位置調整量
@@ -42,7 +42,7 @@ namespace
 /// コンストラクタ
 /// </summary>
 Player::Player():
-	m_gauge(0.0f),
+	m_gauge(100.0f),
 	m_pToEVec(VGet(0.0f, 0.0f, 0.0f)),
 	m_targetMoveDir(kInitDir),
 	m_isAccumulateGaugeSe(false)
@@ -183,13 +183,9 @@ void Player::Draw()
 		DrawAfterImage();
 	}
 
-	// プレイヤーと敵の距離を求める
-	float pToEDist = VSize(m_pToEVec);
-	// ゲージが溜まっている、かつ敵に近づいた場合必殺技の文字を表示する
-	if (m_gauge >= kMaxGauge && VSize(m_targetMoveDir) && pToEDist <= kAttackDist)
-	{
-		m_pUIBattle->DrawSpecialAttack();
-	}
+	// 必殺技の文字を表示する
+	m_pUIBattle->DrawSpecialAttack(m_gauge, kMaxGauge);
+
 
 #ifdef _DEBUG	// デバッグ表示
 	DebugDraw debug;
@@ -238,7 +234,7 @@ void Player::OnDamage(float damage)
 void Player::Recovery()
 {
 	// 次試合の前にHPを全回復する
-	m_hp = std::min(m_hp + m_status.maxHp, m_status.maxHp);
+	m_hp = std::min(m_hp + m_status.maxHp * kHPRecoveryRate, m_status.maxHp);
 }
 
 
@@ -440,7 +436,7 @@ void Player::Punch(const Input& input)
 			PlayAnim(AnimKind::kPunch3);
 			break;
 		case 3:
-			m_punchCount = 0;
+			m_punchCount = -1;
 			m_punchCoolTime = m_status.punchCoolTime;	// クールダウンタイムを設定
 			break;
 		default:

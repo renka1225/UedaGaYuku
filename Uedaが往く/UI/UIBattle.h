@@ -26,7 +26,7 @@ public:
 	void DrawPlayerSilhouette();									 // シルエットを表示
 	void DrawEnemySilhouette(int charType);							 // シルエットを表示
 	void ResetSpecialAttack();										 // 必殺技の表示をリセットする
-	void DrawSpecialAttack();										 // 必殺技のテキスト表示
+	void DrawSpecialAttack(float currentGauge, float maxGauge);		 // 必殺技のテキスト表示
 	void DrawOperation();											 // 操作説明を表示
 	void DrawTutoButtonText();										 // チュートリアル画面のボタン表示
 

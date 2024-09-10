@@ -86,7 +86,8 @@ namespace
 	const Vec2 kSpecialAttackButtonPos = { 760.0f, 200.0f }; // ボタン位置 
 	constexpr float kSpecialAttackButtonScale = 1.2f;		 // ボタン拡大率
 	const Vec2 kSpecialAttackTextPos = { 620.0f, 180.0f };	 // テキスト位置
-	constexpr int kSpecialAttackTextColor = 0x1470cc;		 // テキストの色
+	constexpr int kSpecialAttackTextColor = 0x1470cc;		 // 必殺技を放てる場合のテキストの色
+	constexpr int kNotSpecialTextColor = 0x808080;			 // 必殺技が放てない場合のテキストの色
 	constexpr int kSpecialAttackTextEdgeColor = 0x0a3866;	 // テキスト縁の色
 	constexpr int kMaxPal = 255;							 // 最大加算値
 	constexpr float kSpecialTextMinScale = 1.0f;			 // "必殺技"テキスト最小サイズ
@@ -414,20 +415,37 @@ void UIBattle::ResetSpecialAttack()
 /// <summary>
 /// 必殺技のテキスト表示
 /// </summary>
-void UIBattle::DrawSpecialAttack()
+/// <param name="currentGauge">現在の必殺技ゲージ量</param>
+/// <param name="maxGauge">最大ゲージ量</param>
+void UIBattle::DrawSpecialAttack(float currentGauge, float maxGauge)
 {
-	m_specialTextScale -= kSpecialTextChangeScale;
-	m_specialTextScale = std::max(kSpecialTextMinScale, m_specialTextScale);
+	// 必殺技を発動できる場合
+	if (currentGauge >= maxGauge)
+	{
+		m_specialTextScale -= kSpecialTextChangeScale;
+		m_specialTextScale = std::max(kSpecialTextMinScale, m_specialTextScale);
 
-	DrawExtendStringFToHandle(kSpecialAttackTextPos.x, kSpecialAttackTextPos.y, m_specialTextScale, m_specialTextScale, "必殺技",
-		kSpecialAttackTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kSpecialAttack)], kSpecialAttackTextEdgeColor);
-	SetDrawBlendMode(DX_BLENDMODE_ADD, kMaxPal);
-	DrawExtendStringFToHandle(kSpecialAttackTextPos.x, kSpecialAttackTextPos.y, m_specialTextScale, m_specialTextScale, "必殺技",
-		kSpecialAttackTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kSpecialAttack)]);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		DrawExtendStringFToHandle(kSpecialAttackTextPos.x, kSpecialAttackTextPos.y, m_specialTextScale, m_specialTextScale, "必殺技",
+			kSpecialAttackTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kSpecialAttack)], kSpecialAttackTextEdgeColor);
+		SetDrawBlendMode(DX_BLENDMODE_ADD, kMaxPal);
+		DrawExtendStringFToHandle(kSpecialAttackTextPos.x, kSpecialAttackTextPos.y, m_specialTextScale, m_specialTextScale, "必殺技",
+			kSpecialAttackTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kSpecialAttack)]);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	// ボタン画像表示
-	DrawRectRotaGraphF(kSpecialAttackButtonPos.x, kSpecialAttackButtonPos.y, kButtonSize * ButtonKind::kBButton, 0, kButtonSize, kButtonSize, kSpecialAttackButtonScale, 0.0f, m_buttonHandle, true);
+		// ボタン画像表示
+		DrawRectRotaGraphF(kSpecialAttackButtonPos.x, kSpecialAttackButtonPos.y, kButtonSize * ButtonKind::kBButton, 0, 
+			kButtonSize, kButtonSize, kSpecialAttackButtonScale, 0.0f, m_buttonHandle, true);
+
+	}
+	// 必殺技を出せない場合
+	else
+	{
+		m_specialTextScale = kSpecialTextMinScale;
+
+		DrawExtendStringFToHandle(kSpecialAttackTextPos.x, kSpecialAttackTextPos.y, m_specialTextScale, m_specialTextScale, "必殺技",
+			kNotSpecialTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kSpecialAttack)]);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
 }
 
 
