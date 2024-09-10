@@ -26,7 +26,7 @@ namespace
 	const Vec2 kRetryTextPos = { 870.0f, 630.0f };		// "リトライ"表示位置
 	const Vec2 kStageTextPos = { 720.0f, 760.0f };		// "ステージ選択にもどる"表示位置
 	const Vec2 kTitleTextPos = { 770.0f, 890.0f };		// "タイトルにもどる"表示位置
-	const Vec2 kCursorPos = { 720.0f, 620.0f };			// カーソル表示位置
+	const Vec2 kCursorPos = { 720.0f, 615.0f };			// カーソル表示位置
 	constexpr float kCursorMove = 130.0f;				// カーソルの移動量
 
 	constexpr int kStartFadeAlpha = 255; // スタート時のフェード値

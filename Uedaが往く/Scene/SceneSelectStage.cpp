@@ -27,7 +27,7 @@ namespace
 	const Vec2 kSelectTextPos = { 260.0f, 300.0f };			// 選択テキスト表示位置
 	constexpr float kSelectTextInterval = 120.0f;			// 選択テキスト表示間隔
 	constexpr float kSelectTextAdj = 40.0f;					// テキスト表示位置調整
-	const Vec2 kRankingTextPos = { 1150.0f, 250.0f };		// "ランキング"表示位置
+	const Vec2 kRankingTextPos = { 1000.0f, 250.0f };		// "ランキング"表示位置
 	const Vec2 kIntroductionTextPos = { 900.0f, 770.0f };	// ステージ紹介テキスト位置
 	constexpr float kIntroductionTextAdj = 30.0f;			// ステージ紹介テキスト位置調整
 	const Vec2 kCursorLTPos = { 140.0f, 290.0f };			// カーソル左上位置
@@ -167,7 +167,7 @@ void SceneSelectStage::Draw()
 	if (m_select == SelectScene::kStage1 || m_select == SelectScene::kStage2)
 	{
 		DrawStringFToHandle(kRankingTextPos.x, kRankingTextPos.y,
-			"ランキング", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kRankingText)]);
+			"オンラインランキング", kTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kRankingText)]);
 		m_pRank->DrawStageSelectRanking();
 	}
 
