@@ -401,6 +401,16 @@ void Player::Punch(const Input& input)
 	{
 		m_isGuard = false;
 
+		// 敵から一定の角度内を向いている場合、敵の方向を向くようにする
+		// 内積を使って角度を求める
+		float dot = VDot(VNorm(m_pToEVec), VNorm(m_targetMoveDir));
+		float angle = acos(dot) * (180.0f / DX_PI_F);
+		printfDx("%f\n", angle);
+		if (angle <= 90.0f)
+		{
+			m_angle = atan2f(m_pToEVec.x, m_pToEVec.z);
+		}
+
 		// コンボ入力受付時間内にボタンが押された場合
 		if (m_punchComboTime > 0)
 		{
