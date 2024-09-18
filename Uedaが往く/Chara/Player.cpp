@@ -401,15 +401,7 @@ void Player::Punch(const Input& input)
 	{
 		m_isGuard = false;
 
-		// 敵から一定の角度内を向いている場合、敵の方向を向くようにする
-		// 内積を使って角度を求める
-		float dot = VDot(VNorm(m_pToEVec), VNorm(m_targetMoveDir));
-		float angle = acos(dot) * (180.0f / DX_PI_F);
-		printfDx("%f\n", angle);
-		if (angle <= 90.0f)
-		{
-			m_angle = atan2f(m_pToEVec.x, m_pToEVec.z);
-		}
+		UpdateAttackAngle(); // 攻撃角度を更新
 
 		// コンボ入力受付時間内にボタンが押された場合
 		if (m_punchComboTime > 0)
@@ -467,13 +459,14 @@ void Player::Kick(const Input& input)
 	const bool isSkip = m_isAttack || m_isReceive || m_isClearProduction || m_isGuard || m_hp <= 0;;
 	if (isSkip) return;
 
+	UpdateAttackAngle(); // 攻撃角度を更新
+
 	// キックできない場合
 	if (m_kickCoolTime > 0)
 	{
 		m_kickCoolTime--;
 		return;
 	}
-
 	// キック攻撃
 	else if (input.IsTriggered("kick"))
 	{
@@ -576,6 +569,8 @@ void Player::Fighting(const Input& input)
 void Player::Guard(const Input& input)
 {
 	if (m_isClearProduction || m_hp <= 0) return; // 演出時は操作できないようにする
+
+	UpdateAttackAngle(); // 攻撃角度を更新
 	
 	if (input.IsTriggered("guard"))
 	{
@@ -815,6 +810,23 @@ void Player::UpdateAngle(EnemyBase& enemy)
 		m_angle = atan2f(dir.x, dir.z);
 	}
 	else
+	{
+		m_angle = atan2f(m_targetMoveDir.x, m_targetMoveDir.z);
+	}
+	MV1SetRotationXYZ(m_modelHandle, VGet(0.0f, m_angle + DX_PI_F, 0.0f));
+}
+
+
+/// <summary>
+/// 攻撃時の角度を更新する
+/// </summary>
+void Player::UpdateAttackAngle()
+{
+	// 敵から一定の角度内を向いている場合、敵の方向を向くようにする
+	// 内積を使って角度を求める
+	float dot = VDot(VNorm(m_pToEVec), VNorm(m_targetMoveDir));
+	float angle = acos(dot) * (180.0f / DX_PI_F);
+	if (angle <= 90.0f)
 	{
 		m_angle = atan2f(m_targetMoveDir.x, m_targetMoveDir.z);
 	}

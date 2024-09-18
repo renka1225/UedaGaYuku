@@ -61,6 +61,8 @@ private:
 	CharacterBase::State UpdateMoveParameter(const Input& input, const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec, VECTOR& moveVec);
 	// プレイヤーの角度を更新
 	void UpdateAngle(EnemyBase& enemy);
+	// 攻撃時の角度を更新
+	void UpdateAttackAngle();
 	// パッドの振動をさせる
 	void VibrationPad();
 
