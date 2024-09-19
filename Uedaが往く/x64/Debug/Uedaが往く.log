@@ -1,2 +1,13 @@
-﻿  Player.cpp
+﻿  EnemyAbe.cpp
+  EnemyBase.cpp
+  EnemyChef.cpp
+  EnemyNinja.cpp
+  EnemyTuto.cpp
+  Player.cpp
+  EffectManager.cpp
+  SceneStage1.cpp
+  SceneStage2.cpp
+  SceneStageBase.cpp
+  Stage.cpp
+  コードを生成中...
   Uedaが往く.vcxproj -> C:\GitHub\UedaGaYuku\Uedaが往く\x64\Debug\Uedaが往く.exe

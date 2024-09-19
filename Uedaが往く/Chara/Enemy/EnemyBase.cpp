@@ -6,6 +6,7 @@
 #include "Stage.h"
 #include "SceneStageBase.h"
 #include "EnemyBase.h"
+#include "DebugDraw.h"
 
 // 定数
 namespace
@@ -37,6 +38,70 @@ EnemyBase::EnemyBase() :
 /// </summary>
 EnemyBase::~EnemyBase()
 {
+}
+
+
+/// <summary>
+/// 更新
+/// </summary>
+/// <param name="player"></param>
+/// <param name="stage"></param>
+/// <param name="sceneStage"></param>
+void EnemyBase::Update(Player& player, Stage& stage, SceneStageBase& sceneStage)
+{
+	// 移動パラメータを設定する
+	VECTOR	upMoveVec;		// 上ボタンを入力をしたときのプレイヤーの移動方向ベクトル
+	VECTOR	leftMoveVec;	// 左ボタンを入力をしたときのプレイヤーの移動方向ベクトル
+	VECTOR	moveVec;		// このフレームの移動ベクトル
+
+	// エネミーの状態を更新
+	CharacterBase::State prevState = m_currentState;
+
+	// 攻撃処理の更新
+	m_attackTime--;
+
+	// 敵の位置からプレイヤー位置までのベクトルを求める
+	m_eToPDirVec = VSub(player.GetPos(), m_pos);
+
+	// 状態を更新する
+	m_currentState = UpdateState(player, sceneStage, upMoveVec, leftMoveVec, moveVec);
+
+	// プレイヤーとの当たり判定をチェックする
+	player.CheckHitEnemyCol(*this, VGet(m_pos.x, m_pos.y + m_colInfo.bodyHeight, m_pos.z), m_pos, m_colInfo.bodyRadius);
+
+	UpdateAnimState(prevState);		// アニメーション状態を更新
+	UpdateAngle();					// 角度を更新
+	UpdateGuard();					// ガード状態を更新
+	Move(moveVec, player, stage);	// 移動ベクトルを元にエネミーを移動させる
+	UpdateAnim();					// アニメーション処理の更新
+	UpdateCol();					// 当たり判定位置更新
+	UpdatePosLog();					// 位置ログを更新
+	m_pEffect->Update();			// エフェクト更新
+}
+
+
+/// <summary>
+/// 描画
+/// </summary>
+void EnemyBase::Draw()
+{
+	MV1DrawModel(m_modelHandle);
+	m_pEffect->Draw();					// エフェクト描画
+
+	// 回避中は残像を表示する
+	if (m_currentState == State::kAvoid)
+	{
+		DrawAfterImage();
+	}
+
+#ifdef _DEBUG
+	DebugDraw debug;
+	debug.DrawEnemyInfo(m_pos, m_hp, static_cast<int>(m_currentState), m_attackTime);
+	// 当たり判定描画
+	debug.DrawBodyCol(m_col.bodyTopPos, m_col.bodyBottomPos, m_colInfo.bodyRadius); // 全身
+	debug.DrawAimCol(m_col.armStartPos, m_col.armEndPos, m_colInfo.aimRadius);		// 腕
+	debug.DrawLegCol(m_col.legStartPos, m_col.legEndPos, m_colInfo.legRadius);		// 脚
+#endif
 }
 
 

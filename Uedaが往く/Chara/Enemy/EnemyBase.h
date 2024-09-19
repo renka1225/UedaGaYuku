@@ -15,8 +15,8 @@ public:
 	EnemyBase();
 	virtual ~EnemyBase();
 	virtual void Init(std::shared_ptr<EffectManager> pEffect, VECTOR pos) = 0;
-	virtual void Update(Player& player, Stage& stage, SceneStageBase& sceneStage) = 0;
-	virtual void Draw() = 0;
+	virtual void Update(Player& player, Stage& stage, SceneStageBase& sceneStage);
+	virtual void Draw();
 	virtual void DrawUi() = 0; // UI‚Ì•\¦
 	// UŒ‚‚ğó‚¯‚½Û‚Ìˆ—
 	virtual void OnDamage(float damage) override;
