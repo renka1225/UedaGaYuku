@@ -28,7 +28,7 @@ namespace
 	/*クリア時*/
 	const Vec2 kClearBgPos = { 200, 0 };					// クリア背景位置
 	const Vec2 kGekihaTextPos = { 950, 500 };				// "撃破"テキスト位置
-	constexpr int kGekihaDispTime = 140;				    // "撃破"テキストを表示しはじめる時間
+	constexpr int kGekihaDispTime = 120;				    // "撃破"テキストを表示しはじめる時間
 	constexpr float kGekihaTextMinScale = 1.0f;				// "撃破"テキスト最小サイズ
 	constexpr float kGekihaTextMaxScale = 10.0f;			// "撃破"テキスト最大サイズ
 	constexpr float kGekihaTextChangeScale = 0.6f;			// "撃破"テキストサイズ変化量
