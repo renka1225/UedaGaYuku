@@ -18,6 +18,7 @@ namespace Font
 		kSize42_4_EDGE,
 		kSize40_4,
 		kSize36_4_EDGE,
+		kSize34_4_EDGE,
 		kSize30_4_EDGE,
 		kSize28_4,
 		kSize24_4,
@@ -55,7 +56,7 @@ namespace Font
 		/*操作説明*/
 		kOperation = kSize24_4_EDGE,
 		/*必殺技*/
-		kSpecialAttack = kSize36_4_EDGE,
+		kSpecialAttack = kSize34_4_EDGE,
 	};
 
 	// フォントのロード、アンロード

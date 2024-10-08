@@ -34,7 +34,7 @@ namespace
 
 	/* OP“®‰æ*/
 	constexpr int kOpMoveTime = 65010;				// “®‰æ‚ÌÄ¶ŠÔ
-	constexpr int kOpMoveStartTime = 1800;			// “®‰æ‚ğÄ¶‚·‚é‚Ü‚Å‚ÌŠÔ
+	constexpr int kOpMoveStartTime = 3600;			// “®‰æ‚ğÄ¶‚·‚é‚Ü‚Å‚ÌŠÔ
 }
 
 /// <summary>

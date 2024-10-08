@@ -85,7 +85,7 @@ namespace
 	/*必殺技*/
 	const Vec2 kSpecialAttackButtonPos = { 760.0f, 200.0f }; // ボタン位置 
 	constexpr float kSpecialAttackButtonScale = 1.2f;		 // ボタン拡大率
-	const Vec2 kSpecialAttackTextPos = { 620.0f, 180.0f };	 // テキスト位置
+	const Vec2 kSpecialAttackTextPos = { 620.0f, 175.0f };	 // テキスト位置
 	constexpr int kSpecialAttackTextColor = 0x1470cc;		 // 必殺技を放てる場合のテキストの色
 	constexpr int kNotSpecialTextColor = 0x808080;			 // 必殺技が放てない場合のテキストの色
 	constexpr int kSpecialAttackTextEdgeColor = 0x0a3866;	 // テキスト縁の色
@@ -441,7 +441,6 @@ void UIBattle::DrawSpecialAttack(float currentGauge, float maxGauge)
 	else
 	{
 		m_specialTextScale = kSpecialTextMinScale;
-
 		DrawExtendStringFToHandle(kSpecialAttackTextPos.x, kSpecialAttackTextPos.y, m_specialTextScale, m_specialTextScale, "必殺技",
 			kNotSpecialTextColor, Font::m_fontHandle[static_cast<int>(Font::FontId::kSpecialAttack)]);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);

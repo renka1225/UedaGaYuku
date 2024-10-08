@@ -15,10 +15,10 @@ namespace
 {
 	/*プレイヤー情報*/
 	constexpr float kMaxGauge = 100.0f;				// 最大ゲージ量
-	constexpr float kPunchGaugeCharge = 2.8f;		// パンチ時に増えるゲージ量
-	constexpr float kKickGaugeCharge = 5.0f;		// キック時に増えるゲージ量
+	constexpr float kPunchGaugeCharge = 4.0f;		// パンチ時に増えるゲージ量
+	constexpr float kKickGaugeCharge = 6.3f;		// キック時に増えるゲージ量
 	constexpr float kDecreaseGauge = 0.0f;			// 攻撃を受けた際に減るゲージ量
-	constexpr float kAttackDist = 50.0f;			// 攻撃範囲
+	constexpr float kAttackDist = 70.0f;			// 攻撃範囲
 	constexpr float kAttackMove = 0.3f;				// 攻撃時の移動量
 	constexpr float kHPRecoveryRate = 1.0f;			// プレイヤーのHPが回復する割合
 	constexpr float kAngleSpeed = 0.2f;				// プレイヤー角度の変化速度
@@ -668,6 +668,7 @@ void Player::DestroyEnemy()
 {
 	// 待機状態にする
 	m_currentState = State::kFightIdle;
+	m_isSpecialAttack = false;
 	PlayAnim(AnimKind::kFightIdle);
 }
 
