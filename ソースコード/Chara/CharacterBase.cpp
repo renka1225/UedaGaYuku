@@ -72,7 +72,7 @@ void CharacterBase::OnDamage(float damage)
 /// </summary>
 void CharacterBase::UpdateCol()
 {
-	// プレイヤーの向きをもとに当たり判定の位置を調整する
+	// キャラクターの向きをもとに当たり判定の位置を調整する
 	MATRIX rotationMatrix = MGetRotY(m_angle);
 
 	// プレイヤー全体の当たり判定位置を更新
